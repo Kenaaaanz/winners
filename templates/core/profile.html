@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}My Profile - Winners Cosmetics{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-user-circle"></i> Profile Information
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture.url }}" 
+                     class="rounded-circle mb-3" 
+                     alt="Profile Picture"
+                     style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3"
+                     style="width: 150px; height: 150px;">
+                    <i class="fas fa-user fa-4x text-muted"></i>
+                </div>
+                {% endif %}
+                <h4>{{ user.get_full_name|default:user.username }}</h4>
+                <p class="text-muted">{{ user.profile.role }}</p>
+                <div class="mt-3">
+                    <p><i class="fas fa-envelope"></i> {{ user.email }}</p>
+                    <p><i class="fas fa-phone"></i> {{ user.profile.phone|default:"Not set" }}</p>
+                    <p><i class="fas fa-calendar"></i> Member since: {{ user.date_joined|date:"F Y" }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notifications -->
+        <div class="card mt-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-bell"></i> Recent Notifications
+                </h5>
+                {% if notifications %}
+                <button class="btn btn-sm btn-primary" id="markAllRead">
+                    Mark All Read
+                </button>
+                {% endif %}
+            </div>
+            <div class="card-body p-0">
+                {% if notifications %}
+                <div class="list-group list-group-flush">
+                    {% for notification in notifications %}
+                    <a href="{{ notification.link|default:'#' }}" 
+                       class="list-group-item list-group-item-action {% if not notification.is_read %}bg-light{% endif %}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ notification.title }}</h6>
+                            <small>{{ notification.created_at|timesince }} ago</small>
+                        </div>
+                        <p class="mb-1">{{ notification.message|truncatechars:100 }}</p>
+                        <small class="text-muted">
+                            <i class="fas fa-{{ notification.notification_type|lower }}"></i>
+                            {{ notification.get_notification_type_display }}
+                        </small>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted p-3 text-center">No new notifications</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ u_form.phone|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ u_form.role|as_crispy_field }}
+                        </div>
+                    </div>
+                    {{ u_form.address|as_crispy_field }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ u_form.date_of_birth|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ u_form.profile_picture|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history"></i> Recent Activity
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{% now "M d, H:i" %}</td>
+                                <td>Profile View</td>
+                                <td>Viewed profile page</td>
+                            </tr>
+                            {% comment %}
+                            <!-- You can add actual activity log here -->
+                            {% for activity in activities %}
+                            <tr>
+                                <td>{{ activity.timestamp|date:"M d, H:i" }}</td>
+                                <td>{{ activity.action }}</td>
+                                <td>{{ activity.details }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endcomment %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Mark notification as read
+    $('.list-group-item').on('click', function() {
+        const notificationId = $(this).data('notification-id');
+        if (notificationId) {
+            $.ajax({
+                url: `/notifications/read/${notificationId}/`,
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $(this).removeClass('bg-light');
+                    }
+                }.bind(this)
+            });
+        }
+    });
+    
+    // Mark all as read
+    $('#markAllRead').on('click', function() {
+        $.ajax({
+            url: '/notifications/read-all/',
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('.list-group-item').removeClass('bg-light');
+                    $('#markAllRead').hide();
+                }
+            }
+        });
+    });
+    
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}

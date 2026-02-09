@@ -1,0 +1,721 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Winners Cosmetics | Management System{% endblock %}</title>
+    
+    <!-- Performance optimized assets -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    
+    <!-- Font Awesome 6 (Optimized) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- Google Fonts - Inter (Modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Critical CSS (Inlined for performance) -->
+    <style>
+        :root {
+            --primary-50: #eef2ff;
+            --primary-100: #e0e7ff;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --sidebar-width: 260px;
+            --header-height: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Layout Container */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar - Always full width on large screens */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            height: var(--header-height);
+            padding: 0 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--gray-900);
+            font-weight: 700;
+            font-size: 1.25rem;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+        }
+
+        /* Hide toggle button on large screens */
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1rem 0.75rem;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gray-300) transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 4px;
+        }
+
+        .nav-section {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        .nav-link.active {
+            background: var(--primary-50);
+            color: var(--primary-600);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .nav-text {
+            flex: 1;
+        }
+
+        .nav-badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* Dropdown */
+        .dropdown-menu {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            min-width: 200px;
+        }
+
+        .dropdown-item {
+            padding: 0.625rem 1rem;
+            border-radius: 6px;
+            color: var(--gray-700);
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header */
+        .top-header {
+            height: var(--header-height);
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-menu .dropdown-toggle {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--gray-700);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu .dropdown-toggle:hover {
+            background: var(--gray-100);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        /* Content Area */
+        .content-wrapper {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Notifications */
+        .notifications-container {
+            position: fixed;
+            top: calc(var(--header-height) + 1rem);
+            right: 1rem;
+            z-index: 9999;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .alert {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 90;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Mobile Toggle Button - Only visible on small screens */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-toggle:hover {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        /* RESPONSIVE DESIGN */
+        /* Large screens (≥ 992px) - Sidebar always visible */
+        @media (min-width: 992px) {
+            .sidebar {
+                transform: translateX(0) !important; /* Force visible on large screens */
+            }
+            
+            .main-content {
+                margin-left: var(--sidebar-width) !important; /* Force full width offset */
+            }
+            
+            .mobile-toggle {
+                display: none !important; /* Hide mobile toggle */
+            }
+            
+            .mobile-overlay {
+                display: none !important; /* Hide overlay */
+            }
+        }
+
+        /* Small screens (< 992px) - Collapsible sidebar */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%); /* Hidden by default on mobile */
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0); /* Show when toggled */
+            }
+
+            .main-content {
+                margin-left: 0 !important; /* No sidebar offset on mobile */
+                width: 100%;
+            }
+
+            .mobile-toggle {
+                display: flex; /* Show mobile toggle button */
+            }
+
+            .mobile-overlay.active {
+                display: block; /* Show overlay when sidebar is open */
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 767.98px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+
+            .top-header {
+                padding: 0 1rem;
+            }
+
+            .user-name {
+                display: none;
+            }
+            
+            .nav-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Utility Classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+    </style>
+    
+    <!-- Unified shared stylesheet for dashboard & inventory components -->
+    <link rel="stylesheet" href="{% static 'css/unified.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        
+        <!-- Sidebar - Always visible on large screens -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Sidebar Header -->
+            <div class="sidebar-header">
+                <a href="{% url 'dashboard' %}" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <span class="logo-text">Winners Cosmetics</span>
+                </a>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">Main</div>
+                <div class="nav-item">
+                    <a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{% url 'pos_dashboard' %}" class="nav-link">
+                        <i class="fas fa-cash-register nav-icon"></i>
+                        <span class="nav-text">POS System</span>
+                        <span class="nav-badge">New</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">Inventory</div>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="fas fa-boxes nav-icon"></i>
+                        <span class="nav-text">Inventory</span>
+                        <i class="fas fa-chevron-down ms-auto" style="font-size: 0.75rem;"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'product_list' %}">Products</a></li>
+                        <li><a class="dropdown-item" href="{% url 'stock_transactions' %}">Transactions</a></li>
+                        <li><a class="dropdown-item" href="{% url 'low_stock' %}">Low Stock</a></li>
+                        <li><a class="dropdown-item" href="{% url 'purchase_order_list' %}">Purchase Orders</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">Analytics</div>
+                <div class="nav-item">
+                    <a href="{% url 'analytics_dashboard' %}" class="nav-link">
+                        <i class="fas fa-chart-line nav-icon"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{% url 'sales_report' %}" class="nav-link">
+                        <i class="fas fa-chart-bar nav-icon"></i>
+                        <span class="nav-text">Sales Report</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">Sales</div>
+                <div class="nav-item">
+                    <a href="{% url 'sale_list' %}" class="nav-link">
+                        <i class="fas fa-shopping-cart nav-icon"></i>
+                        <span class="nav-text">Sales</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="{% url 'customer_list' %}" class="nav-link">
+                        <i class="fas fa-users nav-icon"></i>
+                        <span class="nav-text">Customers</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">System</div>
+                <div class="nav-item">
+                    <a href="{% url 'profile' %}" class="nav-link">
+                        <i class="fas fa-user-cog nav-icon"></i>
+                        <span class="nav-text">Profile</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link text-danger border-0 bg-transparent w-100 text-start">
+                            <i class="fas fa-sign-out-alt nav-icon"></i>
+                            <span class="nav-text">Logout</span>
+                        </button>
+                    </form>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header shadow-sm">
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Mobile Toggle Button - Only visible on small screens -->
+                    <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="user-menu dropdown">
+                        <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                {{ user.get_full_name|default:user.username|first|upper }}
+                            </div>
+                            <span class="user-name d-none d-md-inline">
+                                {{ user.get_full_name|default:user.username }}
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{% url 'logout' %}" style="display: inline; width: 100%;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item text-danger border-0 bg-transparent" style="width: 100%; text-align: left;">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-wrapper fade-in">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Notifications Container -->
+    <div class="notifications-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-2" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas 
+                            {% if message.tags == 'success' %}fa-check-circle
+                            {% elif message.tags == 'error' %}fa-exclamation-circle
+                            {% elif message.tags == 'warning' %}fa-exclamation-triangle
+                            {% else %}fa-info-circle{% endif %}
+                            me-2"></i>
+                        <div>{{ message }}</div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Deferred JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+    
+    <!-- Inline JavaScript for critical functionality -->
+    <script>
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            
+            // Toggle mobile sidebar
+            mobileToggle?.addEventListener('click', function() {
+                sidebar.classList.add('mobile-open');
+                mobileOverlay.classList.add('active');
+                // Prevent body scroll when sidebar is open
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close mobile sidebar
+            function closeMobileSidebar() {
+                sidebar.classList.remove('mobile-open');
+                mobileOverlay.classList.remove('active');
+                // Restore body scroll
+                document.body.style.overflow = '';
+            }
+            
+            // Close sidebar when clicking overlay
+            mobileOverlay?.addEventListener('click', closeMobileSidebar);
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 991.98 && 
+                    sidebar.classList.contains('mobile-open') &&
+                    !sidebar.contains(event.target) &&
+                    !mobileToggle.contains(event.target)) {
+                    closeMobileSidebar();
+                }
+            });
+            
+            // Close sidebar when pressing escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && sidebar.classList.contains('mobile-open')) {
+                    closeMobileSidebar();
+                }
+            });
+            
+            // Handle window resize
+            function handleResize() {
+                if (window.innerWidth >= 992) {
+                    // On large screens, ensure sidebar is visible
+                    sidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            // Initial check
+            handleResize();
+            
+            // Listen for resize events
+            window.addEventListener('resize', handleResize);
+            
+            // Set active navigation item
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link[href]');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && currentPath.startsWith(href) && href !== '/') {
+                    link.classList.add('active');
+                    
+                    // Mark parent dropdown as active
+                    const dropdown = link.closest('.dropdown');
+                    if (dropdown) {
+                        const toggle = dropdown.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            toggle.classList.add('active');
+                        }
+                    }
+                }
+            });
+            
+            // Auto-hide alerts after 5 seconds
+            setTimeout(() => {
+                document.querySelectorAll('.alert').forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Sales - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .sale-status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .status-pending { background-color: #fff3cd; color: #856404; }
+    .status-completed { background-color: #d4edda; color: #155724; }
+    .status-cancelled { background-color: #f8d7da; color: #721c24; }
+    .status-refunded { background-color: #e2e3e5; color: #383d41; }
+    .payment-badge {
+        padding: 3px 8px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    .payment-cash { background-color: #fff3cd; color: #856404; }
+    .payment-mpesa { background-color: #d4edda; color: #155724; }
+    .payment-card { background-color: #cce5ff; color: #004085; }
+    .payment-bank { background-color: #d1ecf1; color: #0c5460; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">
+        <i class="fas fa-receipt"></i> Sales History
+    </h1>
+    <div>
+        <a href="{% url 'pos_dashboard' %}" class="btn btn-primary">
+            <i class="fas fa-cash-register"></i> New Sale
+        </a>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+        <a href="{% url 'export_report_pdf' %}?report_type=sales&start_date={{ start_date|default:'' }}&end_date={{ end_date|default:'' }}" 
+           class="btn btn-outline-success">
+            <i class="fas fa-file-pdf"></i> Export PDF
+        </a>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Sales</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" id="filterForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Start Date</label>
+                                <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">End Date</label>
+                                <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="status">
+                                    <option value="">All Statuses</option>
+                                    {% for status_code, status_name in status_choices %}
+                                    <option value="{{ status_code }}" {% if status == status_code %}selected{% endif %}>
+                                        {{ status_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Payment Method</label>
+                                <select class="form-select" name="payment_method">
+                                    <option value="">All Methods</option>
+                                    {% for method_code, method_name in payment_methods %}
+                                    <option value="{{ method_code }}" {% if payment_method == method_code %}selected{% endif %}>
+                                        {{ method_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'sale_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h6 class="card-title">Total Sales</h6>
+                <h2 class="mb-0">KES {{ total_amount|floatformat:2 }}</h2>
+                <small>{{ total_count }} transactions</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h6 class="card-title">Today's Sales</h6>
+                <h2 class="mb-0">
+                    {% with today_sales=page_obj.object_list|filter_by_date:today %}
+                        KES {{ today_sales|sum:'total'|floatformat:2 }}
+                    {% endwith %}
+                </h2>
+                <small>{{ today_sales|length }} today</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title">Avg. Sale</h6>
+                <h2 class="mb-0">
+                    {% if total_count > 0 %}
+                        KES {{ total_amount|divide:total_count|floatformat:2 }}
+                    {% else %}
+                        KES 0.00
+                    {% endif %}
+                </h2>
+                <small>Per transaction</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Top Day</h6>
+                <h2 class="mb-0">
+                    {% comment %}
+                    <!-- Add logic for top day -->
+                    KES 15,230.00
+                    {% endcomment %}
+                </h2>
+                <small>Yesterday</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sales Table -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sale in page_obj %}
+                    <tr>
+                        <td>
+                            <strong>{{ sale.invoice_number }}</strong>
+                            {% if sale.notes %}
+                            <i class="fas fa-sticky-note text-muted ms-1" 
+                               title="{{ sale.notes }}"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if sale.customer %}
+                            <a href="{% url 'customer_detail' sale.customer.pk %}" class="text-decoration-none">
+                                {{ sale.customer.full_name }}
+                            </a>
+                            {% else %}
+                            <span class="text-muted">Walk-in</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ sale.created_at|date:"M d, Y" }}
+                            <br>
+                            <small class="text-muted">{{ sale.created_at|time:"H:i" }}</small>
+                        </td>
+                        <td>{{ sale.items_count }} items</td>
+                        <td>
+                            <span class="text-success fw-bold">KES {{ sale.total|floatformat:2 }}</span>
+                        </td>
+                        <td>
+                            <span class="payment-badge payment-{{ sale.payment_method|lower }}">
+                                {{ sale.get_payment_method_display }}
+                            </span>
+                            {% if sale.mpesa_receipt %}
+                            <br>
+                            <small class="text-muted">{{ sale.mpesa_receipt }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="sale-status status-{{ sale.status|lower }}">
+                                {{ sale.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{% url 'sale_detail' sale.pk %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'print_receipt' sale.id %}" class="btn btn-outline-secondary" target="_blank">
+                                    <i class="fas fa-print"></i>
+                                </a>
+                                {% if sale.status == 'PENDING' %}
+                                <button class="btn btn-outline-success" title="Complete Sale">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-receipt fa-2x mb-3"></i>
+                                <p>No sales found</p>
+                                {% if start_date or end_date or status or payment_method %}
+                                <p>Try changing your filters</p>
+                                <a href="{% url 'sale_list' %}" class="btn btn-outline-primary">
+                                    Clear Filters
+                                </a>
+                                {% else %}
+                                <a href="{% url 'pos_dashboard' %}" class="btn btn-primary">
+                                    <i class="fas fa-cash-register"></i> Make Your First Sale
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if payment_method %}&payment_method={{ payment_method }}{% endif %}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if payment_method %}&payment_method={{ payment_method }}{% endif %}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if payment_method %}&payment_method={{ payment_method }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if payment_method %}&payment_method={{ payment_method }}{% endif %}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if status %}&status={{ status }}{% endif %}{% if payment_method %}&payment_method={{ payment_method }}{% endif %}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Sales Chart -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-line"></i> Sales Trend
+        </h5>
+    </div>
+    <div class="card-body">
+        <canvas id="salesTrendChart" height="100"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Sales Trend Chart
+    const ctx = document.getElementById('salesTrendChart').getContext('2d');
+    const salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Daily Sales (KES)',
+                data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
+                borderColor: '#6c5ce7',
+                backgroundColor: 'rgba(108, 92, 231, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'KES ' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Auto-submit filter form when filters change
+    $('#filterModal select').on('change', function() {
+        if ($(this).val()) {
+            $('#filterForm').submit();
+        }
+    });
+});
+</script>
+{% endblock %}

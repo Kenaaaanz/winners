@@ -1,0 +1,581 @@
+{% extends 'base_dashboard.html' %}
+{% load custom_filters %}
+
+{% block title %}Financial Report - Winners Cosmetics{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-chart-pie"></i> Financial Performance Report
+{% endblock %}
+
+{% block page_actions %}
+<div class="d-flex gap-2 flex-wrap align-items-center">
+    <a href="{% url 'sales_report' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="fas fa-chart-line"></i> Sales Report
+    </a>
+    <a href="{% url 'inventory_report' %}" class="btn btn-sm btn-outline-info">
+        <i class="fas fa-boxes"></i> Inventory Report
+    </a>
+    <a href="{% url 'product_performance' %}" class="btn btn-sm btn-outline-warning">
+        <i class="fas fa-star"></i> Product Performance
+    </a>
+    <div class="vr"></div>
+    <form method="GET" class="d-flex gap-2">
+        <input type="date" class="form-control form-control-sm" name="start_date" value="{{ start_date|date:'Y-m-d' }}">
+        <input type="date" class="form-control form-control-sm" name="end_date" value="{{ end_date|date:'Y-m-d' }}">
+        <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fas fa-filter"></i> Apply
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block dashboard_content %}
+<!-- Financial Metrics -->
+<div class="row mb-4 g-3">
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm" style="border-top: 4px solid #3b82f6;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Total Revenue</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ total_revenue|floatformat:2 }}</h3>
+                        <small class="text-muted">{{ sales_count }} sales</small>
+                    </div>
+                    <i class="fas fa-money-bill-wave text-info" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm" style="border-top: 4px solid #10b981;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Net Profit</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ net_profit|floatformat:2 }}</h3>
+                        <small class="text-muted">{{ profit_margin|floatformat:1 }}% margin</small>
+                    </div>
+                    <i class="fas fa-coins text-success" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm" style="border-top: 4px solid #f59e0b;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Total Expenses</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ total_expenses|floatformat:2 }}</h3>
+                        <small class="text-muted">{{ expenses_count }} expenses</small>
+                    </div>
+                    <i class="fas fa-receipt text-warning" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm" style="border-top: 4px solid #ef4444;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Gross Margin</p>
+                        <h3 class="font-weight-bold mb-1">{{ gross_profit_margin|floatformat:1 }}%</h3>
+                        <small class="text-muted">KES {{ gross_profit|floatformat:2 }}</small>
+                    </div>
+                    <i class="fas fa-percentage text-danger" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Income Statement -->
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-file-invoice-dollar text-primary"></i> Income Statement
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Revenue Section -->
+        <div class="row mb-3 pb-3 border-bottom">
+            <div class="col-6">
+                <strong>Revenue</strong>
+            </div>
+            <div class="col-6 text-end text-success">
+                <strong>KES {{ total_revenue|floatformat:2 }}</strong>
+            </div>
+        </div>
+            <div class="statement-row">
+                <div class="ps-3">
+                    <small>Cost of Goods Sold (COGS)</small>
+                </div>
+                <div class="text-danger">
+                    KES {{ cogs|floatformat:2 }}
+                </div>
+            </div>
+            
+            <!-- Gross Profit -->
+            <div class="statement-row total">
+                <div>
+                    <strong>Gross Profit</strong>
+                </div>
+                <div class="text-success">
+                    <strong>KES {{ gross_profit|floatformat:2 }}</strong>
+                </div>
+            </div>
+            
+            <!-- Expenses Section -->
+            <div class="statement-row">
+                <div>
+                    <strong>Operating Expenses</strong>
+                </div>
+                <div class="text-danger">
+                    <strong>KES {{ total_expenses|floatformat:2 }}</strong>
+                </div>
+            </div>
+            
+            <!-- Expense Breakdown -->
+            {% for expense in expense_breakdown %}
+            <div class="statement-row">
+                <div class="ps-3">
+                    <small>{{ expense.category }}</small>
+                </div>
+                <div>
+                    KES {{ expense.total|floatformat:2 }}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <!-- Net Profit -->
+            <div class="statement-row net-profit">
+                <div>
+                    <h5 class="mb-0">Net Profit</h5>
+                    <small class="text-muted">Before taxes</small>
+                </div>
+                <div>
+                    <h4 class="mb-0 {% if net_profit >= 0 %}profit-positive{% else %}profit-negative{% endif %}">
+                        KES {{ net_profit|floatformat:2 }}
+                    </h4>
+                    <small class="text-muted">{{ profit_margin|floatformat:1 }}% profit margin</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profitability Metrics -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="financial-metric">
+                    <div class="metric-value">{{ profit_margin|floatformat:1 }}%</div>
+                    <div class="metric-label">Net Profit Margin</div>
+                    <small class="text-muted">(Net Profit ÷ Revenue)</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="financial-metric">
+                    <div class="metric-value">{{ gross_profit_margin|floatformat:1 }}%</div>
+                    <div class="metric-label">Gross Profit Margin</div>
+                    <small class="text-muted">(Gross Profit ÷ Revenue)</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="financial-metric">
+                    <div class="metric-value">{{ expense_ratio|floatformat:1 }}%</div>
+                    <div class="metric-label">Expense Ratio</div>
+                    <small class="text-muted">(Expenses ÷ Revenue)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie"></i> Expense Breakdown
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line"></i> Profit Trend
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="profitTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Expense Analysis -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-receipt"></i> Detailed Expense Analysis
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for expense in expense_breakdown %}
+            <div class="col-md-6 mb-3">
+                <div class="expense-category category-{{ expense.category|lower|cut:' ' }}">
+                    <div class="d-flex justify-content-between">
+                        <h6>{{ expense.category }}</h6>
+                        <strong class="text-danger">KES {{ expense.total|floatformat:2 }}</strong>
+                    </div>
+                    <small class="text-muted">
+                        {{ expense.percentage|floatformat:1 }}% of total expenses
+                    </small>
+                    <div class="mt-2">
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar" 
+                                 style="width: {{ expense.percentage }}%; 
+                                        background-color: 
+                                        {% if expense.category == 'RENT' %}#667eea
+                                        {% elif expense.category == 'UTILITIES' %}#1dd1a1
+                                        {% elif expense.category == 'SALARIES' %}#f368e0
+                                        {% elif expense.category == 'MARKETING' %}#ff9f43
+                                        {% else %}#6c757d{% endif %}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No expenses recorded for this period</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Expense Insights -->
+        {% if expense_breakdown %}
+        <div class="mt-4">
+            <h6>Expense Insights:</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <h6 class="card-title">Largest Expense</h6>
+                            <p class="card-text">
+                                <strong>{{ largest_expense.category }}</strong>
+                                <br>
+                                KES {{ largest_expense.total|floatformat:2 }}
+                                <br>
+                                <small>{{ largest_expense.percentage|floatformat:1 }}% of total</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h6 class="card-title">Avg. Daily Expense</h6>
+                            <p class="card-text">
+                                <strong>KES {{ avg_daily_expense|floatformat:2 }}</strong>
+                                <br>
+                                <small>Based on {{ days_in_period }} days</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h6 class="card-title">Expense Reduction Target</h6>
+                            <p class="card-text">
+                                <strong>KES {{ expense_reduction_target|floatformat:2 }}</strong>
+                                <br>
+                                <small>10% reduction could save this amount</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Financial Ratios & KPIs -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-bar"></i> Financial Ratios & Key Performance Indicators
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="financial-metric">
+                    <div class="metric-value">
+                        {% if avg_transaction_value > 0 %}
+                        KES {{ avg_transaction_value|floatformat:2 }}
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </div>
+                    <div class="metric-label">Avg. Transaction Value</div>
+                    <small class="text-muted">(Revenue ÷ Transactions)</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="financial-metric">
+                    <div class="metric-value">
+                        {% if inventory_turnover > 0 %}
+                        {{ inventory_turnover|floatformat:2 }}
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </div>
+                    <div class="metric-label">Inventory Turnover</div>
+                    <small class="text-muted">(COGS ÷ Avg. Inventory)</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="financial-metric">
+                    <div class="metric-value">
+                        {% if return_on_investment > 0 %}
+                        {{ return_on_investment|floatformat:1 }}%
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </div>
+                    <div class="metric-label">ROI</div>
+                    <small class="text-muted">(Net Profit ÷ Investment)</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Ratios -->
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="h5">{{ current_ratio|floatformat:2 }}</div>
+                    <small class="text-muted">Current Ratio</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="h5">{{ quick_ratio|floatformat:2 }}</div>
+                    <small class="text-muted">Quick Ratio</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="h5">{{ debt_to_equity|floatformat:2 }}</div>
+                    <small class="text-muted">Debt to Equity</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="h5">{{ operating_margin|floatformat:1 }}%</div>
+                    <small class="text-muted">Operating Margin</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendations -->
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-lightbulb"></i> Financial Recommendations
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6><i class="fas fa-arrow-up text-success"></i> Strengths</h6>
+                <ul>
+                    {% if profit_margin > 20 %}
+                    <li>Healthy profit margin of {{ profit_margin|floatformat:1 }}%</li>
+                    {% endif %}
+                    {% if gross_profit_margin > 50 %}
+                    <li>Strong gross profit margin of {{ gross_profit_margin|floatformat:1 }}%</li>
+                    {% endif %}
+                    {% if expense_ratio < 30 %}
+                    <li>Low expense ratio of {{ expense_ratio|floatformat:1 }}%</li>
+                    {% endif %}
+                    {% if inventory_turnover > 2 %}
+                    <li>Good inventory turnover of {{ inventory_turnover|floatformat:2 }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6><i class="fas fa-arrow-down text-warning"></i> Areas for Improvement</h6>
+                <ul>
+                    {% if profit_margin < 10 %}
+                    <li>Low profit margin - consider cost reduction or price increases</li>
+                    {% endif %}
+                    {% if expense_ratio > 50 %}
+                    <li>High expense ratio - review operating expenses</li>
+                    {% endif %}
+                    {% if inventory_turnover < 1 %}
+                    <li>Slow inventory turnover - consider promotions or discounts</li>
+                    {% endif %}
+                    {% if largest_expense.percentage > 40 %}
+                    <li>{{ largest_expense.category }} is {{ largest_expense.percentage|floatformat:1 }}% of expenses - review for savings</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Action Items -->
+        <div class="mt-4">
+            <h6>Recommended Actions:</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h6 class="card-title">Increase Revenue</h6>
+                            <ul class="small">
+                                <li>Upsell to existing customers</li>
+                                <li>Introduce new products</li>
+                                <li>Increase marketing efforts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h6 class="card-title">Reduce Costs</h6>
+                            <ul class="small">
+                                <li>Negotiate with suppliers</li>
+                                <li>Optimize inventory levels</li>
+                                <li>Review utility expenses</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <h6 class="card-title">Improve Efficiency</h6>
+                            <ul class="small">
+                                <li>Automate processes</li>
+                                <li>Train staff on upselling</li>
+                                <li>Implement inventory management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Expense Chart
+    const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+    const expenseChart = new Chart(expenseCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                {% for expense in expense_breakdown %}
+                "{{ expense.category }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for expense in expense_breakdown %}
+                    {{ expense.total|default:0 }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    '#667eea', '#1dd1a1', '#f368e0', '#ff9f43', '#6c757d',
+                    '#ff6b6b', '#48dbfb', '#6c5ce7', '#00cec9', '#fd79a8'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${label}: KES ${value.toLocaleString()} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Profit Trend Chart (example data - would need actual trend data)
+    const profitCtx = document.getElementById('profitTrendChart').getContext('2d');
+    const profitChart = new Chart(profitCtx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Revenue',
+                data: [15000, 18000, 22000, 25000],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Net Profit',
+                data: [3000, 4000, 5500, 6000],
+                borderColor: '#1dd1a1',
+                backgroundColor: 'rgba(29, 209, 161, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'KES ' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

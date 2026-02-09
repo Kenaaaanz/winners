@@ -1,0 +1,588 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}{{ product.name }} - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+<!-- Product Header -->
+<div class="product-header">
+    <div class="row align-items-center">
+        <div class="col-md-2 text-center">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="product-image-lg" alt="{{ product.name }}">
+            {% else %}
+            <div class="product-image-lg bg-light d-flex align-items-center justify-content-center">
+                <i class="fas fa-box fa-4x text-muted"></i>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1 class="h2 mb-2">{{ product.name }}</h1>
+            <p class="mb-1">
+                <i class="fas fa-barcode"></i> SKU: {{ product.sku }}
+                {% if product.barcode %}
+                <span class="ms-3">
+                    <i class="fas fa-qrcode"></i> Barcode: {{ product.barcode }}
+                </span>
+                {% endif %}
+            </p>
+            <p class="mb-0">
+                <i class="fas fa-tag"></i> Category: {{ product.category.name|default:"Uncategorized" }}
+                {% if product.brand %}
+                <span class="ms-3">
+                    <i class="fas fa-copyright"></i> Brand: {{ product.brand.name }}
+                </span>
+                {% endif %}
+            </p>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="btn-group">
+                <a href="{% url 'product_update' product.pk %}" class="btn btn-light">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="{% url 'pos_dashboard' %}?product={{ product.id }}" class="btn btn-light">
+                    <i class="fas fa-shopping-cart"></i> Sell
+                </a>
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#adjustStockModal">
+                            <i class="fas fa-exchange-alt"></i> Adjust Stock
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-history"></i> View History
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="#">
+                            <i class="fas fa-trash"></i> Delete Product
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Left Column: Product Info & Stats -->
+    <div class="col-md-4">
+        <!-- Stock Status -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-boxes"></i> Stock Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center mb-3">
+                    <div class="col-6">
+                        <div class="stat-card light">
+                            <div class="stat-value {% if product.quantity == 0 %}text-danger{% elif product.is_low_stock %}text-warning{% else %}text-success{% endif %}">
+                                {{ product.quantity }}
+                            </div>
+                            <div class="stat-label">Current Stock</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card light">
+                            <div class="stat-value">{{ product.reorder_quantity }}</div>
+                            <div class="stat-label">Reorder Quantity</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress mb-3" style="height: 20px;">
+                    {% with stock_percentage=product.quantity|divide:product.reorder_quantity|multiply:100 %}
+                    <div class="progress-bar {% if product.quantity == 0 %}bg-danger{% elif product.is_low_stock %}bg-warning{% else %}bg-success{% endif %}" 
+                         style="width: {{ stock_percentage }}%;">
+                        {{ product.quantity }} / {{ product.reorder_quantity }}
+                    </div>
+                    {% endwith %}
+                </div>
+                
+                {% if product.is_low_stock %}
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Low Stock Alert!</strong> 
+                    Current stock ({{ product.quantity }}) is below reorder threshold ({{ product.low_stock_threshold }}).
+                    {% if product.supplier %}
+                    <br>Supplier: {{ product.supplier.name }}
+                    {% endif %}
+                </div>
+                {% elif product.quantity == 0 %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-times-circle"></i>
+                    <strong>Out of Stock!</strong> This product needs immediate restocking.
+                </div>
+                {% endif %}
+                
+                {% if product.expiry_date %}
+                <div class="alert {% if product.is_expired %}alert-danger{% elif product.is_expiring_soon %}alert-warning{% else %}alert-info{% endif %}">
+                    <i class="fas fa-calendar"></i>
+                    <strong>Expiry Date:</strong> {{ product.expiry_date|date:"F d, Y" }}
+                    {% if product.is_expired %}
+                    <span class="badge bg-danger">Expired</span>
+                    {% elif product.is_expiring_soon %}
+                    <span class="badge bg-warning">Expiring Soon</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                {% if product.batch_number %}
+                <p><strong>Batch Number:</strong> {{ product.batch_number }}</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Pricing -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-money-bill-wave"></i> Pricing Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <td>Cost Price:</td>
+                        <td class="text-end">KES {{ product.cost_price|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Selling Price:</td>
+                        <td class="text-end text-success">KES {{ product.selling_price|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Profit per Unit:</td>
+                        <td class="text-end text-success">KES {{ product.profit_per_unit|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Profit Margin:</td>
+                        <td class="text-end">
+                            <span class="profit-badge {% if product.profit_margin > 50 %}profit-high{% elif product.profit_margin > 20 %}profit-medium{% else %}profit-low{% endif %}">
+                                {{ product.profit_margin|floatformat:1 }}%
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Total Stock Value:</td>
+                        <td class="text-end">KES {{ product.total_value|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Sales Value:</td>
+                        <td class="text-end text-success">KES {{ product.total_sales_value|floatformat:2 }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-bolt"></i> Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'pos_dashboard' %}?product={{ product.id }}" class="btn btn-success">
+                        <i class="fas fa-cash-register"></i> Sell This Product
+                    </a>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adjustStockModal">
+                        <i class="fas fa-exchange-alt"></i> Adjust Stock
+                    </button>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reorderModal">
+                        <i class="fas fa-shopping-cart"></i> Reorder Stock
+                    </button>
+                    <a href="{% url 'product_update' product.pk %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-edit"></i> Edit Product
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column: History & Details -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-info-circle"></i> Product Details
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if product.description %}
+                <div class="mb-4">
+                    <h6>Description</h6>
+                    <p>{{ product.description|linebreaks }}</p>
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Product Information</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>Type:</td>
+                                <td>{{ product.get_product_type_display }}</td>
+                            </tr>
+                            <tr>
+                                <td>Category:</td>
+                                <td>{{ product.category.name|default:"Not set" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Brand:</td>
+                                <td>{{ product.brand.name|default:"Not set" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Supplier:</td>
+                                <td>{{ product.supplier.name|default:"Not set" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status:</td>
+                                <td>
+                                    {% if product.is_active %}
+                                    <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Inactive</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Additional Information</h6>
+                        <table class="table table-sm">
+                            <tr>
+                                <td>Created:</td>
+                                <td>{{ product.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Last Updated:</td>
+                                <td>{{ product.updated_at|date:"M d, Y H:i" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Expiry Date:</td>
+                                <td>{{ product.expiry_date|default:"Not set" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Batch Number:</td>
+                                <td>{{ product.batch_number|default:"Not set" }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Transactions -->
+        <div class="card mt-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history"></i> Recent Stock Transactions
+                </h5>
+                <a href="{% url 'stock_transactions' %}?product={{ product.id }}" class="btn btn-sm btn-outline-primary">
+                    View All
+                </a>
+            </div>
+            <div class="card-body">
+                {% if transactions %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>Previous</th>
+                                <th>New</th>
+                                <th>Reference</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                <td>{{ transaction.created_at|date:"M d, H:i" }}</td>
+                                <td>
+                                    <span class="badge {% if transaction.transaction_type == 'SALE' %}bg-success{% elif transaction.transaction_type == 'PURCHASE' %}bg-primary{% else %}bg-warning{% endif %}">
+                                        {{ transaction.get_transaction_type_display }}
+                                    </span>
+                                </td>
+                                <td class="{% if transaction.quantity < 0 %}text-danger{% else %}text-success{% endif %}">
+                                    {{ transaction.quantity }}
+                                </td>
+                                <td>{{ transaction.previous_quantity }}</td>
+                                <td>{{ transaction.new_quantity }}</td>
+                                <td>{{ transaction.reference|truncatechars:15 }}</td>
+                                <td>{{ transaction.created_by.get_full_name|default:"System" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center">No recent transactions</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Sales History -->
+        <div class="card mt-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line"></i> Sales History
+                </h5>
+                <span class="badge bg-primary">
+                    {{ sales_history|length }} sales
+                </span>
+            </div>
+            <div class="card-body">
+                {% if sales_history %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Invoice</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Profit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in sales_history %}
+                            <tr>
+                                <td>{{ item.sale.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'sale_detail' item.sale.pk %}">
+                                        {{ item.sale.invoice_number }}
+                                    </a>
+                                </td>
+                                <td>{{ item.quantity }}</td>
+                                <td>KES {{ item.unit_price|floatformat:2 }}</td>
+                                <td class="text-success">KES {{ item.total_price|floatformat:2 }}</td>
+                                <td class="text-success">KES {{ item.profit|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center">No sales history</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Adjust Stock Modal -->
+<div class="modal fade" id="adjustStockModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adjust Stock for {{ product.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="adjustStockForm">
+                    <div class="mb-3">
+                        <label class="form-label">Current Stock</label>
+                        <input type="number" class="form-control" value="{{ product.quantity }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Adjustment Type</label>
+                        <select class="form-select" id="adjustmentType">
+                            <option value="ADD">Add Stock</option>
+                            <option value="REMOVE">Remove Stock</option>
+                            <option value="SET">Set Stock to Specific Value</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="adjustmentQuantity" min="1" value="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reason</label>
+                        <select class="form-select" id="adjustmentReason">
+                            <option value="PURCHASE">Stock Purchase</option>
+                            <option value="RETURN">Customer Return</option>
+                            <option value="DAMAGE">Damaged Goods</option>
+                            <option value="ADJUSTMENT">Stock Adjustment</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="adjustmentNotes" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveAdjustment">Save Adjustment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reorder Modal -->
+<div class="modal fade" id="reorderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reorder {{ product.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reorderForm">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Current stock: {{ product.quantity }} units
+                        {% if product.supplier %}
+                        <br>Supplier: {{ product.supplier.name }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Reorder Quantity</label>
+                        <input type="number" class="form-control" 
+                               value="{{ product.reorder_quantity }}" 
+                               min="1" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Unit Cost</label>
+                        <input type="number" class="form-control" 
+                               value="{{ product.cost_price|floatformat:2 }}" 
+                               step="0.01" min="0" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" rows="3" 
+                                  placeholder="Any special instructions for this order..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="createReorder">Create Purchase Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Adjust Stock Form Logic
+    $('#adjustmentType').on('change', function() {
+        const type = $(this).val();
+        const currentStock = {{ product.quantity }};
+        
+        if (type === 'SET') {
+            $('#adjustmentQuantity').val(currentStock);
+        } else if (type === 'ADD') {
+            $('#adjustmentQuantity').val(1);
+        }
+    });
+    
+    // Save Stock Adjustment
+    $('#saveAdjustment').on('click', function() {
+        const type = $('#adjustmentType').val();
+        const quantity = parseInt($('#adjustmentQuantity').val());
+        const reason = $('#adjustmentReason').val();
+        const notes = $('#adjustmentNotes').val();
+        
+        if (quantity <= 0) {
+            alert('Quantity must be greater than 0');
+            return;
+        }
+        
+        $.ajax({
+            url: '{% url "product_detail" product.pk %}',
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                action: 'adjust_stock',
+                type: type,
+                quantity: quantity,
+                reason: reason,
+                notes: notes
+            }),
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert(response.error);
+                }
+            }
+        });
+    });
+    
+    // Create Reorder
+    $('#createReorder').on('click', function() {
+        const quantity = parseInt($('#reorderForm input[type="number"]').first().val());
+        const unitCost = parseFloat($('#reorderForm input[type="number"]').last().val());
+        const notes = $('#reorderForm textarea').val();
+        
+        if (quantity <= 0 || unitCost <= 0) {
+            alert('Please enter valid quantity and unit cost');
+            return;
+        }
+        
+        $.ajax({
+            url: '{% url "purchase_order_create" %}',
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                product_id: {{ product.id }},
+                quantity: quantity,
+                unit_cost: unitCost,
+                notes: notes
+            }),
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = response.redirect_url;
+                } else {
+                    alert(response.error);
+                }
+            }
+        });
+    });
+    
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}

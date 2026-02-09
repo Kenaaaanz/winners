@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - {{ sale.invoice_number }}</title>
+    <style>
+        @media print {
+            @page {
+                size: 80mm 200mm;
+                margin: 0;
+            }
+            body {
+                width: 80mm;
+                margin: 0;
+                padding: 0;
+                font-family: 'Courier New', monospace;
+                font-size: 12px;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        body {
+            width: 80mm;
+            margin: 0 auto;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 10px;
+        }
+        
+        .receipt-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .receipt-info {
+            margin-bottom: 15px;
+        }
+        
+        .receipt-info p {
+            margin: 2px 0;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .items-table th {
+            text-align: left;
+            border-bottom: 1px solid #000;
+            padding: 3px 0;
+        }
+        
+        .items-table td {
+            padding: 3px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .items-table .total-row {
+            border-top: 2px solid #000;
+            font-weight: bold;
+        }
+        
+        .totals {
+            margin-top: 15px;
+            border-top: 2px solid #000;
+            padding-top: 10px;
+        }
+        
+        .totals .row {
+            display: flex;
+            justify-content: space-between;
+            margin: 3px 0;
+        }
+        
+        .totals .total {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .receipt-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px dashed #000;
+            font-size: 10px;
+        }
+        
+        .barcode {
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .thank-you {
+            text-align: center;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .print-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-header">
+        <div class="receipt-title">WINNERS COSMETICS SHOP</div>
+        <div>123 Winners Avenue, Nairobi</div>
+        <div>Phone: +254 700 000 000</div>
+        <div>Email: info@winnerscosmetics.co.ke</div>
+        <div>VAT: PENDING123456</div>
+    </div>
+    
+    <div class="receipt-info">
+        <p><strong>INVOICE:</strong> {{ sale.invoice_number }}</p>
+        <p><strong>DATE:</strong> {{ sale.created_at|date:"Y-m-d H:i" }}</p>
+        <p><strong>CASHIER:</strong> {{ sale.cashier.get_full_name|default:sale.cashier.username }}</p>
+        {% if sale.customer %}
+        <p><strong>CUSTOMER:</strong> {{ sale.customer.full_name }}</p>
+        {% endif %}
+    </div>
+    
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>ITEM</th>
+                <th>QTY</th>
+                <th>PRICE</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in sale.items.all %}
+            <tr>
+                <td>{{ item.product_name|truncatechars:20 }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>KES {{ item.unit_price|floatformat:2 }}</td>
+                <td>KES {{ item.total_price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="totals">
+        <div class="row">
+            <span>Subtotal:</span>
+            <span>KES {{ sale.subtotal|floatformat:2 }}</span>
+        </div>
+        
+        {% if sale.discount_amount > 0 %}
+        <div class="row">
+            <span>Discount:</span>
+            <span>-KES {{ sale.discount_amount|floatformat:2 }}</span>
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            <span>Tax ({{ sale.tax_rate }}%):</span>
+            <span>KES {{ sale.tax_amount|floatformat:2 }}</span>
+        </div>
+        
+        <div class="row total">
+            <span>TOTAL:</span>
+            <span>KES {{ sale.total|floatformat:2 }}</span>
+        </div>
+        
+        <div class="row">
+            <span>PAID:</span>
+            <span>KES {{ sale.amount_paid|floatformat:2 }}</span>
+        </div>
+        
+        {% if sale.change_given > 0 %}
+        <div class="row">
+            <span>CHANGE:</span>
+            <span>KES {{ sale.change_given|floatformat:2 }}</span>
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            <span>PAYMENT:</span>
+            <span>{{ sale.get_payment_method_display }}</span>
+        </div>
+        
+        {% if sale.mpesa_receipt %}
+        <div class="row">
+            <span>MPESA RECEIPT:</span>
+            <span>{{ sale.mpesa_receipt }}</span>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="barcode">
+        *{{ sale.invoice_number }}*
+    </div>
+    
+    <div class="thank-you">
+        THANK YOU FOR YOUR BUSINESS!
+    </div>
+    
+    <div class="receipt-footer">
+        <p>Items cannot be returned after 7 days</p>
+        <p>Original receipt required for returns</p>
+        <p>*** {{ sale.created_at|date:"YmdHis" }} ***</p>
+    </div>
+    
+    <div class="print-button no-print">
+        <button onclick="window.print()">Print Receipt</button>
+        <button onclick="window.close()" style="background: #6c757d; margin-left: 10px;">Close</button>
+    </div>
+    
+    <script>
+        // Auto-print on load
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+            }, 500);
+        };
+        
+        // Close window after print
+        window.onafterprint = function() {
+            setTimeout(function() {
+                window.close();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,633 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Customer Insights - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .insight-card {
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .segment-card {
+        border-left: 4px solid;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 0 8px 8px 0;
+    }
+    .segment-champions { border-color: #28a745; background-color: rgba(40, 167, 69, 0.1); }
+    .segment-loyal { border-color: #17a2b8; background-color: rgba(23, 162, 184, 0.1); }
+    .segment-potential { border-color: #ffc107; background-color: rgba(255, 193, 7, 0.1); }
+    .segment-risk { border-color: #fd7e14; background-color: rgba(253, 126, 20, 0.1); }
+    .segment-lost { border-color: #dc3545; background-color: rgba(220, 53, 69, 0.1); }
+    .rfm-badge {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .rfm-high { background-color: #28a745; color: white; }
+    .rfm-medium { background-color: #ffc107; color: #856404; }
+    .rfm-low { background-color: #dc3545; color: white; }
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    .customer-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">
+        <i class="fas fa-users"></i> Customer Insights & RFM Analysis
+    </h1>
+    <div>
+        <a href="{% url 'export_report_pdf' %}?report_type=customers" class="btn btn-primary">
+            <i class="fas fa-file-pdf"></i> Export PDF
+        </a>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#segmentModal">
+            <i class="fas fa-filter"></i> Filter Segments
+        </button>
+    </div>
+</div>
+
+<!-- Customer Summary -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="insight-card bg-primary text-white">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-users fa-2x"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0">{{ total_customers }}</h2>
+                    <small>Total Customers</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="insight-card bg-success text-white">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-chart-line fa-2x"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0">{{ avg_rfm_score|floatformat:1 }}</h2>
+                    <small>Avg. RFM Score</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="insight-card bg-info text-white">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-crown fa-2x"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0">{{ segments.Champions|length|default:0 }}</h2>
+                    <small>Champions</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="insight-card bg-warning text-white">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                </div>
+                <div>
+                    <h2 class="mb-0">{{ segments.At_Risk|length|default:0 }}</h2>
+                    <small>At Risk</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Segmentation Overview -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-pie"></i> Customer Segmentation Overview
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <canvas id="segmentationChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    {% for segment_name, segment_customers in segments.items %}
+                    {% if segment_customers %}
+                    <div class="col-md-6 mb-3">
+                        <div class="segment-card segment-{{ segment_name|lower|cut:' ' }}">
+                            <h6 class="mb-2">{{ segment_name }}</h6>
+                            <h2 class="mb-1">{{ segment_customers|length }}</h2>
+                            <small class="text-muted">
+                                {% widthratio segment_customers|length total_customers 100 %}% of customers
+                            </small>
+                            <div class="mt-2">
+                                <a href="#{{ segment_name|slugify }}" class="btn btn-sm btn-outline-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- RFM Analysis Table -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-table"></i> RFM Analysis Details
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Recency</th>
+                        <th>Frequency</th>
+                        <th>Monetary</th>
+                        <th>RFM Score</th>
+                        <th>Segment</th>
+                        <th>Last Purchase</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    <tr id="customer-{{ customer.id }}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="customer-avatar me-3">
+                                    {{ customer.full_name|slice:"0:2"|upper }}
+                                </div>
+                                <div>
+                                    <strong>{{ customer.full_name }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ customer.email|truncatechars:20 }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="rfm-badge 
+                                {% if customer.recency_score >= 4 %}rfm-high
+                                {% elif customer.recency_score >= 2 %}rfm-medium
+                                {% else %}rfm-low{% endif %}">
+                                {{ customer.recency }} days
+                                <br>
+                                <small>Score: {{ customer.recency_score }}</small>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="rfm-badge 
+                                {% if customer.frequency_score >= 4 %}rfm-high
+                                {% elif customer.frequency_score >= 2 %}rfm-medium
+                                {% else %}rfm-low{% endif %}">
+                                {{ customer.frequency }} purchases
+                                <br>
+                                <small>Score: {{ customer.frequency_score }}</small>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="rfm-badge 
+                                {% if customer.monetary_score >= 4 %}rfm-high
+                                {% elif customer.monetary_score >= 2 %}rfm-medium
+                                {% else %}rfm-low{% endif %}">
+                                KES {{ customer.monetary|floatformat:2 }}
+                                <br>
+                                <small>Score: {{ customer.monetary_score }}</small>
+                            </span>
+                        </td>
+                        <td>
+                            <h4 class="mb-0">{{ customer.total_score }}</h4>
+                            <small class="text-muted">Total RFM</small>
+                        </td>
+                        <td>
+                            <span class="badge 
+                                {% if customer.segment_name == 'Champions' %}bg-success
+                                {% elif customer.segment_name == 'Loyal Customers' %}bg-info
+                                {% elif customer.segment_name == 'Potential Loyalists' %}bg-warning
+                                {% elif customer.segment_name == 'At Risk' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ customer.segment_name }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if customer.last_purchase %}
+                            {{ customer.last_purchase|date:"M d, Y" }}
+                            <br>
+                            <small class="text-muted">{{ customer.last_purchase|timesince }} ago</small>
+                            {% else %}
+                            <span class="text-muted">Never</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{% url 'customer_detail' customer.customer_id %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <button class="btn btn-outline-success" 
+                                        onclick="createCampaign('{{ customer.segment_name }}', '{{ customer.email }}')">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-users fa-2x mb-3"></i>
+                                <p>No customer data available for RFM analysis</p>
+                                <p>Customers need to have purchase history to appear here</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Segment Details -->
+{% for segment_name, segment_customers in segments.items %}
+{% if segment_customers %}
+<div class="card mb-4" id="{{ segment_name|slugify }}">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-user-tag"></i> {{ segment_name }} Segment
+            <span class="badge bg-primary ms-2">{{ segment_customers|length }} customers</span>
+        </h5>
+        <button class="btn btn-sm btn-outline-primary" onclick="createSegmentCampaign('{{ segment_name }}')">
+            <i class="fas fa-bullhorn"></i> Create Campaign
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Segment Characteristics:</h6>
+                <ul>
+                    {% if segment_name == 'Champions' %}
+                    <li>Recent, frequent, high-value customers</li>
+                    <li>Your best customers who buy often and spend most</li>
+                    <li>Reward them to retain their loyalty</li>
+                    {% elif segment_name == 'Loyal Customers' %}
+                    <li>Recent customers who buy often but spend less</li>
+                    <li>Could become Champions with upselling</li>
+                    <li>Offer membership programs and recommend new products</li>
+                    {% elif segment_name == 'Potential Loyalists' %}
+                    <li>Recent customers with average frequency and value</li>
+                    <li>Have potential to become Loyal or Champions</li>
+                    <li>Ask for feedback and engage them</li>
+                    {% elif segment_name == 'At Risk' %}
+                    <li>Were once valuable but haven't purchased recently</li>
+                    <li>Risk of churning, bring them back with re-engagement campaigns</li>
+                    <li>Offer win-back promotions</li>
+                    {% elif segment_name == 'Lost Customers' %}
+                    <li>Haven't purchased in a long time and were low-value</li>
+                    <li>Probably won't return, focus resources elsewhere</li>
+                    <li>Consider win-back campaigns only if cost-effective</li>
+                    {% endif %}
+                </ul>
+                
+                <div class="mt-3">
+                    <h6>Recommended Actions:</h6>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-success" onclick="emailSegment('{{ segment_name }}')">
+                            <i class="fas fa-envelope"></i> Email Campaign
+                        </button>
+                        <button class="btn btn-sm btn-warning" onclick="smsSegment('{{ segment_name }}')">
+                            <i class="fas fa-sms"></i> SMS Campaign
+                        </button>
+                        <button class="btn btn-sm btn-info" onclick="createOffer('{{ segment_name }}')">
+                            <i class="fas fa-gift"></i> Special Offer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6>Top Customers in this Segment:</h6>
+                <div class="list-group">
+                    {% for customer in segment_customers|slice:":5" %}
+                    <a href="{% url 'customer_detail' customer.customer_id %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ customer.full_name }}</h6>
+                            <small class="text-success">KES {{ customer.monetary|floatformat:2 }}</small>
+                        </div>
+                        <p class="mb-1">
+                            Last purchase: 
+                            {% if customer.last_purchase %}
+                            {{ customer.last_purchase|timesince }} ago
+                            {% else %}
+                            Never
+                            {% endif %}
+                        </p>
+                        <small class="text-muted">{{ customer.email }}</small>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% if segment_customers|length > 5 %}
+                <div class="text-center mt-2">
+                    <a href="#customer-list" class="btn btn-sm btn-outline-primary">
+                        View All {{ segment_customers|length }} Customers
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<!-- RFM Score Distribution -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-bar"></i> RFM Score Distribution
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="chart-container">
+                    <canvas id="rfmDistributionChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h6>RFM Scoring Guide:</h6>
+                <div class="mb-3">
+                    <strong>Recency (R):</strong>
+                    <small class="text-muted">Days since last purchase</small>
+                    <ul class="small">
+                        <li>5: ≤ 30 days</li>
+                        <li>4: 31-60 days</li>
+                        <li>3: 61-90 days</li>
+                        <li>2: 91-180 days</li>
+                        <li>1: >180 days</li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <strong>Frequency (F):</strong>
+                    <small class="text-muted">Number of purchases</small>
+                    <ul class="small">
+                        <li>5: ≥ 20 purchases</li>
+                        <li>4: 10-19 purchases</li>
+                        <li>3: 5-9 purchases</li>
+                        <li>2: 2-4 purchases</li>
+                        <li>1: 1 purchase</li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <strong>Monetary (M):</strong>
+                    <small class="text-muted">Total amount spent</small>
+                    <ul class="small">
+                        <li>5: ≥ KES 50,000</li>
+                        <li>4: KES 20,000-49,999</li>
+                        <li>3: KES 10,000-19,999</li>
+                        <li>2: KES 5,000-9,999</li>
+                        <li>1: < KES 5,000</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="segmentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter by Segment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    {% for segment_name, segment_customers in segments.items %}
+                    {% if segment_customers %}
+                    <a href="#{{ segment_name|slugify }}" class="list-group-item list-group-item-action" 
+                       data-bs-dismiss="modal">
+                        <div class="d-flex w-100 justify-content-between">
+                            <strong>{{ segment_name }}</strong>
+                            <span class="badge bg-primary rounded-pill">{{ segment_customers|length }}</span>
+                        </div>
+                        <small class="text-muted">
+                            {% if segment_name == 'Champions' %}Your best customers
+                            {% elif segment_name == 'Loyal Customers' %}Regular buyers
+                            {% elif segment_name == 'Potential Loyalists' %}Growing customers
+                            {% elif segment_name == 'At Risk' %}Need attention
+                            {% elif segment_name == 'Lost Customers' %}Inactive customers
+                            {% endif %}
+                        </small>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Segmentation Chart
+    const segmentCtx = document.getElementById('segmentationChart').getContext('2d');
+    const segmentChart = new Chart(segmentCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                {% for segment_name, segment_customers in segments.items %}
+                {% if segment_customers %}
+                "{{ segment_name }}"{% if not forloop.last %},{% endif %}
+                {% endif %}
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for segment_name, segment_customers in segments.items %}
+                    {% if segment_customers %}
+                    {{ segment_customers|length }}{% if not forloop.last %},{% endif %}
+                    {% endif %}
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    '#28a745', '#17a2b8', '#ffc107', '#fd7e14', '#dc3545', '#6c757d'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${label}: ${value} customers (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // RFM Distribution Chart
+    const rfmCtx = document.getElementById('rfmDistributionChart').getContext('2d');
+    const rfmChart = new Chart(rfmCtx, {
+        type: 'bar',
+        data: {
+            labels: ['3-5', '6-8', '9-11', '12-14', '15'],
+            datasets: [{
+                label: 'Number of Customers',
+                data: [
+                    {{ customers|filter_by_score:'3-5'|length }},
+                    {{ customers|filter_by_score:'6-8'|length }},
+                    {{ customers|filter_by_score:'9-11'|length }},
+                    {{ customers|filter_by_score:'12-14'|length }},
+                    {{ customers|filter_by_score:'15'|length }}
+                ],
+                backgroundColor: [
+                    '#dc3545', '#fd7e14', '#ffc107', '#20c997', '#198754'
+                ],
+                borderWidth: 1,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Customers'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'RFM Score Range'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Campaign functions
+    window.createCampaign = function(segment, email) {
+        const message = `Create campaign for customer in ${segment} segment?`;
+        if (confirm(message)) {
+            // Implement campaign creation logic
+            showToast(`Campaign created for ${email}`, 'success');
+        }
+    };
+    
+    window.createSegmentCampaign = function(segment) {
+        const message = `Create email campaign for all customers in ${segment} segment?`;
+        if (confirm(message)) {
+            // Implement segment campaign logic
+            showToast(`Campaign created for ${segment} segment`, 'success');
+        }
+    };
+    
+    window.emailSegment = function(segment) {
+        const message = `Send email to all customers in ${segment} segment?`;
+        if (confirm(message)) {
+            showToast(`Email campaign sent to ${segment} segment`, 'success');
+        }
+    };
+    
+    window.smsSegment = function(segment) {
+        const message = `Send SMS to all customers in ${segment} segment?`;
+        if (confirm(message)) {
+            showToast(`SMS campaign sent to ${segment} segment`, 'success');
+        }
+    };
+    
+    window.createOffer = function(segment) {
+        const message = `Create special offer for ${segment} segment?`;
+        if (confirm(message)) {
+            const offerType = prompt('Enter offer type (Discount, Free Shipping, Gift, etc.):');
+            if (offerType) {
+                showToast(`${offerType} offer created for ${segment} segment`, 'success');
+            }
+        }
+    };
+    
+    function showToast(message, type = 'info') {
+        // Create toast element
+        const toast = $(`
+            <div class="toast align-items-center text-white bg-${type} border-0" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `);
+        
+        // Add to container
+        const container = $('#toastContainer');
+        if (!container.length) {
+            $('body').append('<div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>');
+        }
+        $('#toastContainer').append(toast);
+        
+        // Show toast
+        const bsToast = new bootstrap.Toast(toast[0]);
+        bsToast.show();
+        
+        // Remove after hidden
+        toast.on('hidden.bs.toast', function () {
+            $(this).remove();
+        });
+    }
+});
+</script>
+{% endblock %}

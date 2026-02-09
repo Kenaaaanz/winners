@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Dashboard - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Statistics Cards -->
+    <div class="col-md-3">
+        <div class="stat-card card-1">
+            <div class="stat-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="stat-value">KES {{ total_sales_today|floatformat:2 }}</div>
+            <div class="stat-label">Today's Sales</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card card-2">
+            <div class="stat-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-value">KES {{ total_sales_week|floatformat:2 }}</div>
+            <div class="stat-label">This Week</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card card-3">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-value">{{ total_customers }}</div>
+            <div class="stat-label">Total Customers</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card card-4">
+            <div class="stat-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <div class="stat-value">{{ total_products }}</div>
+            <div class="stat-label">Products in Stock</div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Sales Chart -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-bar"></i> Weekly Sales Trend
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="salesChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Low Stock Alert -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Low Stock Alert
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if low_stock_products %}
+                <div class="list-group">
+                    {% for product in low_stock_products %}
+                    <a href="{% url 'product_detail' product.pk %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ product.name }}</h6>
+                            <small class="text-danger">{{ product.quantity }} left</small>
+                        </div>
+                        <small class="text-muted">SKU: {{ product.sku }}</small>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted text-center">No low stock items</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Recent Sales -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-receipt"></i> Recent Sales
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in recent_sales %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'sale_detail' sale.pk %}">{{ sale.invoice_number }}</a>
+                                </td>
+                                <td>{{ sale.customer.full_name|default:"Walk-in" }}</td>
+                                <td class="text-success">KES {{ sale.total|floatformat:2 }}</td>
+                                <td>{{ sale.created_at|date:"M d, H:i" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No recent sales</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Top Products -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-star"></i> Top Selling Products
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Sold</th>
+                                <th>Revenue</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_products %}
+                            <tr>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.total_sold|default:0 }}</td>
+                                <td class="text-success">
+                                    KES {{ product.total_sold|multiply:product.selling_price|floatformat:2 }}
+                                </td>
+                                <td>
+                                    {% if product.quantity <= product.low_stock_threshold %}
+                                    <span class="badge bg-warning">{{ product.quantity }}</span>
+                                    {% else %}
+                                    <span class="badge bg-success">{{ product.quantity }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No sales data</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Sales Chart
+const ctx = document.getElementById('salesChart').getContext('2d');
+const salesChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ sales_data|safe }},
+        datasets: [{
+            label: 'Daily Sales (KES)',
+            data: {{ sales_data|safe }},
+            borderColor: '#ff6b6b',
+            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Last 7 Days Sales'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return 'KES ' + value;
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

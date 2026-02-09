@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Low Stock Alert - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">
+        <i class="fas fa-exclamation-triangle text-warning"></i> Low Stock Alert
+    </h1>
+    <div>
+        <a href="{% url 'purchase_order_create' %}" class="btn btn-primary">
+            <i class="fas fa-shopping-cart"></i> Create Purchase Order
+        </a>
+        <a href="{% url 'export_inventory_csv' %}" class="btn btn-outline-success">
+            <i class="fas fa-file-export"></i> Export List
+        </a>
+    </div>
+</div>
+
+<!-- Summary Stats -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Low Stock Items</h6>
+                <h2 class="mb-0">{{ total_count }}</h2>
+                <small>needs attention</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h6 class="card-title">Out of Stock</h6>
+                <h2 class="mb-0">
+                    {% with out_of_stock=products|filter_by_quantity:0|length %}
+                        {{ out_of_stock }}
+                    {% endwith %}
+                </h2>
+                <small>immediate action required</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title">Total Value</h6>
+                <h2 class="mb-0">KES {{ total_value|floatformat:2 }}</h2>
+                <small>at cost price</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if products %}
+<div class="row">
+    {% for product in products %}
+    <div class="col-md-6">
+        <div class="card low-stock-card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h5 class="card-title mb-1">{{ product.name }}</h5>
+                        <p class="card-text text-muted mb-1">
+                            <small>SKU: {{ product.sku }}</small>
+                            {% if product.brand %}
+                            <span class="ms-2">• Brand: {{ product.brand.name }}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <span class="urgency-badge {% if product.quantity == 0 %}urgency-high{% elif product.quantity <= product.low_stock_threshold|divide:2 %}urgency-medium{% else %}urgency-low{% endif %}">
+                        {% if product.quantity == 0 %}OUT OF STOCK{% else %}LOW STOCK{% endif %}
+                    </span>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <small>Stock Level</small>
+                        <small>{{ product.quantity }} / {{ product.reorder_quantity }}</small>
+                    </div>
+                    <div class="progress stock-progress">
+                        {% with percentage=product.quantity|divide:product.reorder_quantity|multiply:100 %}
+                        <div class="progress-bar {% if product.quantity == 0 %}bg-danger{% elif percentage < 30 %}bg-warning{% else %}bg-info{% endif %}" 
+                             style="width: {{ percentage }}%;">
+                        </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <small class="text-muted">Cost Price</small>
+                        <div>KES {{ product.cost_price|floatformat:2 }}</div>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Selling Price</small>
+                        <div class="text-success">KES {{ product.selling_price|floatformat:2 }}</div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <small class="text-muted">Supplier</small>
+                        <div>{{ product.supplier.name|default:"Not set" }}</div>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted">Category</small>
+                        <div>{{ product.category.name|default:"Uncategorized" }}</div>
+                    </div>
+                </div>
+                
+                {% if product.expiry_date %}
+                <div class="alert alert-warning mt-2 mb-0 py-2">
+                    <i class="fas fa-calendar"></i>
+                    <strong>Expires:</strong> {{ product.expiry_date|date:"F d, Y" }}
+                    {% if product.is_expiring_soon %}
+                    <span class="badge bg-danger ms-2">Soon</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        <a href="{% url 'product_detail' product.pk %}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{% url 'purchase_order_create' %}?product={{ product.id }}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-shopping-cart"></i> Reorder
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+        <h5>No Low Stock Items</h5>
+        <p class="text-muted">All products are adequately stocked. Great job!</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary">
+            <i class="fas fa-box"></i> View All Products
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<!-- Purchase Order Suggestion -->
+{% if products %}
+<div class="card mt-4 border-primary">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-lightbulb"></i> Suggested Purchase Order
+        </h5>
+    </div>
+    <div class="card-body">
+        <p>Based on low stock levels, we suggest creating a purchase order for the following items:</p>
+        
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Current Stock</th>
+                        <th>Reorder At</th>
+                        <th>Suggested Qty</th>
+                        <th>Cost Price</th>
+                        <th>Total Cost</th>
+                        <th>Supplier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    {% with suggested_qty=product.reorder_quantity|subtract:product.quantity %}
+                    {% if suggested_qty > 0 %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ product.reorder_quantity }}</td>
+                        <td>{{ suggested_qty }}</td>
+                        <td>KES {{ product.cost_price|floatformat:2 }}</td>
+                        <td class="text-success">KES {{ product.cost_price|multiply:suggested_qty|floatformat:2 }}</td>
+                        <td>{{ product.supplier.name|default:"Not set" }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endwith %}
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="table-primary">
+                        <td colspan="5" class="text-end"><strong>Total Estimated Cost:</strong></td>
+                        <td colspan="2">
+                            <strong>
+                                {% with total_cost=0 %}
+                                    {% for product in products %}
+                                        {% with suggested_qty=product.reorder_quantity|subtract:product.quantity %}
+                                            {% if suggested_qty > 0 %}
+                                                {% with total_cost=total_cost|add:product.cost_price|multiply:suggested_qty %}
+                                                {% endwith %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endfor %}
+                                    KES {{ total_cost|floatformat:2 }}
+                                {% endwith %}
+                            </strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div class="text-center mt-3">
+            <a href="{% url 'purchase_order_create' %}?low_stock=1" class="btn btn-primary btn-lg">
+                <i class="fas fa-file-invoice-dollar"></i> Create Purchase Order
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Stock Level Chart -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-bar"></i> Stock Level Overview
+        </h5>
+    </div>
+    <div class="card-body">
+        <canvas id="stockChart" height="100"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Stock Level Chart
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    const stockChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+            labels: {{ product_names|safe }},
+            datasets: [{
+                label: 'Current Stock',
+                data: {{ product_stock|safe }},
+                backgroundColor: function(context) {
+                    const index = context.dataIndex;
+                    const value = context.dataset.data[index];
+                    const threshold = {{ low_stock_thresholds|safe }};
+                    return value === 0 ? '#dc3545' : 
+                           value <= threshold[index] * 0.5 ? '#ffc107' : 
+                           value <= threshold[index] ? '#17a2b8' : '#28a745';
+                }
+            }, {
+                label: 'Reorder Level',
+                data: {{ reorder_levels|safe }},
+                backgroundColor: 'rgba(108, 117, 125, 0.5)',
+                borderColor: 'rgba(108, 117, 125, 1)',
+                borderWidth: 1,
+                type: 'line',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quantity'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.x;
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+{% block title %}Customers - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .customer-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+    .membership-badge {
+        padding: 3px 8px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .membership-regular { background-color: #e3f2fd; color: #1976d2; }
+    .membership-silver { background-color: #f5f5f5; color: #757575; }
+    .membership-gold { background-color: #fff3e0; color: #f57c00; }
+    .membership-platinum { background-color: #e8eaf6; color: #3f51b5; }
+    .membership-vip { background-color: #fce4ec; color: #c2185b; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">
+        <i class="fas fa-users"></i> Customers
+    </h1>
+    <div>
+        <a href="{% url 'customer_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Customer
+        </a>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Customers</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" id="filterForm">
+                    <div class="mb-3">
+                        <label class="form-label">Search</label>
+                        <input type="text" class="form-control" name="search" value="{{ search_query }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Membership Type</label>
+                        <select class="form-select" name="membership">
+                            <option value="">All Types</option>
+                            {% for type_code, type_name in membership_types %}
+                            <option value="{{ type_code }}" {% if membership == type_code %}selected{% endif %}>
+                                {{ type_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customers Table -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Contact</th>
+                        <th>Membership</th>
+                        <th>Total Spent</th>
+                        <th>Last Purchase</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="customer-avatar me-3">
+                                    {{ customer.first_name.0 }}{{ customer.last_name.0 }}
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">{{ customer.full_name }}</h6>
+                                    <small class="text-muted">ID: {{ customer.customer_id|truncatechars:8 }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <i class="fas fa-phone text-muted me-1"></i>{{ customer.phone }}
+                                {% if customer.email %}
+                                <br>
+                                <i class="fas fa-envelope text-muted me-1"></i>{{ customer.email|truncatechars:20 }}
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="membership-badge membership-{{ customer.membership_type|lower }}">
+                                {{ customer.get_membership_type_display }}
+                            </span>
+                            <br>
+                            <small class="text-muted">{{ customer.loyalty_points }} points</small>
+                        </td>
+                        <td>
+                            <span class="text-success fw-bold">KES {{ customer.total_spent|floatformat:2 }}</span>
+                            <br>
+                            <small class="text-muted">{{ customer.purchase_count }} purchases</small>
+                        </td>
+                        <td>
+                            {% if customer.last_purchase %}
+                            {{ customer.last_purchase|date:"M d, Y" }}
+                            <br>
+                            <small class="text-muted">{{ customer.last_purchase|timesince }} ago</small>
+                            {% else %}
+                            <span class="text-muted">No purchases</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{% url 'customer_detail' customer.pk %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'customer_update' customer.pk %}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'customer_detail' customer.pk %}" class="btn btn-outline-success">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-users fa-2x mb-3"></i>
+                                <p>No customers found</p>
+                                <a href="{% url 'customer_create' %}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Add Your First Customer
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if membership %}&membership={{ membership }}{% endif %}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if membership %}&membership={{ membership }}{% endif %}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if membership %}&membership={{ membership }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if membership %}&membership={{ membership }}{% endif %}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if membership %}&membership={{ membership }}{% endif %}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h6 class="card-title">Total Customers</h6>
+                <h2 class="mb-0">{{ page_obj.paginator.count }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h6 class="card-title">Active Customers</h6>
+                <h2 class="mb-0">
+                    {% with active_count=customers.count %}
+                        {{ active_count }}
+                    {% endwith %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Premium Members</h6>
+                <h2 class="mb-0">
+                    {% with premium_count=customers|filter_by_membership:"GOLD,PLATINUM,VIP"|length %}
+                        {{ premium_count }}
+                    {% endwith %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title">Avg. Spend</h6>
+                <h2 class="mb-0">
+                    {% with premium_count=customers|filter_by_membership:"GOLD,PLATINUM,VIP"|length %}
+                        {{ premium_count }}
+                    {% endwith %}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Auto-submit filter form when filters change
+    $('select[name="membership"]').on('change', function() {
+        $('#filterForm').submit();
+    });
+    
+    // Search with debounce
+    let searchTimeout;
+    $('input[name="search"]').on('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            $('#filterForm').submit();
+        }, 500);
+    });
+});
+</script>
+{% endblock %}

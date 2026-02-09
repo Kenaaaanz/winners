@@ -1,0 +1,441 @@
+{% extends 'base_dashboard.html' %}
+{% load custom_filters %}
+
+{% block title %}Product Performance - Winners Cosmetics{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-chart-line"></i> Product Performance Analysis
+{% endblock %}
+
+{% block page_actions %}
+<div class="d-flex gap-2 flex-wrap align-items-center">
+    <a href="{% url 'sales_report' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="fas fa-chart-line"></i> Sales Report
+    </a>
+    <a href="{% url 'inventory_report' %}" class="btn btn-sm btn-outline-info">
+        <i class="fas fa-boxes"></i> Inventory Report
+    </a>
+    <a href="{% url 'financial_report' %}" class="btn btn-sm btn-outline-success">
+        <i class="fas fa-chart-pie"></i> Financial Report
+    </a>
+    <div class="vr"></div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-filter"></i> Filter by Performance
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="?performance=all">All Products</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="?performance=high_profit">High Profit Margin (>50%)</a></li>
+            <li><a class="dropdown-item" href="?performance=low_profit">Low Profit Margin (<20%)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="?performance=high_turnover">High Turnover (>2)</a></li>
+            <li><a class="dropdown-item" href="?performance=low_turnover">Low Turnover (<0.5)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="?performance=top_selling">Top Selling</a></li>
+            <li><a class="dropdown-item" href="?performance=low_stock">Low Stock</a></li>
+        </ul>
+    </div>
+    <a href="{% url 'export_report_pdf' %}?report_type=products" class="btn btn-sm btn-outline-danger">
+        <i class="fas fa-file-pdf"></i> Export PDF
+    </a>
+</div>
+{% endblock %}
+
+{% block dashboard_content %}<!-- Performance Summary -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="performance-metric profit-high">
+            <div class="metric-value">{{ total_count }}</div>
+            <div class="metric-label">Products Analyzed</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="performance-metric profit-high">
+            <div class="metric-value">KES {{ total_revenue|floatformat:2 }}</div>
+            <div class="metric-label">Total Revenue</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="performance-metric profit-high">
+            <div class="metric-value">KES {{ total_profit|floatformat:2 }}</div>
+            <div class="metric-label">Total Profit</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="performance-metric profit-high">
+            <div class="metric-value">
+                {% if total_revenue > 0 %}
+                    {{ total_profit|divide:total_revenue|multiply:100|floatformat:1 }}%
+                {% else %}
+                    0%
+                {% endif %}
+            </div>
+            <div class="metric-label">Overall Profit Margin</div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Charts -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie"></i> Revenue by Category
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-bar"></i> Profit Margin Distribution
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="marginChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-table"></i> Detailed Product Performance
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Units Sold</th>
+                        <th>Revenue</th>
+                        <th>Cost</th>
+                        <th>Profit</th>
+                        <th>Margin</th>
+                        <th>Turnover</th>
+                        <th>Current Stock</th>
+                        <th>Performance</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>
+                            <strong>{{ product.name|truncatechars:25 }}</strong>
+                            <br>
+                            <small class="text-muted">{{ product.sku }}</small>
+                        </td>
+                        <td>{{ product.category.name|default:"Uncategorized" }}</td>
+                        <td>{{ product.total_sold|default:0 }}</td>
+                        <td class="text-success">KES {{ product.total_revenue|default:0|floatformat:2 }}</td>
+                        <td class="text-danger">KES {{ product.total_cost|default:0|floatformat:2 }}</td>
+                        <td class="text-success">
+                            <strong>KES {{ product.profit|default:0|floatformat:2 }}</strong>
+                        </td>
+                        <td>
+                            {% with margin=product.calc_profit_margin|default:0 %}
+                            <span class="performance-badge 
+                                {% if margin > 50 %}badge-high
+                                {% elif margin > 20 %}badge-medium
+                                {% else %}badge-low{% endif %}">
+                                {{ margin|floatformat:1 }}%
+                            </span>
+                            {% endwith %}
+                        </td>
+                        <td>
+                            {% with turnover=product.turnover_rate|default:0 %}
+                            <span class="performance-badge 
+                                {% if turnover > 2 %}badge-top
+                                {% elif turnover > 1 %}badge-high
+                                {% elif turnover > 0.5 %}badge-medium
+                                {% else %}badge-low{% endif %}">
+                                {{ turnover|floatformat:2 }}
+                            </span>
+                            {% endwith %}
+                        </td>
+                        <td>
+                            {% if product.quantity == 0 %}
+                            <span class="badge bg-danger">Out of Stock</span>
+                            {% elif product.is_low_stock %}
+                            <span class="badge bg-warning">{{ product.quantity }}</span>
+                            {% else %}
+                            <span class="badge bg-success">{{ product.quantity }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% with margin=product.calc_profit_margin|default:0 turnover=product.turnover_rate|default:0 %}
+                            {% if margin > 50 and turnover > 2 %}
+                            <span class="badge bg-success">Star Performer</span>
+                            {% elif margin > 30 and turnover > 1 %}
+                            <span class="badge bg-info">Good Performer</span>
+                            {% elif margin < 10 or turnover < 0.2 %}
+                            <span class="badge bg-danger">Underperforming</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Average</span>
+                            {% endif %}
+                            {% endwith %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{% url 'product_detail' product.product_obj.pk %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'pos_dashboard' %}?product={{ product.product_obj.id }}" class="btn btn-outline-success">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="11" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-chart-line fa-2x mb-3"></i>
+                                <p>No product performance data available</p>
+                                <p>Products need to have sales to appear in this report</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Recommendations -->
+<div class="card mt-4 border-primary">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-lightbulb"></i> Performance Recommendations
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h6><i class="fas fa-arrow-up text-success"></i> Top Performers</h6>
+                <ul class="list-unstyled">
+                    {% for product in products|slice:":5" %}
+                    {% if product.calc_profit_margin > 30 and product.turnover_rate > 1 %}
+                    <li class="mb-2">
+                        <strong>{{ product.name }}</strong> - 
+                        <span class="text-success">Margin: {{ product.calc_profit_margin|floatformat:1 }}%</span>
+                        <br>
+                        <small class="text-muted">Consider increasing stock and promoting</small>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6><i class="fas fa-arrow-down text-danger"></i> Underperformers</h6>
+                <ul class="list-unstyled">
+                    {% for product in products %}
+                    {% if product.calc_profit_margin < 10 or product.turnover_rate < 0.2 %}
+                    <li class="mb-2">
+                        <strong>{{ product.name }}</strong> - 
+                        <span class="text-danger">
+                            Margin: {{ product.calc_profit_margin|default:0|floatformat:1 }}%,
+                            Turnover: {{ product.turnover_rate|default:0|floatformat:2 }}
+                        </span>
+                        <br>
+                        <small class="text-muted">Consider discounting or discontinuing</small>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Action Items -->
+        <div class="mt-3">
+            <h6>Suggested Actions:</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h6 class="card-title">Replenish Stock</h6>
+                            <p class="card-text">For high-performing, low-stock items</p>
+                            <a href="{% url 'low_stock' %}" class="btn btn-sm btn-warning">
+                                View Low Stock
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h6 class="card-title">Increase Promotion</h6>
+                            <p class="card-text">For high-margin products</p>
+                            <button class="btn btn-sm btn-success">
+                                Create Promotion
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-danger">
+                        <div class="card-body">
+                            <h6 class="card-title">Price Adjustment</h6>
+                            <p class="card-text">For low-margin items</p>
+                            <button class="btn btn-sm btn-danger">
+                                Adjust Prices
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Category Chart Data
+    const categoryData = {
+        {% regroup products by category.name|default:"Uncategorized" as category_list %}
+        labels: [
+            {% for category in category_list %}
+            "{{ category.grouper }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Revenue by Category',
+            data: [
+                {% for category in category_list %}
+                {{ category.list|sum:'total_revenue'|default:0 }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: [
+                '#ff6b6b', '#48dbfb', '#1dd1a1', '#f368e0', '#ff9f43',
+                '#6c5ce7', '#a29bfe', '#00cec9', '#fd79a8', '#ffeaa7'
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    };
+    
+    // Margin Distribution Data
+    const marginData = {
+        labels: ['<10%', '10-20%', '20-30%', '30-40%', '40-50%', '>50%'],
+        datasets: [{
+            label: 'Number of Products',
+            data: [
+                {{ products|filter_by_margin:'0-10'|length }},
+                {{ products|filter_by_margin:'10-20'|length }},
+                {{ products|filter_by_margin:'20-30'|length }},
+                {{ products|filter_by_margin:'30-40'|length }},
+                {{ products|filter_by_margin:'40-50'|length }},
+                {{ products|filter_by_margin:'50-100'|length }}
+            ],
+            backgroundColor: [
+                '#dc3545', '#fd7e14', '#ffc107', '#20c997', '#0dcaf0', '#198754'
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    };
+    
+    // Category Chart
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    const categoryChart = new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: categoryData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += 'KES ' + context.parsed.toLocaleString();
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Margin Chart
+    const marginCtx = document.getElementById('marginChart').getContext('2d');
+    const marginChart = new Chart(marginCtx, {
+        type: 'bar',
+        data: marginData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Products'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Profit Margin Range'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Performance filtering
+    $('.dropdown-item').on('click', function(e) {
+        e.preventDefault();
+        const filter = $(this).text().toLowerCase();
+        const url = new URL(window.location.href);
+        
+        if (filter.includes('all')) {
+            url.searchParams.delete('performance');
+        } else if (filter.includes('high profit')) {
+            url.searchParams.set('performance', 'high_profit');
+        } else if (filter.includes('low profit')) {
+            url.searchParams.set('performance', 'low_profit');
+        } else if (filter.includes('high turnover')) {
+            url.searchParams.set('performance', 'high_turnover');
+        } else if (filter.includes('low turnover')) {
+            url.searchParams.set('performance', 'low_turnover');
+        } else if (filter.includes('top selling')) {
+            url.searchParams.set('performance', 'top_selling');
+        } else if (filter.includes('low stock')) {
+            url.searchParams.set('performance', 'low_stock');
+        }
+        
+        window.location.href = url.toString();
+    });
+});
+</script>
+{% endblock %}

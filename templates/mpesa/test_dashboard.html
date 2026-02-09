@@ -1,0 +1,542 @@
+{% extends 'base.html' %}
+
+{% block title %}M-Pesa Test Dashboard - Winners Cosmetics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="h3 mb-4">
+                <i class="fas fa-mobile-alt"></i> M-Pesa Test Dashboard
+            </h1>
+        </div>
+    </div>
+    
+    <!-- Configuration Status -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-cog"></i> M-Pesa Configuration
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Environment:</strong>
+                        <span class="badge {% if mpesa_config.environment == 'production' %}bg-success{% else %}bg-warning{% endif %}">
+                            {{ mpesa_config.environment|upper }}
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Shortcode:</strong> {{ mpesa_config.shortcode|default:'Not set' }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>Status:</strong>
+                        <span id="mpesaStatus" class="badge bg-info">Loading...</span>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary" id="testConnection">
+                            <i class="fas fa-plug"></i> Test Connection
+                        </button>
+                        <button class="btn btn-outline-secondary" id="refreshConfig">
+                            <i class="fas fa-sync"></i> Refresh Configuration
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle"></i> Testing Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-lightbulb"></i> Sandbox Testing</h6>
+                        <p class="mb-2">For testing, use the following:</p>
+                        <ul class="mb-0">
+                            <li>Test Phone: <code>254708374149</code></li>
+                            <li>Test Amount: <code>1 - 100</code> KES</li>
+                            <li>Test PIN: <code>174379</code></li>
+                        </ul>
+                    </div>
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle"></i> Important Notes</h6>
+                        <ul class="mb-0">
+                            <li>Use whole numbers (no cents)</li>
+                            <li>Max amount: 150,000 KES</li>
+                            <li>Check your phone for STK Push prompt</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Test Forms -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-money-bill-wave"></i> STK Push Test
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="mpesaStkForm">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" 
+                                   class="form-control mpesa-phone-input" 
+                                   name="phone_number" 
+                                   value="254708374149"
+                                   placeholder="2547XXXXXXXX"
+                                   required>
+                            <div class="form-text">
+                                Format: 2547XXXXXXXX, 07XXXXXXXX, or +2547XXXXXXXX
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Amount (KES)</label>
+                            <input type="number" 
+                                   class="form-control mpesa-amount-input" 
+                                   name="amount" 
+                                   value="10"
+                                   min="1"
+                                   max="150000"
+                                   step="1"
+                                   required>
+                            <div class="form-text">
+                                Whole numbers only, max 150,000 KES
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Account Reference</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="account_reference" 
+                                   value="TEST-{{ timestamp }}"
+                                   required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Transaction Description</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="transaction_desc" 
+                                   value="Test Payment"
+                                   required>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Initiate STK Push
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="mpesa-status-container" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-exchange-alt"></i> Transaction Tools
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Transaction Status Check -->
+                    <div class="mb-4">
+                        <h6>Check Transaction Status</h6>
+                        <div class="input-group mb-3">
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="checkoutRequestId" 
+                                   placeholder="Checkout Request ID">
+                            <button class="btn btn-outline-secondary" id="checkStatus">
+                                <i class="fas fa-search"></i> Check
+                            </button>
+                        </div>
+                        <div id="statusResult"></div>
+                    </div>
+                    
+                    <!-- Recent Transactions -->
+                    <div>
+                        <h6>Recent Test Transactions</h6>
+                        <div id="recentTransactions">
+                            <div class="text-center">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Loading transactions...
+                            </div>
+                        </div>
+                        <div class="text-end mt-2">
+                            <a href="{% url 'admin:core_mpesatransaction_changelist' %}" 
+                               class="btn btn-sm btn-outline-primary">
+                                View All
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Transaction History -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-history"></i> Transaction History
+                    </h5>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-secondary" id="refreshHistory">
+                            <i class="fas fa-sync"></i>
+                        </button>
+                        <select class="form-select form-select-sm" id="historyFilter" style="width: auto;">
+                            <option value="all">All Transactions</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="transactionTable">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Phone</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Reference</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center" id="loadingHistory">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p>Loading transaction history...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/mpesa.js' %}"></script>
+<script>
+$(document).ready(function() {
+    // Load M-Pesa configuration
+    loadMpesaConfig();
+    
+    // Test connection
+    $('#testConnection').on('click', function() {
+        testMpesaConnection();
+    });
+    
+    // Refresh configuration
+    $('#refreshConfig').on('click', function() {
+        loadMpesaConfig();
+    });
+    
+    // Check transaction status
+    $('#checkStatus').on('click', function() {
+        const checkoutId = $('#checkoutRequestId').val();
+        if (checkoutId) {
+            checkTransactionStatus(checkoutId);
+        }
+    });
+    
+    // Load recent transactions
+    loadRecentTransactions();
+    
+    // Load transaction history
+    loadTransactionHistory();
+    
+    // Refresh history
+    $('#refreshHistory').on('click', function() {
+        loadTransactionHistory();
+    });
+    
+    // Filter history
+    $('#historyFilter').on('change', function() {
+        loadTransactionHistory();
+    });
+});
+
+function loadMpesaConfig() {
+    $.ajax({
+        url: '/api/mpesa/config/',
+        method: 'GET',
+        success: function(config) {
+            $('#mpesaStatus').removeClass('bg-info bg-danger').addClass('bg-success');
+            $('#mpesaStatus').text('Connected');
+            
+            // Update UI with config
+            console.log('M-Pesa Config:', config);
+        },
+        error: function() {
+            $('#mpesaStatus').removeClass('bg-info bg-success').addClass('bg-danger');
+            $('#mpesaStatus').text('Not Connected');
+        }
+    });
+}
+
+function testMpesaConnection() {
+    const btn = $('#testConnection');
+    const originalText = btn.html();
+    
+    btn.html('<i class="fas fa-spinner fa-spin"></i> Testing...');
+    btn.prop('disabled', true);
+    
+    // Simulate connection test
+    setTimeout(function() {
+        $.ajax({
+            url: '/api/mpesa/config/',
+            method: 'GET',
+            success: function() {
+                showToast('M-Pesa connection test successful!', 'success');
+            },
+            error: function() {
+                showToast('M-Pesa connection test failed!', 'error');
+            },
+            complete: function() {
+                btn.html(originalText);
+                btn.prop('disabled', false);
+            }
+        });
+    }, 1000);
+}
+
+function checkTransactionStatus(checkoutId) {
+    const resultDiv = $('#statusResult');
+    resultDiv.html('<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Checking...</div>');
+    
+    $.ajax({
+        url: '/api/mpesa/stk-query/',
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+            transaction_id: checkoutId
+        }),
+        success: function(response) {
+            if (response.success) {
+                let statusClass = 'danger';
+                let statusIcon = 'times-circle';
+                
+                if (response.result_code === 0) {
+                    statusClass = 'success';
+                    statusIcon = 'check-circle';
+                } else if (response.result_code === 1) {
+                    statusClass = 'warning';
+                    statusIcon = 'exclamation-circle';
+                }
+                
+                resultDiv.html(`
+                    <div class="alert alert-${statusClass}">
+                        <i class="fas fa-${statusIcon}"></i>
+                        <strong>Status:</strong> ${response.result_desc}
+                        <br>
+                        <small>Result Code: ${response.result_code}</small>
+                    </div>
+                `);
+            } else {
+                resultDiv.html(`
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Error: ${response.error}
+                    </div>
+                `);
+            }
+        },
+        error: function() {
+            resultDiv.html(`
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    Failed to check status. Please try again.
+                </div>
+            `);
+        }
+    });
+}
+
+function loadRecentTransactions() {
+    $.ajax({
+        url: '/api/mpesa/transactions/',
+        method: 'GET',
+        data: { days: 1, page_size: 5 },
+        success: function(response) {
+            if (response.success && response.transactions.length > 0) {
+                let html = '';
+                response.transactions.forEach(transaction => {
+                    let statusClass = 'secondary';
+                    if (transaction.status === 'SUCCESS') statusClass = 'success';
+                    if (transaction.status === 'FAILED') statusClass = 'danger';
+                    if (transaction.status === 'PENDING') statusClass = 'warning';
+                    
+                    html += `
+                        <div class="border-bottom py-2">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <small class="text-muted">${transaction.phone_number}</small>
+                                    <br>
+                                    <strong>${transaction.formatted_amount}</strong>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-${statusClass}">${transaction.status}</span>
+                                    <br>
+                                    <small class="text-muted">${transaction.formatted_date}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                $('#recentTransactions').html(html);
+            } else {
+                $('#recentTransactions').html(`
+                    <div class="text-center text-muted py-3">
+                        <i class="fas fa-receipt fa-2x mb-2"></i>
+                        <p>No recent transactions</p>
+                    </div>
+                `);
+            }
+        }
+    });
+}
+
+function loadTransactionHistory() {
+    const filter = $('#historyFilter').val();
+    let url = '/api/mpesa/transactions/';
+    
+    // Set parameters based on filter
+    const params = { page_size: 10 };
+    if (filter === 'today') params.days = 1;
+    if (filter === 'week') params.days = 7;
+    if (filter === 'month') params.days = 30;
+    
+    $('#loadingHistory').show();
+    $('#transactionTable tbody').empty();
+    
+    $.ajax({
+        url: url,
+        method: 'GET',
+        data: params,
+        success: function(response) {
+            $('#loadingHistory').hide();
+            
+            if (response.success && response.transactions.length > 0) {
+                let html = '';
+                response.transactions.forEach(transaction => {
+                    let statusClass = 'secondary';
+                    if (transaction.status === 'SUCCESS') statusClass = 'success';
+                    if (transaction.status === 'FAILED') statusClass = 'danger';
+                    if (transaction.status === 'PENDING') statusClass = 'warning';
+                    
+                    html += `
+                        <tr>
+                            <td>
+                                <small>${transaction.transaction_id}</small>
+                                ${transaction.mpesa_receipt_number ? '<br><small class="text-muted">' + transaction.mpesa_receipt_number + '</small>' : ''}
+                            </td>
+                            <td>${transaction.phone_number}</td>
+                            <td>${transaction.formatted_amount}</td>
+                            <td>
+                                <span class="badge bg-${statusClass}">
+                                    ${transaction.status}
+                                </span>
+                            </td>
+                            <td>${transaction.account_reference}</td>
+                            <td>${transaction.formatted_date}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info" onclick="viewTransaction('${transaction.transaction_id}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                $('#transactionTable tbody').html(html);
+            } else {
+                $('#transactionTable tbody').html(`
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            <i class="fas fa-receipt fa-2x mb-2"></i>
+                            <p>No transactions found</p>
+                        </td>
+                    </tr>
+                `);
+            }
+        }
+    });
+}
+
+function viewTransaction(transactionId) {
+    // Open transaction details in modal or new page
+    window.open(`/admin/core/mpesatransaction/${transactionId}/change/`, '_blank');
+}
+
+function showToast(message, type = 'info') {
+    const toast = $(`
+        <div class="toast align-items-center text-white bg-${type} border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    `);
+    
+    const container = $('#toastContainer');
+    if (!container.length) {
+        $('body').append('<div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3"></div>');
+    }
+    $('#toastContainer').append(toast);
+    
+    const bsToast = new bootstrap.Toast(toast[0]);
+    bsToast.show();
+    
+    toast.on('hidden.bs.toast', function () {
+        $(this).remove();
+    });
+}
+
+function getCSRFToken() {
+    const name = 'csrftoken';
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

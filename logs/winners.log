@@ -1,0 +1,1162 @@
+INFO 2026-02-05 20:03:00,175 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:04:33,731 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:04:47,579 basehttp "GET / HTTP/1.1" 302 0
+ERROR 2026-02-05 20:04:49,328 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 500 198161
+WARNING 2026-02-05 20:04:52,252 basehttp "GET /favicon.ico HTTP/1.1" 404 6808
+INFO 2026-02-05 20:04:52,667 basehttp "GET / HTTP/1.1" 302 0
+INFO 2026-02-05 20:05:47,008 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 200 7260
+INFO 2026-02-05 20:05:47,665 basehttp "GET /static/js/main.js HTTP/1.1" 200 8290
+INFO 2026-02-05 20:05:47,775 basehttp "GET /static/css/style.css HTTP/1.1" 200 2125
+INFO 2026-02-05 20:05:57,606 basehttp "GET / HTTP/1.1" 302 0
+INFO 2026-02-05 20:05:57,621 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 200 7260
+INFO 2026-02-05 20:05:59,208 basehttp "GET /pos/ HTTP/1.1" 302 0
+INFO 2026-02-05 20:05:59,261 basehttp "GET /accounts/login/?next=/pos/ HTTP/1.1" 200 7260
+INFO 2026-02-05 20:06:07,813 basehttp "POST /accounts/login/?next=/pos/ HTTP/1.1" 302 0
+ERROR 2026-02-05 20:06:08,260 basehttp "GET /pos/ HTTP/1.1" 500 231188
+INFO 2026-02-05 20:07:23,823 basehttp "GET /pos/ HTTP/1.1" 200 13804
+INFO 2026-02-05 20:07:24,213 basehttp "GET /static/js/pos.js HTTP/1.1" 200 16118
+ERROR 2026-02-05 20:08:08,428 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 309992
+ERROR 2026-02-05 20:08:56,836 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 310560
+ERROR 2026-02-05 20:09:24,862 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 310560
+INFO 2026-02-05 20:12:03,389 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-05 20:12:24,884 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-05 20:12:46,373 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 198123
+INFO 2026-02-05 20:13:50,759 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-05 20:14:16,879 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-05 20:14:36,805 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 199220
+ERROR 2026-02-05 20:14:42,812 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 199220
+ERROR 2026-02-05 20:16:07,053 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 199048
+INFO 2026-02-05 20:17:29,409 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-05 20:17:36,856 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-05 20:18:05,513 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 199039
+ERROR 2026-02-05 20:18:07,071 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 500 199039
+INFO 2026-02-05 20:20:33,242 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-05 20:20:41,056 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:21:00,435 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 200 20029
+ERROR 2026-02-05 20:21:18,054 basehttp "GET /inventory/low-stock/ HTTP/1.1" 500 304185
+INFO 2026-02-05 20:21:35,896 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-05 20:21:43,303 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:22:46,133 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 10220
+ERROR 2026-02-05 20:22:58,832 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 500 98834
+ERROR 2026-02-05 20:23:55,003 basehttp "GET /analytics/ HTTP/1.1" 500 93980
+INFO 2026-02-05 20:24:05,030 basehttp "GET / HTTP/1.1" 200 11813
+INFO 2026-02-05 20:24:28,688 basehttp "GET /admin/ HTTP/1.1" 200 12595
+INFO 2026-02-05 20:24:29,084 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-02-05 20:24:29,130 basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-02-05 20:24:29,147 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-02-05 20:24:29,149 basehttp "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2026-02-05 20:24:29,179 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2026-02-05 20:24:29,241 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2026-02-05 20:24:29,321 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-02-05 20:24:29,326 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2026-02-05 20:24:29,422 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2026-02-05 20:24:37,530 basehttp "GET /admin/core/product/ HTTP/1.1" 200 13910
+INFO 2026-02-05 20:24:37,647 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2026-02-05 20:24:37,770 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-02-05 20:24:37,819 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:24:38,121 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-02-05 20:24:38,137 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-02-05 20:24:38,196 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-02-05 20:24:38,248 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-02-05 20:24:38,492 basehttp "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2026-02-05 20:24:38,512 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-02-05 20:24:38,627 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-02-05 20:24:38,646 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-02-05 20:24:38,799 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2026-02-05 20:24:38,921 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2026-02-05 20:24:38,923 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2026-02-05 20:24:42,796 basehttp "GET /admin/core/product/add/ HTTP/1.1" 200 29409
+INFO 2026-02-05 20:24:42,929 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+INFO 2026-02-05 20:24:42,997 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-02-05 20:24:43,035 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:24:43,061 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2026-02-05 20:24:43,137 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 200 11973
+INFO 2026-02-05 20:24:43,235 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2026-02-05 20:24:43,302 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2026-02-05 20:24:43,432 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-02-05 20:24:43,815 basehttp "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2026-02-05 20:25:53,981 basehttp "GET /admin/core/brand/ HTTP/1.1" 200 12114
+INFO 2026-02-05 20:25:54,061 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:25:57,391 basehttp "GET /admin/core/brand/add/ HTTP/1.1" 200 14728
+INFO 2026-02-05 20:25:57,469 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:26:01,282 basehttp "GET /admin/core/category/ HTTP/1.1" 200 12137
+INFO 2026-02-05 20:26:01,359 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:26:06,581 basehttp "GET /admin/core/category/add/ HTTP/1.1" 200 15510
+INFO 2026-02-05 20:26:06,647 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:26:28,849 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-05 20:26:44,993 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:27:42,316 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:27:55,533 basehttp "GET /admin/core/category/add/ HTTP/1.1" 200 20194
+INFO 2026-02-05 20:27:55,896 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:27:55,960 basehttp "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2026-02-05 20:27:56,111 basehttp "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-02-05 20:27:56,195 basehttp "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2026-02-05 20:27:56,268 basehttp "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-02-05 20:27:56,359 basehttp "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2026-02-05 20:27:56,411 basehttp "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2026-02-05 20:27:56,648 basehttp "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2026-02-05 20:27:56,742 basehttp "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2026-02-05 20:27:56,939 basehttp "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2026-02-05 20:27:57,055 basehttp "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-02-05 20:27:58,634 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-02-05 20:27:58,639 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-02-05 20:28:03,106 basehttp "GET /admin/core/supplier/ HTTP/1.1" 200 16056
+INFO 2026-02-05 20:28:03,228 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:03,300 basehttp "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2026-02-05 20:28:07,305 basehttp "GET /admin/core/supplier/add/ HTTP/1.1" 200 23171
+INFO 2026-02-05 20:28:07,506 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:13,120 basehttp "GET /admin/core/stocktransaction/ HTTP/1.1" 200 19281
+INFO 2026-02-05 20:28:13,459 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:17,300 basehttp "GET /admin/core/sale/ HTTP/1.1" 200 19984
+INFO 2026-02-05 20:28:17,419 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:19,242 basehttp "GET /admin/core/stocktransaction/ HTTP/1.1" 200 19281
+INFO 2026-02-05 20:28:19,348 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:21,576 basehttp "GET /admin/core/stocktransaction/add/ HTTP/1.1" 200 28931
+INFO 2026-02-05 20:28:21,714 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:25,922 basehttp "GET /admin/core/sale/ HTTP/1.1" 200 19984
+INFO 2026-02-05 20:28:26,010 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:29,202 basehttp "GET /admin/core/purchaseorder/ HTTP/1.1" 200 18861
+INFO 2026-02-05 20:28:29,308 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+ERROR 2026-02-05 20:28:31,687 basehttp "GET /admin/core/purchaseorder/add/ HTTP/1.1" 500 160704
+INFO 2026-02-05 20:28:36,219 basehttp "GET /admin/core/purchaseorder/ HTTP/1.1" 200 18861
+INFO 2026-02-05 20:28:38,118 basehttp "GET /admin/core/product/ HTTP/1.1" 200 18661
+INFO 2026-02-05 20:28:38,193 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:40,835 basehttp "GET /admin/core/product/add/ HTTP/1.1" 200 39862
+INFO 2026-02-05 20:28:40,968 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:47,134 basehttp "GET /admin/core/notification/ HTTP/1.1" 200 16084
+INFO 2026-02-05 20:28:47,226 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:48,784 basehttp "GET /admin/core/expense/ HTTP/1.1" 200 16049
+INFO 2026-02-05 20:28:48,877 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:49,917 basehttp "GET /admin/core/customer/ HTTP/1.1" 200 19174
+INFO 2026-02-05 20:28:50,044 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:51,367 basehttp "GET /admin/core/category/ HTTP/1.1" 200 16059
+INFO 2026-02-05 20:28:51,989 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:28:54,550 basehttp "GET /admin/core/category/add/ HTTP/1.1" 200 20194
+INFO 2026-02-05 20:28:54,643 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:30:02,319 basehttp "GET /admin/core/category/add/?_to_field=id&_popup=1 HTTP/1.1" 200 8887
+INFO 2026-02-05 20:30:02,406 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:30:20,885 basehttp "POST /admin/core/category/add/ HTTP/1.1" 302 0
+INFO 2026-02-05 20:30:21,120 basehttp "GET /admin/core/category/ HTTP/1.1" 200 19047
+INFO 2026-02-05 20:30:21,206 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:30:25,668 basehttp "GET /admin/core/category/1/change/ HTTP/1.1" 200 20960
+INFO 2026-02-05 20:30:25,751 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:30:51,264 basehttp "POST /admin/core/category/1/change/ HTTP/1.1" 302 0
+INFO 2026-02-05 20:30:51,332 basehttp "GET /admin/core/category/ HTTP/1.1" 200 19031
+INFO 2026-02-05 20:30:51,425 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:31:09,488 basehttp "GET /admin/core/product/ HTTP/1.1" 200 19257
+INFO 2026-02-05 20:31:09,590 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:31:47,916 basehttp "GET /admin/core/product/add/ HTTP/1.1" 200 39899
+INFO 2026-02-05 20:31:48,026 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:32:35,575 basehttp "GET /admin/core/brand/add/?_to_field=id&_popup=1 HTTP/1.1" 200 8355
+INFO 2026-02-05 20:32:35,630 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:33:46,495 basehttp "POST /admin/core/brand/add/?_to_field=id&_popup=1 HTTP/1.1" 200 8811
+INFO 2026-02-05 20:33:46,618 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:34:25,798 basehttp "GET /admin/core/brand/add/?_to_field=id&_popup=1 HTTP/1.1" 200 8355
+INFO 2026-02-05 20:34:25,859 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:35:06,226 basehttp "POST /admin/core/brand/add/?_to_field=id&_popup=1 HTTP/1.1" 200 387
+INFO 2026-02-05 20:35:06,603 basehttp "GET /static/admin/js/popup_response.js HTTP/1.1" 200 1535
+INFO 2026-02-05 20:35:53,698 basehttp "GET /static/jazzmin/img/calendar-icons.svg HTTP/1.1" 200 1094
+INFO 2026-02-05 20:36:37,178 basehttp "GET /admin/core/supplier/add/?_to_field=id&_popup=1 HTTP/1.1" 200 11866
+INFO 2026-02-05 20:36:37,264 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:17,464 basehttp "POST /admin/core/supplier/add/?_to_field=id&_popup=1 HTTP/1.1" 200 403
+INFO 2026-02-05 20:38:33,275 basehttp "POST /admin/core/product/add/ HTTP/1.1" 302 0
+INFO 2026-02-05 20:38:33,373 basehttp "GET /admin/core/product/ HTTP/1.1" 200 25837
+INFO 2026-02-05 20:38:33,479 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:33,494 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,495 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,514 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,523 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,523 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,559 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,582 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,628 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:38:33,675 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2026-02-05 20:38:50,070 basehttp "GET /admin/core/customer/ HTTP/1.1" 200 19174
+INFO 2026-02-05 20:38:50,158 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:51,603 basehttp "GET /admin/core/category/ HTTP/1.1" 200 18467
+INFO 2026-02-05 20:38:51,686 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:54,003 basehttp "GET /admin/core/brand/ HTTP/1.1" 200 18432
+INFO 2026-02-05 20:38:54,061 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:56,769 basehttp "GET /admin/core/supplier/ HTTP/1.1" 200 18494
+INFO 2026-02-05 20:38:56,862 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:58,418 basehttp "GET /admin/core/stocktransaction/ HTTP/1.1" 200 19281
+INFO 2026-02-05 20:38:58,495 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:38:59,935 basehttp "GET /admin/core/sale/ HTTP/1.1" 200 19984
+INFO 2026-02-05 20:39:00,035 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:39:01,184 basehttp "GET /admin/core/stocktransaction/ HTTP/1.1" 200 19281
+INFO 2026-02-05 20:39:01,264 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:39:03,203 basehttp "GET /admin/core/stocktransaction/add/ HTTP/1.1" 200 28982
+INFO 2026-02-05 20:39:03,308 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:39:03,311 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:03,312 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:03,313 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:03,494 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:03,497 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:03,501 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:06,735 basehttp "GET /admin/core/sale/ HTTP/1.1" 200 19984
+INFO 2026-02-05 20:39:06,754 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:39:09,782 basehttp "GET /admin/core/sale/add/ HTTP/1.1" 200 50981
+INFO 2026-02-05 20:39:09,894 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-05 20:39:10,079 basehttp "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+INFO 2026-02-05 20:39:21,284 basehttp "GET / HTTP/1.1" 200 11813
+INFO 2026-02-05 20:39:21,372 basehttp "GET /static/js/main.js HTTP/1.1" 304 0
+INFO 2026-02-05 20:39:28,946 basehttp "GET /pos/ HTTP/1.1" 200 15160
+INFO 2026-02-05 20:39:29,051 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+ERROR 2026-02-05 20:39:37,715 basehttp "GET /inventory/products/ HTTP/1.1" 500 311999
+ERROR 2026-02-05 20:40:39,018 basehttp "GET /inventory/products/ HTTP/1.1" 500 217841
+ERROR 2026-02-05 20:45:54,538 basehttp "GET /inventory/products/ HTTP/1.1" 500 249558
+INFO 2026-02-05 20:48:02,820 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-05 20:48:20,609 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 20:48:31,624 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-05 20:48:49,060 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 21:19:42,203 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 21:22:11,335 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-05 21:22:20,792 basehttp "GET /inventory/products/ HTTP/1.1" 500 218548
+ERROR 2026-02-05 21:23:04,889 basehttp "GET /inventory/products/ HTTP/1.1" 500 218622
+INFO 2026-02-05 21:32:15,925 autoreload C:\Users\Gichaba\.env\winners\inventory\models.py changed, reloading.
+INFO 2026-02-05 21:32:33,053 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 21:33:05,747 basehttp "GET /inventory/products/ HTTP/1.1" 200 19035
+INFO 2026-02-05 21:33:06,359 basehttp "GET /static/css/style.css HTTP/1.1" 304 0
+INFO 2026-02-05 21:33:06,390 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-05 21:33:06,541 basehttp "GET /static/js/main.js HTTP/1.1" 304 0
+INFO 2026-02-05 21:33:30,250 basehttp "GET /inventory/products/new/ HTTP/1.1" 200 21793
+INFO 2026-02-05 21:35:03,395 autoreload C:\Users\Gichaba\.env\winners\inventory\models.py changed, reloading.
+INFO 2026-02-05 21:35:07,993 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-05 21:37:59,278 basehttp "GET /inventory/products/1/ HTTP/1.1" 500 307672
+INFO 2026-02-05 21:38:04,593 basehttp "GET /inventory/products/ HTTP/1.1" 200 18958
+INFO 2026-02-05 21:38:13,840 basehttp "GET /inventory/products/ HTTP/1.1" 200 18958
+INFO 2026-02-05 21:38:14,708 basehttp "GET /inventory/products/ HTTP/1.1" 200 18958
+INFO 2026-02-05 21:38:15,390 basehttp "GET /inventory/products/ HTTP/1.1" 200 18958
+INFO 2026-02-05 21:38:16,325 basehttp "GET /inventory/products/ HTTP/1.1" 200 18958
+ERROR 2026-02-05 21:38:22,468 basehttp "GET /inventory/products/1/ HTTP/1.1" 500 307672
+INFO 2026-02-05 21:38:52,847 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 25188
+INFO 2026-02-05 21:38:52,910 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-05 21:39:08,564 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 25188
+INFO 2026-02-05 21:39:26,626 basehttp "GET /pos/?product=1 HTTP/1.1" 200 15160
+INFO 2026-02-05 21:39:26,697 basehttp "GET /static/js/pos.js HTTP/1.1" 304 0
+INFO 2026-02-05 21:39:46,268 basehttp "POST /pos/cart/add/ HTTP/1.1" 200 202
+INFO 2026-02-05 21:39:49,927 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+INFO 2026-02-05 21:39:51,024 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+INFO 2026-02-05 21:40:05,937 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 95
+INFO 2026-02-05 21:40:23,169 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 95
+INFO 2026-02-05 21:43:52,551 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-05 21:44:05,792 autoreload Watching for file changes with StatReloader
+INFO 2026-02-05 21:44:16,016 basehttp "GET /pos/?product=1 HTTP/1.1" 200 16612
+INFO 2026-02-05 21:45:23,195 basehttp "POST /pos/cart/clear/ HTTP/1.1" 200 49
+INFO 2026-02-05 21:45:25,779 basehttp "POST /pos/cart/add/ HTTP/1.1" 200 202
+INFO 2026-02-05 21:45:33,082 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+INFO 2026-02-05 21:45:34,296 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+INFO 2026-02-05 21:45:39,523 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 95
+INFO 2026-02-05 21:45:56,988 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 95
+INFO 2026-02-06 08:30:48,262 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:31:56,792 basehttp "GET / HTTP/1.1" 200 11813
+INFO 2026-02-06 08:32:02,665 basehttp "GET /static/css/style.css HTTP/1.1" 200 2125
+INFO 2026-02-06 08:32:03,421 basehttp "GET /static/js/main.js HTTP/1.1" 200 8290
+INFO 2026-02-06 08:32:29,283 basehttp "GET /pos/ HTTP/1.1" 200 16612
+INFO 2026-02-06 08:32:30,251 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-06 08:32:36,110 basehttp "GET /static/js/pos.js HTTP/1.1" 200 16118
+INFO 2026-02-06 08:32:42,005 basehttp "POST /pos/cart/remove/ HTTP/1.1" 200 67
+INFO 2026-02-06 08:32:46,836 basehttp "POST /pos/cart/add/ HTTP/1.1" 200 202
+INFO 2026-02-06 08:32:55,583 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 95
+INFO 2026-02-06 08:34:22,639 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 08:34:59,783 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:35:20,981 basehttp "GET /pos/ HTTP/1.1" 200 16609
+INFO 2026-02-06 08:35:28,875 basehttp "POST /pos/cart/remove/ HTTP/1.1" 200 67
+INFO 2026-02-06 08:35:30,628 basehttp "POST /pos/cart/add/ HTTP/1.1" 200 202
+INFO 2026-02-06 08:35:34,498 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+INFO 2026-02-06 08:35:40,022 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 103
+INFO 2026-02-06 08:35:40,044 basehttp "POST /pos/cart/clear/ HTTP/1.1" 200 49
+INFO 2026-02-06 08:35:41,466 basehttp "GET /pos/sales/1/receipt/ HTTP/1.1" 200 2392
+ERROR 2026-02-06 08:36:19,217 basehttp "GET /analytics/ HTTP/1.1" 500 93743
+ERROR 2026-02-06 08:37:26,159 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+ERROR 2026-02-06 08:37:27,363 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+INFO 2026-02-06 08:39:16,571 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:39:54,064 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:40:29,986 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+ERROR 2026-02-06 08:40:33,434 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+INFO 2026-02-06 08:41:49,935 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:42:04,092 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+ERROR 2026-02-06 08:42:04,850 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+ERROR 2026-02-06 08:42:05,551 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+INFO 2026-02-06 08:43:43,500 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:44:34,962 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:44:35,625 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:44:49,722 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:44:52,873 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:45:38,111 basehttp "GET /analytics/ HTTP/1.1" 500 94002
+ERROR 2026-02-06 08:46:36,817 basehttp "GET /analytics/ HTTP/1.1" 500 94002
+ERROR 2026-02-06 08:46:37,665 basehttp "GET /analytics/ HTTP/1.1" 500 94002
+INFO 2026-02-06 08:47:13,582 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:47:29,077 basehttp "GET /analytics/ HTTP/1.1" 500 94002
+INFO 2026-02-06 08:47:31,670 basehttp - Broken pipe from ('127.0.0.1', 55663)
+INFO 2026-02-06 08:47:31,701 basehttp - Broken pipe from ('127.0.0.1', 55664)
+INFO 2026-02-06 08:47:31,990 basehttp - Broken pipe from ('127.0.0.1', 55665)
+INFO 2026-02-06 08:47:31,990 basehttp - Broken pipe from ('127.0.0.1', 55666)
+ERROR 2026-02-06 08:47:32,005 basehttp "GET /analytics/ HTTP/1.1" 500 94002
+INFO 2026-02-06 08:47:32,106 basehttp - Broken pipe from ('127.0.0.1', 55667)
+INFO 2026-02-06 08:48:01,713 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:48:02,417 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:48:12,430 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:48:13,369 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:48:28,185 basehttp "GET /analytics/ HTTP/1.1" 500 93880
+INFO 2026-02-06 08:51:58,494 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:51:59,756 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:52:27,683 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:52:29,841 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:52:54,633 basehttp "GET /analytics/ HTTP/1.1" 500 239698
+INFO 2026-02-06 08:55:51,368 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:55:52,829 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 08:56:28,103 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 08:56:30,431 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 08:58:31,229 basehttp "GET /analytics/ HTTP/1.1" 500 82219
+INFO 2026-02-06 09:00:28,607 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:00:29,056 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:01:01,390 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:01:01,421 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:01:52,458 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:01:52,458 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:02:15,115 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:02:15,379 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:02:37,030 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:02:39,188 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:02:49,093 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:02:49,309 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:03:05,747 basehttp "GET /analytics/ HTTP/1.1" 200 22512
+ERROR 2026-02-06 09:04:04,814 basehttp "GET /analytics/sales/ HTTP/1.1" 500 292447
+ERROR 2026-02-06 09:04:44,481 basehttp "GET /analytics/sales/ HTTP/1.1" 500 232427
+ERROR 2026-02-06 09:06:31,158 basehttp "GET /analytics/sales/ HTTP/1.1" 500 251333
+INFO 2026-02-06 09:09:03,530 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 09:09:21,007 basehttp "GET /analytics/sales/ HTTP/1.1" 500 251833
+ERROR 2026-02-06 09:09:23,593 basehttp "GET /analytics/sales/ HTTP/1.1" 500 251833
+INFO 2026-02-06 09:10:48,559 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 09:10:48,739 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 09:11:13,954 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:11:14,151 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:11:45,348 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 09:11:45,492 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 09:12:06,861 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:12:08,413 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 09:12:30,337 basehttp "GET /analytics/sales/ HTTP/1.1" 500 326811
+INFO 2026-02-06 09:14:39,417 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:14:41,900 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:15:22,666 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:15:22,666 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:15:44,965 basehttp "GET /analytics/sales/ HTTP/1.1" 200 28000
+ERROR 2026-02-06 09:16:21,889 basehttp "GET /customers/ HTTP/1.1" 500 228075
+ERROR 2026-02-06 09:16:30,862 basehttp "GET / HTTP/1.1" 500 205273
+INFO 2026-02-06 09:16:58,367 basehttp "GET /pos/ HTTP/1.1" 200 15159
+ERROR 2026-02-06 09:17:10,887 basehttp "GET /analytics/products/ HTTP/1.1" 500 78665
+ERROR 2026-02-06 09:17:17,637 basehttp "GET /analytics/customers/ HTTP/1.1" 500 272348
+INFO 2026-02-06 09:17:26,902 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 21026
+ERROR 2026-02-06 09:17:49,683 basehttp "GET /customers/ HTTP/1.1" 500 228079
+ERROR 2026-02-06 09:17:56,376 basehttp "GET /pos/sales/ HTTP/1.1" 500 313335
+ERROR 2026-02-06 09:18:02,611 basehttp "GET / HTTP/1.1" 500 205277
+INFO 2026-02-06 09:18:35,118 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:18:35,227 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:18:49,187 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:18:49,312 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 09:19:59,109 basehttp "GET / HTTP/1.1" 500 249843
+INFO 2026-02-06 09:21:06,143 basehttp "GET / HTTP/1.1" 200 12429
+INFO 2026-02-06 09:28:23,778 basehttp "GET / HTTP/1.1" 200 24282
+INFO 2026-02-06 09:29:11,282 basehttp "GET / HTTP/1.1" 200 24282
+INFO 2026-02-06 09:29:20,180 basehttp "GET /pos/ HTTP/1.1" 200 27012
+ERROR 2026-02-06 09:30:01,004 basehttp "GET /profile/ HTTP/1.1" 500 86346
+INFO 2026-02-06 09:30:19,807 basehttp "POST /pos/cart/add/ HTTP/1.1" 200 202
+INFO 2026-02-06 09:30:22,625 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+INFO 2026-02-06 09:30:24,079 basehttp "POST /pos/cart/update/ HTTP/1.1" 200 204
+ERROR 2026-02-06 09:30:46,403 basehttp "POST /customers/new/ HTTP/1.1" 500 183068
+ERROR 2026-02-06 09:30:52,974 basehttp "POST /customers/new/ HTTP/1.1" 500 183068
+INFO 2026-02-06 09:31:12,508 basehttp "POST /pos/process-sale/ HTTP/1.1" 200 187
+INFO 2026-02-06 09:31:40,090 basehttp "GET /analytics/ HTTP/1.1" 200 34365
+INFO 2026-02-06 09:31:58,808 basehttp "GET /analytics/sales/ HTTP/1.1" 200 39911
+ERROR 2026-02-06 09:32:25,768 basehttp "GET /analytics/products/ HTTP/1.1" 500 78677
+INFO 2026-02-06 09:32:35,211 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 200 33332
+INFO 2026-02-06 09:32:53,292 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 22073
+ERROR 2026-02-06 09:32:59,274 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 500 99324
+INFO 2026-02-06 09:33:30,502 basehttp "GET /pos/ HTTP/1.1" 200 28464
+ERROR 2026-02-06 09:33:36,134 basehttp "GET /pos/sales/ HTTP/1.1" 500 313319
+ERROR 2026-02-06 09:34:01,729 basehttp "GET /customers/ HTTP/1.1" 500 228063
+ERROR 2026-02-06 09:34:08,311 basehttp "GET /pos/sales/ HTTP/1.1" 500 313319
+ERROR 2026-02-06 09:35:36,049 basehttp "GET /pos/sales/ HTTP/1.1" 500 241880
+ERROR 2026-02-06 09:36:06,954 basehttp "GET /analytics/products/ HTTP/1.1" 500 78665
+INFO 2026-02-06 09:36:25,616 basehttp "GET /inventory/products/ HTTP/1.1" 200 30810
+INFO 2026-02-06 09:36:31,943 basehttp "GET /inventory/products/new/ HTTP/1.1" 200 33646
+INFO 2026-02-06 09:36:59,429 basehttp "GET /inventory/products/ HTTP/1.1" 200 30810
+INFO 2026-02-06 09:37:08,635 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 39601
+ERROR 2026-02-06 09:38:02,968 basehttp "GET /analytics/products/ HTTP/1.1" 500 78682
+INFO 2026-02-06 09:40:50,944 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:41:23,215 basehttp "GET / HTTP/1.1" 200 24282
+INFO 2026-02-06 09:41:27,328 basehttp "GET / HTTP/1.1" 200 24282
+WARNING 2026-02-06 09:41:37,742 basehttp "GET /accounts/logout/ HTTP/1.1" 405 0
+WARNING 2026-02-06 09:41:46,025 basehttp "GET /accounts/logout/ HTTP/1.1" 405 0
+WARNING 2026-02-06 09:42:15,103 basehttp "GET /login/ HTTP/1.1" 404 6793
+WARNING 2026-02-06 09:42:31,818 basehttp "GET /registration/login HTTP/1.1" 404 6829
+INFO 2026-02-06 09:42:49,279 basehttp "GET / HTTP/1.1" 200 24282
+ERROR 2026-02-06 09:43:11,051 basehttp "GET /analytics/products/ HTTP/1.1" 500 78661
+INFO 2026-02-06 09:44:43,689 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:44:44,874 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 09:45:23,370 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 09:45:23,934 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 10:07:58,364 basehttp "GET /analytics/products/ HTTP/1.1" 500 224714
+INFO 2026-02-06 10:09:23,918 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 10:09:25,300 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 10:09:45,138 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 10:09:45,179 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 10:10:10,092 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 10:10:10,241 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-06 10:10:19,726 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 10:10:19,819 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 10:10:31,218 basehttp "GET /analytics/products/ HTTP/1.1" 500 207773
+ERROR 2026-02-06 10:11:31,660 basehttp "GET /analytics/products/ HTTP/1.1" 500 190867
+ERROR 2026-02-06 10:11:45,129 basehttp "GET /analytics/products/ HTTP/1.1" 500 208026
+INFO 2026-02-06 10:16:12,960 basehttp "GET /analytics/products/ HTTP/1.1" 200 32205
+INFO 2026-02-06 10:16:13,739 basehttp "GET /static/js/main.js HTTP/1.1" 304 0
+INFO 2026-02-06 10:16:33,253 basehttp "GET /analytics/products/ HTTP/1.1" 200 32205
+INFO 2026-02-06 10:16:55,365 basehttp "GET /analytics/products/ HTTP/1.1" 200 32205
+ERROR 2026-02-06 10:17:08,154 basehttp "GET /customers/ HTTP/1.1" 500 227956
+INFO 2026-02-06 10:18:36,226 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 10:18:37,497 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 10:19:27,959 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 10:19:35,966 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 10:20:16,709 basehttp "GET /customers/ HTTP/1.1" 500 228004
+ERROR 2026-02-06 10:21:35,890 basehttp "GET /customers/ HTTP/1.1" 500 241830
+INFO 2026-02-06 10:22:59,195 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 10:22:59,383 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 10:23:12,583 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 10:23:15,176 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 10:23:32,940 basehttp "GET /customers/ HTTP/1.1" 500 241830
+ERROR 2026-02-06 10:23:38,772 basehttp "GET /customers/ HTTP/1.1" 500 241830
+ERROR 2026-02-06 10:42:12,183 basehttp "GET /customers/ HTTP/1.1" 500 241830
+INFO 2026-02-06 11:21:42,028 basehttp "GET /customers/ HTTP/1.1" 200 23683
+INFO 2026-02-06 11:21:42,233 basehttp "GET /static/css/style.css HTTP/1.1" 304 0
+ERROR 2026-02-06 11:21:53,498 basehttp "GET /pos/sales/ HTTP/1.1" 500 241749
+INFO 2026-02-06 11:23:14,459 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 11:23:17,590 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 11:24:22,728 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 11:24:24,785 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 11:24:58,163 basehttp "GET /pos/sales/ HTTP/1.1" 200 29335
+INFO 2026-02-06 11:25:11,168 basehttp "GET /pos/sales/ HTTP/1.1" 200 29335
+INFO 2026-02-06 11:25:20,321 basehttp "GET /analytics/financial/ HTTP/1.1" 200 35147
+INFO 2026-02-06 11:26:51,243 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 32879
+ERROR 2026-02-06 11:27:07,060 basehttp "GET /analytics/customers/ HTTP/1.1" 500 272154
+INFO 2026-02-06 11:27:30,794 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 11:27:30,922 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 11:27:49,088 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 11:28:03,208 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 11:30:07,728 basehttp "GET /analytics/customers/ HTTP/1.1" 500 272457
+ERROR 2026-02-06 11:33:33,758 basehttp "GET /analytics/customers/ HTTP/1.1" 500 272457
+ERROR 2026-02-06 11:40:50,834 basehttp "GET /analytics/customers/ HTTP/1.1" 500 221719
+INFO 2026-02-06 11:44:02,769 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 11:44:04,742 autoreload C:\Users\Gichaba\.env\winners\core\templatetags\custom_filters.py changed, reloading.
+INFO 2026-02-06 11:44:29,652 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 11:44:30,585 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 11:46:00,329 basehttp "GET /analytics/customers/ HTTP/1.1" 200 31847
+INFO 2026-02-06 11:46:27,073 basehttp "GET /analytics/products/ HTTP/1.1" 200 32205
+INFO 2026-02-06 12:02:26,414 basehttp "GET / HTTP/1.1" 200 24282
+INFO 2026-02-06 12:02:46,770 basehttp "GET /pos/ HTTP/1.1" 200 28464
+INFO 2026-02-06 12:02:46,908 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-06 12:02:46,954 basehttp "GET /static/js/pos.js HTTP/1.1" 304 0
+INFO 2026-02-06 12:04:57,585 basehttp "GET /pos/ HTTP/1.1" 200 32602
+INFO 2026-02-06 12:05:28,439 basehttp "GET / HTTP/1.1" 200 28420
+INFO 2026-02-06 12:05:39,104 basehttp "GET /pos/ HTTP/1.1" 200 32602
+INFO 2026-02-06 12:09:56,393 basehttp "GET /pos/ HTTP/1.1" 200 33898
+INFO 2026-02-06 12:10:10,686 basehttp "GET /analytics/ HTTP/1.1" 200 39799
+INFO 2026-02-06 12:10:20,049 basehttp "GET /analytics/sales/ HTTP/1.1" 200 45336
+INFO 2026-02-06 12:10:32,844 basehttp "GET /pos/sales/ HTTP/1.1" 200 34769
+INFO 2026-02-06 12:10:57,577 basehttp "GET / HTTP/1.1" 200 29716
+INFO 2026-02-06 12:11:06,726 basehttp "GET /pos/ HTTP/1.1" 200 33898
+ERROR 2026-02-06 12:22:18,763 basehttp "GET /pos/ HTTP/1.1" 500 247465
+INFO 2026-02-06 12:23:29,910 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 12:23:30,083 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 12:24:23,439 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:24:40,670 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:26:54,896 basehttp "GET /pos/ HTTP/1.1" 200 65889
+INFO 2026-02-06 12:28:06,882 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 12:28:07,258 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 12:28:17,346 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:28:17,846 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:34:55,924 autoreload C:\Users\Gichaba\.env\winners\pos\urls.py changed, reloading.
+INFO 2026-02-06 12:34:57,574 autoreload C:\Users\Gichaba\.env\winners\pos\urls.py changed, reloading.
+INFO 2026-02-06 12:35:39,546 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:35:43,528 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:37:10,143 basehttp "GET /pos/ HTTP/1.1" 200 71947
+INFO 2026-02-06 12:37:12,393 basehttp "GET /pos/cart/ HTTP/1.1" 200 198
+INFO 2026-02-06 12:37:34,719 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 12:37:35,696 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 202
+INFO 2026-02-06 12:37:39,004 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 12:37:39,737 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 12:38:18,551 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
+INFO 2026-02-06 12:38:22,081 basehttp "GET /pos/ HTTP/1.1" 200 71947
+INFO 2026-02-06 12:38:22,174 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 12:38:23,599 basehttp "GET /pos/ HTTP/1.1" 200 71947
+INFO 2026-02-06 12:38:23,687 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 12:38:54,240 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 12:38:54,340 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-06 12:39:03,821 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:39:03,896 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:42:14,118 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 12:42:18,391 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 206
+INFO 2026-02-06 12:42:18,560 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 206
+INFO 2026-02-06 12:42:21,548 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 206
+INFO 2026-02-06 12:42:28,408 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-06 12:42:38,099 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+WARNING 2026-02-06 12:42:58,160 basehttp "POST /core/customers/create/ HTTP/1.1" 404 6842
+INFO 2026-02-06 12:54:16,066 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 12:54:38,035 basehttp "GET / HTTP/1.1" 200 30992
+INFO 2026-02-06 12:54:47,941 basehttp "GET /pos/ HTTP/1.1" 200 73804
+INFO 2026-02-06 12:54:48,383 basehttp "GET /pos/cart/ HTTP/1.1" 200 198
+INFO 2026-02-06 12:55:09,355 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
+INFO 2026-02-06 12:55:12,407 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 12:55:21,536 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
+INFO 2026-02-06 12:55:25,334 basehttp "GET /analytics/ HTTP/1.1" 200 40644
+INFO 2026-02-06 12:55:34,030 basehttp "GET /analytics/sales/ HTTP/1.1" 200 46181
+INFO 2026-02-06 12:55:49,763 basehttp "GET /pos/sales/ HTTP/1.1" 200 37443
+INFO 2026-02-06 12:56:03,877 basehttp "GET /customers/ HTTP/1.1" 200 29962
+ERROR 2026-02-06 12:56:12,542 basehttp "GET /profile/ HTTP/1.1" 500 86231
+INFO 2026-02-06 12:56:17,558 basehttp "GET /pos/ HTTP/1.1" 200 73804
+INFO 2026-02-06 12:56:17,747 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 12:56:20,241 basehttp "GET / HTTP/1.1" 200 30992
+INFO 2026-02-06 12:57:32,906 basehttp "GET /analytics/sales/ HTTP/1.1" 200 46181
+ERROR 2026-02-06 13:11:21,705 basehttp "GET /analytics/sales/ HTTP/1.1" 500 271412
+INFO 2026-02-06 13:13:15,052 basehttp "GET /analytics/sales/ HTTP/1.1" 200 52465
+INFO 2026-02-06 13:13:26,920 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 51024
+INFO 2026-02-06 13:13:34,245 basehttp "GET /analytics/products/ HTTP/1.1" 200 48834
+INFO 2026-02-06 13:13:37,212 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 51024
+INFO 2026-02-06 13:13:40,461 basehttp "GET /analytics/financial/ HTTP/1.1" 200 51523
+INFO 2026-02-06 13:13:42,956 basehttp "GET /analytics/sales/ HTTP/1.1" 200 52465
+INFO 2026-02-06 13:14:30,741 basehttp "GET /analytics/sales/ HTTP/1.1" 200 26964
+INFO 2026-02-06 13:14:34,787 basehttp "GET /analytics/sales/ HTTP/1.1" 200 26964
+INFO 2026-02-06 13:14:37,534 basehttp "GET /analytics/sales/ HTTP/1.1" 200 26964
+INFO 2026-02-06 13:14:40,000 basehttp "GET /analytics/sales/ HTTP/1.1" 200 26964
+INFO 2026-02-06 13:15:13,129 basehttp "GET /analytics/sales/ HTTP/1.1" 200 52465
+INFO 2026-02-06 13:16:13,437 basehttp "GET /analytics/sales/ HTTP/1.1" 200 47054
+INFO 2026-02-06 13:16:23,080 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 45619
+INFO 2026-02-06 13:19:40,109 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 27649
+INFO 2026-02-06 13:22:13,595 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14921
+INFO 2026-02-06 13:22:14,537 basehttp "GET /static/js/main.js HTTP/1.1" 304 0
+INFO 2026-02-06 13:23:33,989 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:34,835 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:35,305 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:35,559 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:35,793 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:36,006 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:36,194 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:36,391 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:36,576 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:36,761 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:36,974 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:37,145 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:37,697 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:37,914 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:23:38,181 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 14922
+INFO 2026-02-06 13:24:17,050 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 47069
+INFO 2026-02-06 13:24:20,840 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 47069
+INFO 2026-02-06 13:24:54,181 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 51024
+INFO 2026-02-06 13:25:59,609 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 45619
+INFO 2026-02-06 13:30:16,031 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 53757
+INFO 2026-02-06 13:35:23,198 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 51508
+INFO 2026-02-06 13:36:22,575 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 48927
+INFO 2026-02-06 13:36:58,618 basehttp "GET /analytics/sales/ HTTP/1.1" 200 50362
+INFO 2026-02-06 13:37:16,857 basehttp "GET /analytics/ HTTP/1.1" 200 48683
+INFO 2026-02-06 13:37:27,565 basehttp "GET /analytics/ HTTP/1.1" 200 48683
+INFO 2026-02-06 13:38:21,931 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 13:38:44,991 basehttp "GET / HTTP/1.1" 200 30992
+INFO 2026-02-06 13:38:51,187 basehttp "GET /analytics/ HTTP/1.1" 200 48683
+INFO 2026-02-06 13:39:10,568 basehttp "GET /analytics/sales/ HTTP/1.1" 200 50362
+INFO 2026-02-06 13:39:20,177 basehttp "GET /analytics/financial/ HTTP/1.1" 200 49420
+INFO 2026-02-06 13:39:45,354 basehttp "GET /analytics/products/ HTTP/1.1" 200 46731
+INFO 2026-02-06 13:40:04,382 basehttp "GET /analytics/ HTTP/1.1" 200 48683
+INFO 2026-02-06 13:48:42,110 autoreload C:\Users\Gichaba\.env\winners\core\mpesa_service.py changed, reloading.
+INFO 2026-02-06 13:49:02,253 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 13:50:21,966 autoreload C:\Users\Gichaba\.env\winners\core\mpesa_service.py changed, reloading.
+INFO 2026-02-06 13:50:35,530 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 13:52:39,508 basehttp "GET /analytics/ HTTP/1.1" 200 48683
+INFO 2026-02-06 13:53:11,089 basehttp "GET /analytics/ HTTP/1.1" 200 26021
+INFO 2026-02-06 13:53:13,194 basehttp "GET /analytics/ HTTP/1.1" 200 26021
+INFO 2026-02-06 13:53:13,382 basehttp "GET /analytics/ HTTP/1.1" 200 26021
+INFO 2026-02-06 13:53:13,629 basehttp "GET /analytics/ HTTP/1.1" 200 26021
+INFO 2026-02-06 13:59:20,413 basehttp "GET / HTTP/1.1" 200 30992
+INFO 2026-02-06 13:59:56,088 basehttp "GET /analytics/ HTTP/1.1" 200 56734
+INFO 2026-02-06 14:00:39,793 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53442
+INFO 2026-02-06 14:00:46,594 basehttp "GET /analytics/ HTTP/1.1" 200 56734
+INFO 2026-02-06 14:01:02,990 basehttp "GET / HTTP/1.1" 200 30992
+INFO 2026-02-06 14:01:07,206 basehttp "GET /pos/ HTTP/1.1" 200 73804
+INFO 2026-02-06 14:01:07,504 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-06 14:01:07,615 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 14:04:59,582 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-06 14:05:44,886 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 14:06:22,153 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-06 14:06:47,524 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 14:07:13,218 basehttp "GET /pos/ HTTP/1.1" 200 73804
+INFO 2026-02-06 14:07:14,730 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 14:07:18,253 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 14:07:45,744 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 164
+INFO 2026-02-06 14:08:48,237 autoreload C:\Users\Gichaba\.env\winners\core\mpesa_service.py changed, reloading.
+INFO 2026-02-06 14:09:08,804 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-06 14:10:48,129 basehttp "GET /inventory/products/ HTTP/1.1" 500 249123
+INFO 2026-02-06 14:11:25,320 basehttp "GET /inventory/products/ HTTP/1.1" 200 37089
+INFO 2026-02-06 14:11:45,599 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 47219
+INFO 2026-02-06 14:12:24,423 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 200 41178
+INFO 2026-02-06 14:12:30,830 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 28352
+ERROR 2026-02-06 14:12:46,246 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 500 99210
+INFO 2026-02-06 14:12:50,208 basehttp "GET / HTTP/1.1" 200 30992
+INFO 2026-02-06 14:12:58,000 basehttp "GET /analytics/ HTTP/1.1" 200 56734
+INFO 2026-02-06 14:13:33,416 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53442
+INFO 2026-02-06 14:13:35,683 basehttp "GET /analytics/ HTTP/1.1" 200 56734
+INFO 2026-02-06 14:13:43,818 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53442
+INFO 2026-02-06 14:13:51,858 basehttp "GET /analytics/financial/ HTTP/1.1" 200 52500
+INFO 2026-02-06 14:14:15,396 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 52007
+INFO 2026-02-06 14:14:24,012 basehttp "GET /analytics/products/ HTTP/1.1" 200 49811
+INFO 2026-02-06 14:14:43,174 basehttp "GET /pos/sales/ HTTP/1.1" 200 37443
+INFO 2026-02-06 14:14:51,629 basehttp "GET /pos/sales/2/ HTTP/1.1" 200 37566
+INFO 2026-02-06 14:15:00,628 basehttp "GET /pos/sales/ HTTP/1.1" 200 37443
+INFO 2026-02-06 14:15:03,193 basehttp "GET /customers/ HTTP/1.1" 200 29962
+ERROR 2026-02-06 14:15:06,503 basehttp "GET /profile/ HTTP/1.1" 500 86238
+INFO 2026-02-06 14:15:14,046 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-06 14:15:14,129 basehttp "GET /accounts/login/ HTTP/1.1" 200 25391
+INFO 2026-02-06 14:15:18,872 basehttp "GET /register/ HTTP/1.1" 200 30567
+INFO 2026-02-06 14:15:22,429 basehttp "GET /analytics/sales/ HTTP/1.1" 302 0
+INFO 2026-02-06 14:15:22,469 basehttp "GET /accounts/login/?next=/analytics/sales/ HTTP/1.1" 200 25391
+INFO 2026-02-06 14:15:25,958 basehttp "GET /register/ HTTP/1.1" 200 30567
+INFO 2026-02-06 14:17:08,350 basehttp "POST /register/ HTTP/1.1" 302 0
+INFO 2026-02-06 14:17:08,380 basehttp "GET /accounts/login/ HTTP/1.1" 200 25976
+INFO 2026-02-06 14:17:17,381 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-02-06 14:17:17,443 basehttp "GET / HTTP/1.1" 200 30998
+INFO 2026-02-06 14:17:46,180 basehttp "GET /analytics/ HTTP/1.1" 200 56740
+INFO 2026-02-06 16:35:54,133 autoreload Watching for file changes with StatReloader
+INFO 2026-02-06 16:36:37,316 basehttp "GET / HTTP/1.1" 200 30998
+WARNING 2026-02-06 16:36:42,842 basehttp "GET /favicon.ico HTTP/1.1" 404 6808
+INFO 2026-02-06 16:37:31,799 basehttp "GET /pos/ HTTP/1.1" 200 73810
+INFO 2026-02-06 16:37:32,573 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 16:37:32,764 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-06 16:37:53,695 basehttp "GET /analytics/ HTTP/1.1" 200 56740
+INFO 2026-02-06 16:38:06,825 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53448
+INFO 2026-02-06 16:38:17,557 basehttp "GET /pos/sales/ HTTP/1.1" 200 37449
+INFO 2026-02-06 16:38:21,947 basehttp "GET /customers/ HTTP/1.1" 200 29968
+INFO 2026-02-06 16:38:30,938 basehttp "GET / HTTP/1.1" 200 30998
+INFO 2026-02-06 16:41:27,288 basehttp "GET / HTTP/1.1" 200 30998
+INFO 2026-02-06 16:41:38,119 basehttp "GET /pos/ HTTP/1.1" 200 73810
+INFO 2026-02-06 16:41:38,798 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 16:41:44,172 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 16:41:48,166 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 47225
+INFO 2026-02-06 16:41:50,949 basehttp "GET / HTTP/1.1" 200 30998
+INFO 2026-02-06 16:43:08,086 basehttp "GET / HTTP/1.1" 200 30998
+INFO 2026-02-06 16:43:36,730 basehttp "GET /pos/ HTTP/1.1" 200 73810
+INFO 2026-02-06 16:43:37,562 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 16:43:58,424 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-06 16:44:05,717 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 206
+INFO 2026-02-06 16:44:08,455 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 206
+INFO 2026-02-06 16:44:09,488 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 206
+INFO 2026-02-06 16:44:44,356 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-06 16:45:03,881 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 16:45:09,193 basehttp "GET /inventory/products/new/ HTTP/1.1" 200 39931
+INFO 2026-02-06 16:47:32,768 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 16:58:13,061 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 48570
+INFO 2026-02-06 16:58:51,787 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 16:59:40,996 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 48570
+INFO 2026-02-06 17:00:15,457 basehttp "GET /pos/?product=1 HTTP/1.1" 200 73810
+INFO 2026-02-06 17:00:15,976 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-06 17:00:20,339 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 17:00:22,688 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 48570
+INFO 2026-02-06 17:00:26,338 basehttp "GET /inventory/products/1/edit/ HTTP/1.1" 200 43174
+INFO 2026-02-06 17:00:47,815 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 200 42757
+INFO 2026-02-06 17:02:22,931 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 28358
+INFO 2026-02-06 17:02:37,849 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 28358
+INFO 2026-02-06 17:04:13,694 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 17:08:27,937 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53449
+INFO 2026-02-06 17:09:29,985 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 52013
+INFO 2026-02-06 17:10:08,495 basehttp "GET /analytics/financial/ HTTP/1.1" 200 52506
+INFO 2026-02-06 17:10:44,988 basehttp "GET /analytics/products/ HTTP/1.1" 200 49819
+INFO 2026-02-06 17:12:27,084 basehttp "GET /analytics/ HTTP/1.1" 200 56742
+INFO 2026-02-06 17:14:12,964 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53449
+INFO 2026-02-06 17:14:16,880 basehttp "GET /pos/sales/ HTTP/1.1" 200 39278
+INFO 2026-02-06 17:15:57,135 basehttp "GET /customers/ HTTP/1.1" 200 29968
+INFO 2026-02-06 17:18:44,046 basehttp "GET /inventory/products/ HTTP/1.1" 200 37095
+INFO 2026-02-06 17:18:47,961 basehttp "GET /inventory/products/new/ HTTP/1.1" 200 39931
+INFO 2026-02-06 17:20:53,286 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-06 17:20:54,416 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3404
+INFO 2026-02-06 17:20:54,721 basehttp "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2026-02-06 17:20:54,752 basehttp "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2026-02-06 17:20:54,824 basehttp "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2026-02-06 17:20:54,848 basehttp "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-02-06 17:20:55,261 basehttp "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2026-02-06 17:20:55,273 basehttp "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2026-02-06 17:20:55,444 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-02-06 17:20:55,521 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-02-06 17:21:04,919 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-02-06 17:21:05,167 basehttp "GET /admin/ HTTP/1.1" 200 34190
+INFO 2026-02-06 17:21:05,430 basehttp "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2026-02-06 17:21:05,467 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-02-06 17:21:09,668 basehttp "GET /admin/core/category/ HTTP/1.1" 200 18467
+INFO 2026-02-06 17:21:09,769 basehttp "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-02-06 17:21:09,859 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-06 17:21:09,859 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-02-06 17:21:09,941 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-02-06 17:21:09,999 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-02-06 17:21:10,007 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-02-06 17:21:10,007 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-02-06 17:21:10,090 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-02-06 17:21:10,302 basehttp "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2026-02-06 17:21:10,359 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-02-06 17:21:10,400 basehttp "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-02-06 17:21:14,351 basehttp "GET /admin/core/brand/ HTTP/1.1" 200 18432
+INFO 2026-02-06 17:21:14,415 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-06 17:21:16,385 basehttp "GET /admin/core/brand/add/ HTTP/1.1" 200 19648
+INFO 2026-02-06 17:21:16,459 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-06 17:21:16,491 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-02-06 17:21:16,499 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-02-06 17:21:16,644 basehttp "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2026-02-06 17:21:50,919 basehttp "POST /admin/core/brand/add/ HTTP/1.1" 302 0
+INFO 2026-02-06 17:21:50,966 basehttp "GET /admin/core/brand/ HTTP/1.1" 200 19378
+INFO 2026-02-06 17:21:51,042 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-06 17:22:00,766 basehttp "GET /inventory/products/new/ HTTP/1.1" 200 39971
+INFO 2026-02-06 17:23:09,712 basehttp "POST /inventory/products/new/ HTTP/1.1" 200 40359
+INFO 2026-02-06 17:23:49,991 basehttp "POST /inventory/products/new/ HTTP/1.1" 200 40359
+INFO 2026-02-06 17:26:04,498 basehttp "POST /inventory/products/new/ HTTP/1.1" 302 0
+INFO 2026-02-06 17:26:04,562 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 43902
+INFO 2026-02-06 17:26:04,693 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen_JjJVxIn.webp HTTP/1.1" 200 40194
+INFO 2026-02-07 04:40:57,617 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 43332
+INFO 2026-02-07 12:29:28,437 basehttp "GET /admin/core/brand/ HTTP/1.1" 200 18813
+INFO 2026-02-07 12:29:29,382 basehttp "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2026-02-07 12:29:29,387 basehttp "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-02-07 12:29:29,387 basehttp "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2026-02-07 12:29:29,527 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-02-07 12:29:29,806 basehttp "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2026-02-07 12:29:29,894 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-02-07 12:29:29,917 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-02-07 12:29:29,925 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-02-07 12:29:30,064 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-02-07 12:29:30,072 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-02-07 12:29:30,234 basehttp "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-02-07 12:29:30,482 basehttp "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2026-02-07 12:29:30,512 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-02-07 12:29:30,742 basehttp "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2026-02-07 12:29:30,875 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-02-07 12:29:31,472 basehttp "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2026-02-07 12:29:31,560 basehttp "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2026-02-07 12:29:32,197 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-02-07 12:29:32,202 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-02-07 12:29:32,367 basehttp "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-02-07 12:47:54,192 basehttp code 400, message Bad request version ('\x02h2\x08http/1.1\x00')
+ERROR 2026-02-07 12:47:54,440 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-07 12:47:55,009 basehttp code 400, message Bad request version ('::\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06SZZ\x00\x00\x00#\x00\x00\x00')
+ERROR 2026-02-07 12:47:55,019 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-07 12:48:01,048 basehttp code 400, message Bad request version ('U3÷º')
+ERROR 2026-02-07 12:48:01,048 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-07 12:48:01,053 basehttp code 400, message Bad request version ('oá\x00')
+ERROR 2026-02-07 12:48:01,057 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-07 12:48:02,607 basehttp code 400, message Bad request version ('õ\x8f#Æ\x14z')
+ERROR 2026-02-07 12:48:02,607 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-07 12:48:02,615 basehttp code 400, message Bad request version ('\x02h2\x08http/1.1DÍ\x00\x05\x00\x03\x02h2\x00')
+ERROR 2026-02-07 12:48:02,639 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-07 12:49:07,753 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 12:50:56,285 basehttp "GET / HTTP/1.1" 200 30800
+INFO 2026-02-07 12:50:58,395 basehttp "GET /static/css/unified.css HTTP/1.1" 200 2615
+INFO 2026-02-07 12:51:06,903 basehttp "GET /inventory/products/ HTTP/1.1" 200 41435
+INFO 2026-02-07 12:51:07,046 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen_JjJVxIn.webp HTTP/1.1" 304 0
+INFO 2026-02-07 12:51:07,062 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-07 12:51:23,134 basehttp "GET /inventory/stock-transactions/ HTTP/1.1" 200 43205
+INFO 2026-02-07 12:51:27,480 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 27839
+INFO 2026-02-07 12:51:31,122 basehttp "GET /inventory/low-stock/ HTTP/1.1" 200 27839
+INFO 2026-02-07 12:51:37,061 basehttp "GET /analytics/ HTTP/1.1" 200 56869
+INFO 2026-02-07 12:51:37,142 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 12:51:51,308 basehttp "GET /analytics/sales/ HTTP/1.1" 200 53579
+INFO 2026-02-07 12:51:57,941 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 54598
+INFO 2026-02-07 12:52:03,935 basehttp "GET /analytics/financial/ HTTP/1.1" 200 52636
+INFO 2026-02-07 12:52:27,332 basehttp "GET /analytics/products/ HTTP/1.1" 200 49949
+INFO 2026-02-07 12:52:27,433 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 12:52:51,392 basehttp "GET /pos/ HTTP/1.1" 200 74983
+INFO 2026-02-07 12:52:51,759 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-07 12:56:35,932 basehttp "GET /inventory/products/ HTTP/1.1" 200 41435
+INFO 2026-02-07 12:56:37,498 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 12:56:45,787 basehttp "GET /inventory/products/2/edit/ HTTP/1.1" 200 43348
+INFO 2026-02-07 12:57:08,512 basehttp "POST /inventory/products/2/edit/ HTTP/1.1" 200 43597
+INFO 2026-02-07 12:57:26,072 basehttp "POST /inventory/products/2/edit/ HTTP/1.1" 302 0
+INFO 2026-02-07 12:57:27,693 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 43078
+INFO 2026-02-07 12:57:35,065 basehttp "GET /inventory/products/2/edit/ HTTP/1.1" 200 42651
+INFO 2026-02-07 12:57:50,983 basehttp "POST /inventory/products/2/edit/ HTTP/1.1" 302 0
+INFO 2026-02-07 12:57:51,077 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 42996
+INFO 2026-02-07 12:57:51,177 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 12:57:51,660 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-07 12:58:14,012 basehttp "GET /inventory/products/2/edit/ HTTP/1.1" 200 43264
+INFO 2026-02-07 12:58:36,693 basehttp "POST /inventory/products/2/edit/ HTTP/1.1" 302 0
+INFO 2026-02-07 12:58:36,778 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 42998
+INFO 2026-02-07 12:58:36,886 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-07 12:58:49,503 basehttp "GET / HTTP/1.1" 200 30800
+INFO 2026-02-07 12:58:52,883 basehttp "GET /pos/ HTTP/1.1" 200 74941
+INFO 2026-02-07 12:58:53,087 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-07 12:58:53,246 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-07 12:59:02,273 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-07 12:59:04,983 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 207
+INFO 2026-02-07 12:59:06,318 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 209
+INFO 2026-02-07 12:59:29,015 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
+INFO 2026-02-07 12:59:42,123 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-07 12:59:50,532 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 207
+INFO 2026-02-07 12:59:54,217 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 209
+INFO 2026-02-07 12:59:54,260 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 209
+INFO 2026-02-07 13:00:47,708 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 295
+INFO 2026-02-07 13:03:33,507 autoreload C:\Users\Gichaba\.env\winners\core\mpesa_service.py changed, reloading.
+INFO 2026-02-07 13:04:10,732 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:08:32,053 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-07 13:08:53,133 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 500 99199
+ERROR 2026-02-07 13:13:05,742 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 500 194690
+INFO 2026-02-07 13:17:48,793 autoreload C:\Users\Gichaba\.env\winners\core\mpesa_service.py changed, reloading.
+INFO 2026-02-07 13:18:30,100 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-07 13:20:27,682 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 500 194690
+INFO 2026-02-07 13:23:27,096 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 13:23:28,368 basehttp "GET /static/css/unified.css HTTP/1.1" 200 2615
+ERROR 2026-02-07 13:23:47,492 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 500 97401
+INFO 2026-02-07 13:27:44,653 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-07 13:28:20,593 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:28:44,638 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-07 13:29:01,163 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:31:31,843 autoreload C:\Users\Gichaba\.env\winners\inventory\models.py changed, reloading.
+INFO 2026-02-07 13:32:13,362 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:39:11,256 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-07 13:39:29,825 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 500 177247
+INFO 2026-02-07 13:43:17,083 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 200 28828
+INFO 2026-02-07 13:43:17,581 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 13:43:40,111 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 13:43:42,244 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 200 28828
+INFO 2026-02-07 13:45:16,825 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 200 28871
+INFO 2026-02-07 13:45:21,261 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 200 28871
+INFO 2026-02-07 13:45:32,307 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 200 28871
+INFO 2026-02-07 13:46:34,209 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 200 25580
+INFO 2026-02-07 13:46:48,244 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 200 25580
+INFO 2026-02-07 13:46:51,077 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 200 25580
+ERROR 2026-02-07 13:47:09,957 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 500 178143
+INFO 2026-02-07 13:48:32,158 autoreload C:\Users\Gichaba\.env\winners\core\forms.py changed, reloading.
+INFO 2026-02-07 13:49:10,108 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:50:30,131 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 13:50:30,892 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 13:51:08,209 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 13:51:13,617 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 200 37565
+ERROR 2026-02-07 13:52:33,892 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 500 111618
+INFO 2026-02-07 13:52:57,838 autoreload C:\Users\Gichaba\.env\winners\core\forms.py changed, reloading.
+INFO 2026-02-07 13:53:05,866 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:55:09,114 autoreload C:\Users\Gichaba\.env\winners\core\models.py changed, reloading.
+INFO 2026-02-07 13:55:48,116 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 13:59:15,549 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-07 14:01:44,571 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 14:02:44,446 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-07 14:03:05,467 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 14:06:24,702 autoreload Watching for file changes with StatReloader
+INFO 2026-02-07 14:06:45,698 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 302 0
+INFO 2026-02-07 14:06:45,853 basehttp "GET /inventory/purchase-orders/2/ HTTP/1.1" 200 27996
+INFO 2026-02-07 14:06:46,502 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 14:07:03,613 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 14:07:07,009 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 14:07:08,060 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28091
+INFO 2026-02-07 14:07:11,185 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 200 39204
+INFO 2026-02-07 14:07:37,802 basehttp "GET /inventory/purchase-orders/2/ HTTP/1.1" 200 27996
+INFO 2026-02-07 14:08:18,149 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 302 0
+INFO 2026-02-07 14:08:18,203 basehttp "GET /inventory/purchase-orders/3/ HTTP/1.1" 200 27992
+INFO 2026-02-07 14:08:36,060 basehttp "GET /inventory/products/ HTTP/1.1" 200 41393
+INFO 2026-02-07 14:08:36,148 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-07 14:08:48,758 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 42428
+INFO 2026-02-07 14:08:58,791 basehttp "GET /inventory/products/ HTTP/1.1" 200 41393
+INFO 2026-02-07 14:09:00,103 basehttp "GET /inventory/products/2/ HTTP/1.1" 200 42428
+INFO 2026-02-07 14:09:46,563 basehttp "GET /pos/ HTTP/1.1" 200 74941
+INFO 2026-02-07 14:09:46,913 basehttp "GET /pos/cart/ HTTP/1.1" 200 203
+INFO 2026-02-07 14:10:09,708 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-07 14:10:26,622 basehttp "GET /analytics/ HTTP/1.1" 200 57877
+INFO 2026-02-07 14:10:45,219 basehttp "GET / HTTP/1.1" 200 31806
+INFO 2026-02-07 14:13:57,503 basehttp "GET /pos/ HTTP/1.1" 200 74939
+INFO 2026-02-07 14:13:57,632 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+INFO 2026-02-07 14:13:58,049 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-07 14:14:00,382 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-07 14:14:12,673 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 211
+INFO 2026-02-07 14:21:46,795 autoreload C:\Users\Gichaba\.env\winners\core\models.py changed, reloading.
+INFO 2026-02-07 14:22:23,615 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:12:27,151 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:15:05,661 basehttp "GET / HTTP/1.1" 200 31803
+INFO 2026-02-08 10:15:07,848 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+WARNING 2026-02-08 10:15:10,175 basehttp "GET /favicon.ico HTTP/1.1" 404 6808
+INFO 2026-02-08 10:15:22,558 basehttp "GET /pos/ HTTP/1.1" 200 75390
+INFO 2026-02-08 10:15:23,037 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-08 10:15:23,054 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-08 10:15:23,251 basehttp "GET /pos/cart/ HTTP/1.1" 200 201
+INFO 2026-02-08 10:15:25,970 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-02-08 10:15:30,768 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-02-08 10:15:39,762 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 343
+INFO 2026-02-08 10:16:19,158 basehttp "POST /pos/customers/create/ HTTP/1.1" 200 133
+INFO 2026-02-08 10:16:35,591 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-08 10:16:55,388 basehttp "GET /pos/ HTTP/1.1" 200 75543
+INFO 2026-02-08 10:16:55,655 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-08 10:21:24,553 autoreload C:\Users\Gichaba\.env\winners\pos\views.py changed, reloading.
+INFO 2026-02-08 10:21:39,223 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:22:20,083 basehttp "GET /customers/ HTTP/1.1" 200 32104
+INFO 2026-02-08 10:23:01,875 basehttp "GET /customers/1/ HTTP/1.1" 200 34309
+INFO 2026-02-08 10:23:16,224 basehttp "GET /pos/ HTTP/1.1" 200 75528
+INFO 2026-02-08 10:23:17,552 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-08 10:23:22,108 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-08 10:23:24,230 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-02-08 10:23:35,589 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
+INFO 2026-02-08 10:23:49,697 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-08 10:24:24,601 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:25:16,937 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-08 10:25:44,936 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:26:11,756 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 10:26:22,945 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:26:41,713 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:26:47,263 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:27:03,996 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:27:04,122 basehttp "GET / HTTP/1.1" 200 32252
+INFO 2026-02-08 10:27:13,605 basehttp "GET /profile/ HTTP/1.1" 200 32189
+INFO 2026-02-08 10:28:12,975 basehttp "GET /profile/ HTTP/1.1" 200 32189
+INFO 2026-02-08 10:28:16,710 basehttp "GET /analytics/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:28:16,811 basehttp "GET / HTTP/1.1" 200 32809
+INFO 2026-02-08 10:28:30,575 basehttp "GET /analytics/sales/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:28:30,623 basehttp "GET / HTTP/1.1" 200 32809
+INFO 2026-02-08 10:28:39,825 basehttp "GET /pos/sales/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:28:39,903 basehttp "GET / HTTP/1.1" 200 32803
+INFO 2026-02-08 10:28:44,003 basehttp "GET /customers/ HTTP/1.1" 200 32111
+INFO 2026-02-08 10:28:51,334 basehttp "GET /inventory/products/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:28:51,384 basehttp "GET / HTTP/1.1" 200 32809
+INFO 2026-02-08 10:29:18,395 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:29:18,614 basehttp "GET / HTTP/1.1" 200 32805
+INFO 2026-02-08 10:29:31,629 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:29:31,661 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:29:37,601 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:29:38,943 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3073
+INFO 2026-02-08 10:29:39,122 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:29:43,393 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:29:53,114 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:29:53,172 basehttp "GET / HTTP/1.1" 200 32246
+INFO 2026-02-08 10:29:55,724 basehttp "GET /analytics/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:29:55,774 basehttp "GET / HTTP/1.1" 200 32803
+INFO 2026-02-08 10:30:02,373 basehttp "GET /analytics/sales/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:30:02,422 basehttp "GET / HTTP/1.1" 200 32803
+INFO 2026-02-08 10:30:11,754 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:30:11,808 basehttp "GET / HTTP/1.1" 200 32799
+INFO 2026-02-08 10:30:23,569 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:30:23,584 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:30:31,649 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:30:31,657 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3073
+INFO 2026-02-08 10:30:37,622 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:30:37,639 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:30:37,689 basehttp "GET / HTTP/1.1" 200 32799
+INFO 2026-02-08 10:33:26,300 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:33:34,880 basehttp "GET / HTTP/1.1" 200 32246
+INFO 2026-02-08 10:33:40,214 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:33:40,282 basehttp "GET / HTTP/1.1" 200 32799
+ERROR 2026-02-08 10:33:46,529 basehttp "GET /profile/ HTTP/1.1" 500 86336
+INFO 2026-02-08 10:33:50,946 basehttp "GET / HTTP/1.1" 200 32246
+INFO 2026-02-08 10:33:54,843 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:33:54,910 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:34:06,093 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:34:06,144 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3073
+INFO 2026-02-08 10:34:15,431 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:34:15,455 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:34:15,505 basehttp "GET / HTTP/1.1" 200 32799
+INFO 2026-02-08 10:36:06,687 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:36:17,734 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:36:17,835 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:36:25,318 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:36:25,349 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3073
+INFO 2026-02-08 10:36:32,480 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:36:32,505 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:36:32,579 basehttp "GET / HTTP/1.1" 200 32800
+ERROR 2026-02-08 10:36:44,464 basehttp "GET /profile/ HTTP/1.1" 500 86340
+INFO 2026-02-08 10:36:52,970 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:36:52,994 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:36:58,109 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:36:58,158 basehttp "GET / HTTP/1.1" 200 32252
+INFO 2026-02-08 10:37:02,126 basehttp "GET /profile/ HTTP/1.1" 200 32189
+INFO 2026-02-08 10:37:11,358 basehttp "POST /profile/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:37:11,408 basehttp "GET /profile/ HTTP/1.1" 200 32760
+INFO 2026-02-08 10:37:19,327 basehttp "GET /inventory/products/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:37:19,391 basehttp "GET / HTTP/1.1" 200 32809
+INFO 2026-02-08 10:38:35,193 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:38:35,225 basehttp "GET /accounts/login/ HTTP/1.1" 200 25527
+INFO 2026-02-08 10:40:23,393 autoreload C:\Users\Gichaba\.env\winners\core\permissions.py changed, reloading.
+INFO 2026-02-08 10:40:46,551 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:41:09,264 autoreload C:\Users\Gichaba\.env\winners\core\apps.py changed, reloading.
+INFO 2026-02-08 10:41:37,847 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:43:13,451 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 10:43:34,385 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:43:34,483 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3073
+INFO 2026-02-08 10:43:41,873 basehttp "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:43:43,289 basehttp "GET /admin/ HTTP/1.1" 200 35332
+INFO 2026-02-08 10:43:49,765 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 25640
+INFO 2026-02-08 10:43:49,878 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:49,896 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:49,919 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:49,927 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:49,930 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:49,930 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:49,938 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-02-08 10:43:50,169 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-08 10:43:50,346 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2026-02-08 10:43:50,385 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2026-02-08 10:43:57,212 basehttp "GET /admin/auth/user/2/change/ HTTP/1.1" 200 57961
+INFO 2026-02-08 10:43:57,397 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-08 10:43:57,412 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2026-02-08 10:43:57,476 basehttp "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+INFO 2026-02-08 10:43:57,476 basehttp "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15845
+INFO 2026-02-08 10:43:57,554 basehttp "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+INFO 2026-02-08 10:43:57,554 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-02-08 10:43:57,570 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-02-08 10:43:57,585 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2026-02-08 10:43:57,695 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2026-02-08 10:43:57,863 basehttp "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2026-02-08 10:44:05,045 basehttp "GET /static/jazzmin/img/selector-icons.svg HTTP/1.1" 200 3291
+INFO 2026-02-08 10:45:07,283 basehttp "POST /admin/auth/user/2/change/ HTTP/1.1" 302 0
+INFO 2026-02-08 10:45:07,357 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 26195
+INFO 2026-02-08 10:45:07,440 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-08 22:07:59,511 autoreload C:\Users\Gichaba\.env\winners\core\signals.py changed, reloading.
+INFO 2026-02-08 22:09:00,228 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:11:26,218 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 22:12:07,976 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:12:54,218 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 22:13:12,429 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:13:45,165 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 22:14:07,688 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:14:37,282 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 22:14:50,195 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:18:07,706 autoreload C:\Users\Gichaba\.env\winners\core\admin.py changed, reloading.
+INFO 2026-02-08 22:19:25,363 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:19:56,375 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 22:20:59,859 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:21:41,573 autoreload C:\Users\Gichaba\.env\winners\inventory\views.py changed, reloading.
+INFO 2026-02-08 22:22:25,840 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:23:02,883 basehttp "GET / HTTP/1.1" 200 32259
+INFO 2026-02-08 22:23:04,349 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+ERROR 2026-02-08 22:23:16,597 basehttp "GET /analytics/ HTTP/1.1" 500 272436
+INFO 2026-02-08 22:23:34,044 basehttp "GET /pos/sales/ HTTP/1.1" 200 43168
+INFO 2026-02-08 22:23:38,961 basehttp "GET /customers/ HTTP/1.1" 200 32128
+INFO 2026-02-08 22:23:41,684 basehttp "GET /profile/ HTTP/1.1" 200 32172
+INFO 2026-02-08 22:23:44,560 basehttp "GET /analytics/sales/ HTTP/1.1" 200 58648
+ERROR 2026-02-08 22:24:06,346 basehttp "GET /analytics/ HTTP/1.1" 500 272452
+INFO 2026-02-08 22:24:56,779 basehttp "GET / HTTP/1.1" 200 32259
+INFO 2026-02-08 22:25:06,551 basehttp "GET /pos/ HTTP/1.1" 200 75549
+INFO 2026-02-08 22:25:08,439 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-08 22:25:08,659 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-08 22:25:08,895 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-08 22:26:04,840 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-08 22:26:40,083 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:29:39,406 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-08 22:30:08,920 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:30:34,299 autoreload Watching for file changes with StatReloader
+INFO 2026-02-08 22:30:52,852 basehttp "GET /pos/ HTTP/1.1" 200 75549
+INFO 2026-02-08 22:30:55,158 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-08 22:31:00,885 basehttp "GET /analytics/ HTTP/1.1" 200 58407
+INFO 2026-02-08 22:31:44,169 basehttp "GET /analytics/sales/ HTTP/1.1" 200 58648
+INFO 2026-02-08 22:31:50,126 basehttp "GET /analytics/financial/ HTTP/1.1" 200 52649
+INFO 2026-02-08 22:31:57,717 basehttp "GET /analytics/products/ HTTP/1.1" 200 52749
+INFO 2026-02-08 22:32:13,062 basehttp "GET /pos/ HTTP/1.1" 200 75549
+INFO 2026-02-08 22:32:16,874 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-08 22:32:21,469 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-08 22:32:23,714 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-02-09 12:14:55,856 autoreload Watching for file changes with StatReloader
+INFO 2026-02-09 12:15:55,187 basehttp "GET / HTTP/1.1" 200 32256
+INFO 2026-02-09 12:16:01,323 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+WARNING 2026-02-09 12:16:06,140 basehttp "GET /favicon.ico HTTP/1.1" 404 6808
+INFO 2026-02-09 12:18:31,910 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28104
+INFO 2026-02-09 12:18:35,791 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 200 39845
+INFO 2026-02-09 12:20:08,708 basehttp "POST /inventory/purchase-orders/new/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:20:08,860 basehttp "GET /inventory/purchase-orders/ HTTP/1.1" 200 28681
+INFO 2026-02-09 12:20:26,438 basehttp "GET /inventory/purchase-orders/new/ HTTP/1.1" 200 40473
+INFO 2026-02-09 12:20:28,970 basehttp "GET /inventory/purchase-orders/4/ HTTP/1.1" 200 28011
+INFO 2026-02-09 12:20:54,433 basehttp "GET /pos/ HTTP/1.1" 200 75549
+INFO 2026-02-09 12:20:54,766 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-09 12:20:54,884 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-09 12:20:54,936 basehttp "GET /pos/cart/ HTTP/1.1" 200 337
+INFO 2026-02-09 12:21:06,280 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-09 12:21:15,132 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-09 12:21:16,591 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-02-09 12:22:12,907 basehttp "GET /pos/ HTTP/1.1" 200 75549
+INFO 2026-02-09 12:22:13,069 basehttp "GET /pos/cart/ HTTP/1.1" 200 337
+INFO 2026-02-09 12:22:18,682 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-09 12:22:55,511 basehttp "GET / HTTP/1.1" 200 33128
+INFO 2026-02-09 12:23:11,524 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:23:12,391 basehttp "GET /accounts/login/ HTTP/1.1" 200 25552
+INFO 2026-02-09 12:23:52,055 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:23:52,139 basehttp "GET / HTTP/1.1" 200 33134
+INFO 2026-02-09 12:24:00,998 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:24:01,081 basehttp "GET / HTTP/1.1" 200 33687
+INFO 2026-02-09 12:24:11,863 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:24:11,988 basehttp "GET /accounts/login/ HTTP/1.1" 200 25552
+INFO 2026-02-09 12:24:21,858 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:24:21,943 basehttp "GET / HTTP/1.1" 200 33128
+INFO 2026-02-09 12:24:29,691 basehttp "GET /admin/ HTTP/1.1" 200 35808
+INFO 2026-02-09 12:24:30,036 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,605 basehttp "GET /admin/core/brand/ HTTP/1.1" 200 18831
+INFO 2026-02-09 12:24:38,790 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,808 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,808 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,873 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,881 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,897 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:38,909 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:39,081 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:24:41,773 basehttp "GET /admin/core/category/ HTTP/1.1" 200 18485
+INFO 2026-02-09 12:24:41,863 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:24:46,437 basehttp "GET /admin/core/category/add/ HTTP/1.1" 200 20249
+INFO 2026-02-09 12:24:46,537 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:24:46,537 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:46,537 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:46,813 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2026-02-09 12:24:47,052 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2026-02-09 12:24:47,055 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2026-02-09 12:24:47,055 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2026-02-09 12:25:36,296 basehttp "POST /admin/core/category/add/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:25:36,470 basehttp "GET /admin/core/category/ HTTP/1.1" 200 19423
+INFO 2026-02-09 12:25:36,494 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:26:53,365 basehttp "GET /admin/core/category/2/change/ HTTP/1.1" 200 21004
+INFO 2026-02-09 12:26:53,459 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:26:56,781 basehttp "GET /admin/core/category/ HTTP/1.1" 200 18858
+INFO 2026-02-09 12:27:03,663 basehttp "GET /admin/core/customer/ HTTP/1.1" 200 24178
+INFO 2026-02-09 12:27:03,767 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:27:12,042 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 25660
+INFO 2026-02-09 12:27:12,126 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:27:12,268 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 304 0
+INFO 2026-02-09 12:27:12,326 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+INFO 2026-02-09 12:27:16,400 basehttp "GET /admin/auth/user/1/change/ HTTP/1.1" 200 57945
+INFO 2026-02-09 12:27:16,514 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:27:16,530 basehttp "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:27:16,577 basehttp "GET /static/admin/js/SelectBox.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:27:16,610 basehttp "GET /static/admin/js/inlines.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:27:16,626 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:27:16,684 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 304 0
+INFO 2026-02-09 12:28:58,724 basehttp "POST /admin/auth/user/1/change/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:28:58,824 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 26227
+INFO 2026-02-09 12:28:58,951 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:29:17,271 basehttp "POST /admin/auth/user/ HTTP/1.1" 200 16134
+INFO 2026-02-09 12:29:17,359 basehttp - Broken pipe from ('127.0.0.1', 53969)
+INFO 2026-02-09 12:29:17,439 basehttp "GET /static/admin/js/cancel.js HTTP/1.1" 200 564
+INFO 2026-02-09 12:29:21,189 basehttp "POST /admin/auth/user/ HTTP/1.1" 302 0
+INFO 2026-02-09 12:29:21,295 basehttp "GET /admin/auth/user/ HTTP/1.1" 200 25559
+INFO 2026-02-09 12:29:21,386 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-09 12:29:42,700 basehttp "GET / HTTP/1.1" 200 33136
+INFO 2026-02-09 12:29:45,882 basehttp "GET /profile/ HTTP/1.1" 200 32248
+INFO 2026-02-09 12:29:57,397 basehttp "GET /analytics/ HTTP/1.1" 200 58414
+INFO 2026-02-09 12:30:34,340 basehttp "GET / HTTP/1.1" 200 33136
+INFO 2026-02-09 12:30:35,557 basehttp "GET /pos/ HTTP/1.1" 200 75557
+INFO 2026-02-09 12:30:35,855 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-09 12:30:35,974 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-09 12:30:36,098 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-09 12:30:41,661 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-09 12:30:42,654 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-02-09 12:30:45,136 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 343
+INFO 2026-02-09 12:30:52,009 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 347
+INFO 2026-02-09 12:31:13,148 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 350
+INFO 2026-02-09 12:31:51,457 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 104
+INFO 2026-02-09 12:32:04,172 basehttp "GET /analytics/ HTTP/1.1" 200 58419
+INFO 2026-02-09 12:32:14,820 basehttp "GET /analytics/ HTTP/1.1" 200 58419
+INFO 2026-02-09 12:38:38,015 basehttp "GET /analytics/sales/ HTTP/1.1" 200 60072
+INFO 2026-02-09 12:38:59,812 basehttp "GET /analytics/financial/ HTTP/1.1" 200 52664
+INFO 2026-02-09 12:39:19,791 basehttp "GET /analytics/sales/ HTTP/1.1" 200 60072
+ERROR 2026-02-09 12:39:25,440 basehttp "GET /analytics/export/pdf/?report_type=sales&start_date=2026-02-01&end_date=2026-02-09 HTTP/1.1" 500 95747
+INFO 2026-02-09 12:40:05,913 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-09 12:40:20,255 autoreload Watching for file changes with StatReloader
+INFO 2026-02-09 12:40:40,148 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-09 12:40:45,244 autoreload Watching for file changes with StatReloader
+INFO 2026-02-09 12:41:00,127 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-09 12:41:06,333 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-09 12:42:07,890 basehttp "GET /analytics/export/pdf/?report_type=sales&start_date=2026-02-01&end_date=2026-02-09 HTTP/1.1" 500 95884
+INFO 2026-02-09 12:58:56,389 basehttp "GET /pos/sales/ HTTP/1.1" 200 48836
+INFO 2026-02-09 12:59:16,337 basehttp "GET /pos/sales/8/receipt/ HTTP/1.1" 200 2482
+INFO 2026-02-09 12:59:47,856 basehttp "GET /pos/sales/8/ HTTP/1.1" 200 38730
+INFO 2026-02-09 12:59:56,396 basehttp "GET /pos/sales/8/receipt/ HTTP/1.1" 200 2482
+INFO 2026-02-09 13:00:26,489 basehttp "GET /pos/sales/4/ HTTP/1.1" 200 37740

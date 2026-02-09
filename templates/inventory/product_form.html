@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% if product %}Edit {{ product.name }}{% else %}Add New Product{% endif %} - Winners Cosmetics{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-box"></i>
+                    {% if product %}Edit Product: {{ product.name }}{% else %}Add New Product{% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.sku|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.barcode|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    {{ form.name|as_crispy_field }}
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form.category|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.brand|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.product_type|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    {{ form.description|as_crispy_field }}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.cost_price|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.selling_price|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form.quantity|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.low_stock_threshold|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.reorder_quantity|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.expiry_date|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.batch_number|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.supplier|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.image|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.is_active|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% if product %}{% url 'product_detail' product.pk %}{% else %}{% url 'product_list' %}{% endif %}" 
+                           class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> {% if product %}Update Product{% else %}Create Product{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Profit Calculator -->
+        {% if product %}
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-calculator"></i> Profit Calculator
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Cost Price</span>
+                            <input type="number" class="form-control" id="costPrice" value="{{ product.cost_price|floatformat:2 }}" step="0.01">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Selling Price</span>
+                            <input type="number" class="form-control" id="sellingPrice" value="{{ product.selling_price|floatformat:2 }}" step="0.01">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Profit Margin</span>
+                            <input type="text" class="form-control" id="profitMargin" readonly>
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="alert alert-info">
+                            <strong>Profit per Unit:</strong>
+                            <span id="profitPerUnit">KES {{ product.profit_per_unit|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-success">
+                            <strong>Total Stock Value:</strong>
+                            <span id="stockValue">KES {{ product.total_value|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-warning">
+                            <strong>Total Sales Value:</strong>
+                            <span id="salesValue">KES {{ product.total_sales_value|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Profit Calculator
+    function calculateProfit() {
+        const costPrice = parseFloat($('#costPrice').val()) || 0;
+        const sellingPrice = parseFloat($('#sellingPrice').val()) || 0;
+        const quantity = parseFloat($('input[name="quantity"]').val()) || 0;
+        
+        if (costPrice > 0 && sellingPrice > 0) {
+            const profitPerUnit = sellingPrice - costPrice;
+            const profitMargin = (profitPerUnit / costPrice) * 100;
+            const stockValue = costPrice * quantity;
+            const salesValue = sellingPrice * quantity;
+            
+            $('#profitPerUnit').text('KES ' + profitPerUnit.toFixed(2));
+            $('#profitMargin').val(profitMargin.toFixed(1));
+            $('#stockValue').text('KES ' + stockValue.toFixed(2));
+            $('#salesValue').text('KES ' + salesValue.toFixed(2));
+        }
+    }
+    
+    // Update profit calculation on input change
+    $('#costPrice, #sellingPrice, input[name="quantity"]').on('input', calculateProfit);
+    
+    // Initial calculation
+    calculateProfit();
+    
+    // Auto-generate SKU if empty
+    $('input[name="name"]').on('blur', function() {
+        const skuInput = $('input[name="sku"]');
+        if (!skuInput.val() && $(this).val()) {
+            const name = $(this).val().toUpperCase().replace(/[^A-Z0-9]/g, '');
+            const random = Math.random().toString(36).substr(2, 4).toUpperCase();
+            skuInput.val(name.substr(0, 6) + '-' + random);
+        }
+    });
+    
+    // Validate prices
+    $('input[name="selling_price"]').on('blur', function() {
+        const costPrice = parseFloat($('input[name="cost_price"]').val()) || 0;
+        const sellingPrice = parseFloat($(this).val()) || 0;
+        
+        if (sellingPrice > 0 && costPrice > 0 && sellingPrice < costPrice) {
+            alert('Warning: Selling price is less than cost price! This will result in a loss.');
+        }
+    });
+});
+</script>
+{% endblock %}

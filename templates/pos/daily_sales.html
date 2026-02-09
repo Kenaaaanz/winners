@@ -1,0 +1,488 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Daily Sales Report - Winners Cosmetics{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-calendar-day"></i> Daily Sales Report - {{ today|date:"F d, Y" }}
+{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group me-2">
+    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+        <i class="fas fa-print"></i> Print
+    </button>
+    <a href="{% url 'export_report_pdf' %}?report_type=sales&start_date={{ today|date:'Y-m-d' }}&end_date={{ today|date:'Y-m-d' }}" 
+       class="btn btn-sm btn-outline-danger">
+        <i class="fas fa-file-pdf"></i> Export PDF
+    </a>
+</div>
+<button type="button" class="btn btn-sm btn-primary" onclick="window.location.reload()">
+    <i class="fas fa-sync-alt"></i> Refresh
+</button>
+{% endblock %}
+
+{% block dashboard_content %}
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h6 class="card-title">Today's Revenue</h6>
+                <h2 class="mb-0">KES {{ total_sales|floatformat:2 }}</h2>
+                <small>{{ total_transactions }} transactions</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h6 class="card-title">Average Sale</h6>
+                <h2 class="mb-0">
+                    {% if total_transactions > 0 %}
+                        KES {{ total_sales|divide:total_transactions|floatformat:2 }}
+                    {% else %}
+                        KES 0.00
+                    {% endif %}
+                </h2>
+                <small>per transaction</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title">Items Sold</h6>
+                <h2 class="mb-0">
+                    {% with total_items=top_products_today|sum:'quantity_sold' %}
+                        {{ total_items|default:0 }}
+                    {% endwith %}
+                </h2>
+                <small>units today</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Estimated Profit</h6>
+                <h2 class="mb-0">
+                    {% with estimated_profit=total_sales|multiply:0.3 %}
+                        KES {{ estimated_profit|floatformat:2 }}
+                    {% endwith %}
+                </h2>
+                <small>~30% margin</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hourly Sales Chart -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line"></i> Hourly Sales Trend
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="hourlyChart" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie"></i> Payment Method Distribution
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="paymentChart" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Method Breakdown -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-credit-card"></i> Payment Method Breakdown
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Payment Method</th>
+                                <th>Transactions</th>
+                                <th>Total Amount</th>
+                                <th>Percentage</th>
+                                <th>Average Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payment_summary %}
+                            <tr>
+                                <td>
+                                    <span class="badge {% if payment.payment_method == 'MPESA' %}bg-success{% elif payment.payment_method == 'CASH' %}bg-warning{% else %}bg-info{% endif %}">
+                                        {{ payment.payment_method }}
+                                    </span>
+                                </td>
+                                <td>{{ payment.count }}</td>
+                                <td class="text-success">KES {{ payment.total|floatformat:2 }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 10px;">
+                                            <div class="progress-bar" 
+                                                 style="width: {% widthratio payment.total total_sales 100 %}%; 
+                                                        background-color: {% if payment.payment_method == 'MPESA' %}#28a745{% elif payment.payment_method == 'CASH' %}#ffc107{% else %}#17a2b8{% endif %}">
+                                            </div>
+                                        </div>
+                                        <span>{% widthratio payment.total total_sales 100 %}%</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if payment.count > 0 %}
+                                        KES {{ payment.total|divide:payment.count|floatformat:2 }}
+                                    {% else %}
+                                        KES 0.00
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No sales data available for today</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-primary">
+                                <td><strong>TOTAL</strong></td>
+                                <td><strong>{{ total_transactions }}</strong></td>
+                                <td class="text-success"><strong>KES {{ total_sales|floatformat:2 }}</strong></td>
+                                <td><strong>100%</strong></td>
+                                <td>
+                                    <strong>
+                                        {% if total_transactions > 0 %}
+                                            KES {{ total_sales|divide:total_transactions|floatformat:2 }}
+                                        {% else %}
+                                            KES 0.00
+                                        {% endif %}
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Selling Products Today -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-fire"></i> Top Selling Products Today
+                </h5>
+                <a href="{% url 'product_list' %}" class="btn btn-sm btn-outline-primary">
+                    View All Products
+                </a>
+            </div>
+            <div class="card-body">
+                {% if top_products_today %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Quantity Sold</th>
+                                <th>Revenue</th>
+                                <th>Profit</th>
+                                <th>Stock Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_products_today %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <strong>{{ product.name }}</strong>
+                                    {% if product.brand %}
+                                    <br>
+                                    <small class="text-muted">{{ product.brand.name }}</small>
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.sku }}</td>
+                                <td>{{ product.category.name|default:"-" }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ product.quantity_sold|default:0 }}</span>
+                                </td>
+                                <td class="text-success">
+                                    KES {{ product.quantity_sold|multiply:product.selling_price|floatformat:2 }}
+                                </td>
+                                <td class="text-success">
+                                    {% with profit_per_unit=product.selling_price|subtract:product.cost_price %}
+                                        KES {{ profit_per_unit|multiply:product.quantity_sold|floatformat:2 }}
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {% if product.quantity <= product.low_stock_threshold %}
+                                        <span class="badge bg-warning">Low ({{ product.quantity }})</span>
+                                    {% elif product.quantity == 0 %}
+                                        <span class="badge bg-danger">Out of Stock</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Good ({{ product.quantity }})</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'pos_dashboard' %}?product={{ product.id }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <h5>No Sales Today</h5>
+                    <p class="text-muted">No products have been sold today yet.</p>
+                    <a href="{% url 'pos_dashboard' %}" class="btn btn-primary">
+                        <i class="fas fa-cash-register"></i> Start Selling
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sales by Hour Table -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock"></i> Detailed Hourly Breakdown
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Hour</th>
+                                <th>Time Period</th>
+                                <th>Transactions</th>
+                                <th>Total Sales</th>
+                                <th>Average Sale</th>
+                                <th>Peak Status</th>
+                                <th>Recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hour_data in hourly_sales %}
+                            <tr>
+                                <td><strong>{{ hour_data.hour }}</strong></td>
+                                <td>{{ hour_data.hour }} - {{ hour_data.hour|add:1 }}:00</td>
+                                <td>{{ hour_data.transactions|default:"0" }}</td>
+                                <td class="text-success">KES {{ hour_data.sales|floatformat:2 }}</td>
+                                <td>
+                                    {% if hour_data.transactions > 0 %}
+                                        KES {{ hour_data.sales|divide:hour_data.transactions|floatformat:2 }}
+                                    {% else %}
+                                        KES 0.00
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if hour_data.sales > total_sales|divide:12|multiply:2 %}
+                                        <span class="badge bg-success">Peak Hour</span>
+                                    {% elif hour_data.sales > total_sales|divide:12 %}
+                                        <span class="badge bg-warning">Moderate</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Low</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if hour_data.sales > total_sales|divide:12|multiply:2 %}
+                                        <small class="text-success">Consider adding staff</small>
+                                    {% elif hour_data.sales < total_sales|divide:12|multiply:0.5 %}
+                                        <small class="text-warning">Run promotions</small>
+                                    {% else %}
+                                        <small class="text-muted">Normal operations</small>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No hourly data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-primary">
+                                <td colspan="2"><strong>DAILY TOTAL</strong></td>
+                                <td><strong>{{ total_transactions }}</strong></td>
+                                <td class="text-success"><strong>KES {{ total_sales|floatformat:2 }}</strong></td>
+                                <td>
+                                    <strong>
+                                        {% if total_transactions > 0 %}
+                                            KES {{ total_sales|divide:total_transactions|floatformat:2 }}
+                                        {% else %}
+                                            KES 0.00
+                                        {% endif %}
+                                    </strong>
+                                </td>
+                                <td colspan="2">
+                                    <strong>
+                                        {% if total_sales > 100000 %}
+                                            <span class="text-success">Excellent Day!</span>
+                                        {% elif total_sales > 50000 %}
+                                            <span class="text-warning">Good Day</span>
+                                        {% else %}
+                                            <span class="text-danger">Needs Improvement</span>
+                                        {% endif %}
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Hourly Sales Chart
+    const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+    const hourlyChart = new Chart(hourlyCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ hourly_sales|map:'hour'|safe }},
+            datasets: [{
+                label: 'Sales (KES)',
+                data: {{ hourly_sales|map:'sales'|safe }},
+                backgroundColor: function(context) {
+                    const index = context.dataIndex;
+                    const value = context.dataset.data[index];
+                    const max = Math.max(...context.dataset.data);
+                    const ratio = value / max;
+                    
+                    if (ratio > 0.8) return '#28a745';
+                    if (ratio > 0.5) return '#ffc107';
+                    if (ratio > 0.3) return '#17a2b8';
+                    return '#6c757d';
+                },
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Sales by Hour'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'KES ' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Payment Method Chart
+    const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+    const paymentChart = new Chart(paymentCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ payment_summary|map:'payment_method'|safe }},
+            datasets: [{
+                data: {{ payment_summary|map:'total'|safe }},
+                backgroundColor: [
+                    '#ffc107', // CASH
+                    '#28a745', // MPESA
+                    '#007bff', // CARD
+                    '#17a2b8', // BANK
+                    '#6c757d'  // OTHERS
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += 'KES ' + context.parsed;
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Auto-refresh every 5 minutes
+    setInterval(function() {
+        $.ajax({
+            url: window.location.href,
+            method: 'GET',
+            success: function(response) {
+                // Update summary cards
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(response, 'text/html');
+                
+                // Update cards with new data
+                $('#totalSales').text(doc.querySelector('.card:first-child .mb-0').textContent);
+                $('#totalTransactions').text(doc.querySelector('.card:first-child small').textContent);
+                
+                console.log('Daily sales report refreshed');
+            }
+        });
+    }, 300000); // 5 minutes
+});
+</script>
+{% endblock %}

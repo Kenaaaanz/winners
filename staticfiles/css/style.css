@@ -1,0 +1,122 @@
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #a29bfe;
+    --success-color: #00b894;
+    --danger-color: #d63031;
+    --warning-color: #fdcb6e;
+    --info-color: #0984e3;
+    --dark-color: #2d3436;
+    --light-color: #f5f6fa;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 2px solid var(--light-color);
+    font-weight: 600;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #5b4fd8;
+    border-color: #5b4fd8;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 5px 10px;
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+/* POS specific styles */
+.pos-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    border-color: var(--primary-color);
+}
+
+.quantity-input {
+    width: 70px;
+    text-align: center;
+}
+
+/* Analytics charts */
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+/* Dashboard stats */
+.stat-card {
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pos-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}

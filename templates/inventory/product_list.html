@@ -1,0 +1,474 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+{% get_product_counts as counts %}
+
+{% block title %}Products - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .product-card-list {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        transition: transform 0.2s;
+    }
+    .product-card-list:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-color: #6c5ce7;
+    }
+    .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    .stock-badge {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .stock-low { background-color: #fff3cd; color: #856404; }
+    .stock-out { background-color: #f8d7da; color: #721c24; }
+    .stock-ok { background-color: #d4edda; color: #155724; }
+    .category-badge {
+        background-color: #e3f2fd;
+        color: #1976d2;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">
+        <i class="fas fa-box"></i> Products Inventory
+    </h1>
+    <div>
+        <a href="{% url 'product_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Product
+        </a>
+        <a href="{% url 'export_inventory_csv' %}" class="btn btn-outline-success">
+            <i class="fas fa-file-export"></i> Export CSV
+        </a>
+        <a href="{% url 'export_report_pdf' %}?report_type=inventory" class="btn btn-outline-danger">
+            <i class="fas fa-file-pdf"></i> Export PDF
+        </a>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Products</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" id="filterForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Search</label>
+                                <input type="text" class="form-control" name="search" value="{{ search_query }}" 
+                                       placeholder="Search by name, SKU, or barcode">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Stock Status</label>
+                                <select class="form-select" name="stock_status">
+                                    <option value="">All Stock</option>
+                                    <option value="low" {% if stock_status == 'low' %}selected{% endif %}>Low Stock</option>
+                                    <option value="out" {% if stock_status == 'out' %}selected{% endif %}>Out of Stock</option>
+                                    <option value="in" {% if stock_status == 'in' %}selected{% endif %}>In Stock</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" name="category">
+                                    <option value="">All Categories</option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}" {% if category_id == category.id %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Brand</label>
+                                <select class="form-select" name="brand">
+                                    <option value="">All Brands</option>
+                                    {% for brand in brands %}
+                                    <option value="{{ brand.id }}" {% if brand_id == brand.id %}selected{% endif %}>
+                                        {{ brand.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h6 class="card-title">Total Products</h6>
+                <h2 class="mb-0">{{ page_obj.paginator.count }}</h2>
+                <small>in inventory</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h6 class="card-title">Active Products</h6>
+                <h2 class="mb-0">{{ counts.active }}</h2>
+                <small class="d-block">{{ counts.inactive }} inactive</small>
+                <small class="d-block">{{ counts.total }} total</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Low Stock</h6>
+                <h2 class="mb-0">
+                    {% with low_stock_count=page_obj.object_list|filter_by_low_stock:True|length %}
+                        {{ low_stock_count }}
+                    {% endwith %}
+                </h2>
+                <small>needs reorder</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title">Total Value</h6>
+                <h2 class="mb-0">
+                    {% with total_value=page_obj.object_list|sum:'total_value' %}
+                        KES {{ total_value|floatformat:2 }}
+                    {% endwith %}
+                </h2>
+                <small>at cost price</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Products List -->
+<div class="card">
+    <div class="card-body">
+        {% if page_obj %}
+        <div class="list-group list-group-flush">
+            {% for product in page_obj %}
+            <a href="{% url 'product_detail' product.pk %}" class="list-group-item list-group-item-action p-0">
+                <div class="product-card-list">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 text-center">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+                            {% else %}
+                            <div class="product-image bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-box text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="mb-1">{{ product.name }}</h6>
+                            <div class="d-flex flex-wrap gap-1 mb-1">
+                                <span class="category-badge">
+                                    {{ product.category.name|default:"Uncategorized" }}
+                                </span>
+                                {% if product.brand %}
+                                <span class="category-badge" style="background-color: #f3e5f5; color: #7b1fa2;">
+                                    {{ product.brand.name }}
+                                </span>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">
+                                SKU: {{ product.sku }}
+                                {% if product.barcode %}
+                                • Barcode: {{ product.barcode }}
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-1">
+                                <small class="text-muted">Cost Price</small>
+                                <div>KES {{ product.cost_price|floatformat:2 }}</div>
+                            </div>
+                            <div>
+                                <small class="text-muted">Selling Price</small>
+                                <div class="text-success">KES {{ product.selling_price|floatformat:2 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-1">
+                                <small class="text-muted">Current Stock</small>
+                                <div>
+                                    <span class="stock-badge {% if product.quantity == 0 %}stock-out{% elif product.is_low_stock %}stock-low{% else %}stock-ok{% endif %}">
+                                        {{ product.quantity }} units
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <small class="text-muted">Reorder At</small>
+                                <div>{{ product.reorder_quantity }} units</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-1">
+                                <small class="text-muted">Stock Value</small>
+                                <div>KES {{ product.total_value|floatformat:2 }}</div>
+                            </div>
+                            <div>
+                                <small class="text-muted">Profit Margin</small>
+                                <div class="text-success">{{ product.profit_margin|floatformat:1 }}%</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <div class="btn-group">
+                                <a href="{% url 'product_detail' product.pk %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'pos_dashboard' %}?product={{ product.id }}" class="btn btn-sm btn-outline-success">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+            <h5>No Products Found</h5>
+            <p class="text-muted">
+                {% if search_query or category_id or brand_id or stock_status %}
+                Try changing your search or filters
+                {% else %}
+                Get started by adding your first product
+                {% endif %}
+            </p>
+            {% if search_query or category_id or brand_id or stock_status %}
+            <a href="{% url 'product_list' %}" class="btn btn-outline-primary">
+                Clear Filters
+            </a>
+            {% else %}
+            <a href="{% url 'product_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add First Product
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if category_id %}&category={{ category_id }}{% endif %}{% if brand_id %}&brand={{ brand_id }}{% endif %}{% if stock_status %}&stock_status={{ stock_status }}{% endif %}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_id %}&category={{ category_id }}{% endif %}{% if brand_id %}&brand={{ brand_id }}{% endif %}{% if stock_status %}&stock_status={{ stock_status }}{% endif %}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_id %}&category={{ category_id }}{% endif %}{% if brand_id %}&brand={{ brand_id }}{% endif %}{% if stock_status %}&stock_status={{ stock_status }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_id %}&category={{ category_id }}{% endif %}{% if brand_id %}&brand={{ brand_id }}{% endif %}{% if stock_status %}&stock_status={{ stock_status }}{% endif %}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_id %}&category={{ category_id }}{% endif %}{% if brand_id %}&brand={{ brand_id }}{% endif %}{% if stock_status %}&stock_status={{ stock_status }}{% endif %}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Low Stock Warning -->
+{% with low_stock_products=page_obj.object_list|filter_by_low_stock:True %}
+    {% if low_stock_products and not stock_status %}
+    <div class="card border-warning mt-4">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-exclamation-triangle"></i> Low Stock Alert
+            </h5>
+        </div>
+        <div class="card-body">
+            <p class="mb-3">The following products are running low on stock:</p>
+            <div class="row">
+                {% for product in low_stock_products|slice:":6" %}
+                <div class="col-md-2">
+                    <div class="card border-warning">
+                        <div class="card-body text-center">
+                            <h6 class="card-title">{{ product.name|truncatechars:20 }}</h6>
+                            <div class="text-danger mb-2">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ product.quantity }} left
+                            </div>
+                            <a href="{% url 'product_detail' product.pk %}" class="btn btn-sm btn-outline-warning">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if low_stock_products|length > 6 %}
+            <div class="text-center mt-3">
+                <a href="{% url 'low_stock' %}" class="btn btn-outline-warning">
+                    View All {{ low_stock_products|length }} Low Stock Items
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Auto-submit filter form when filters change
+    $('select[name="stock_status"], select[name="category"], select[name="brand"]').on('change', function() {
+        $('#filterForm').submit();
+    });
+    
+    // Search with debounce
+    let searchTimeout;
+    $('input[name="search"]').on('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            $('#filterForm').submit();
+        }, 500);
+    });
+    
+    // Quick add to cart
+    $('.btn-outline-success').on('click', function(e) {
+        e.preventDefault();
+        const productId = $(this).data('product-id');
+        if (productId) {
+            // Add to cart via AJAX
+            $.ajax({
+                url: '/pos/cart/add/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                    product_id: productId,
+                    quantity: 1
+                }),
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Product added to cart', 'success');
+                    } else {
+                        showToast(response.error, 'error');
+                    }
+                }
+            });
+        }
+    });
+    
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    function showToast(message, type) {
+        // Create and show toast notification
+        const toast = $(`
+            <div class="toast align-items-center text-white bg-${type} border-0" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `);
+        
+        $('body').append(toast);
+        const bsToast = new bootstrap.Toast(toast[0]);
+        bsToast.show();
+        
+        toast.on('hidden.bs.toast', function() {
+            $(this).remove();
+        });
+    }
+});
+</script>
+{% endblock %}

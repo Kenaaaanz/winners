@@ -1,0 +1,446 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Sale {{ sale.invoice_number }} - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .invoice-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 20px;
+    }
+    .invoice-badge {
+        font-size: 1.2rem;
+        padding: 8px 20px;
+        border-radius: 30px;
+    }
+    .item-row {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+    .item-row:last-child {
+        border-bottom: none;
+    }
+    .total-row {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Invoice Header -->
+<div class="invoice-header">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="h2 mb-2">INVOICE</h1>
+            <h2 class="h3 mb-3">{{ sale.invoice_number }}</h2>
+            <p class="mb-1">
+                <i class="fas fa-calendar"></i> Date: {{ sale.created_at|date:"F d, Y" }}
+                <span class="mx-2">•</span>
+                <i class="fas fa-clock"></i> Time: {{ sale.created_at|time:"H:i" }}
+            </p>
+            {% if sale.customer %}
+            <p class="mb-0">
+                <i class="fas fa-user"></i> Customer: {{ sale.customer.full_name }}
+                <span class="mx-2">•</span>
+                <i class="fas fa-phone"></i> {{ sale.customer.phone }}
+            </p>
+            {% endif %}
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="mb-3">
+                <span class="invoice-badge {% if sale.status == 'COMPLETED' %}bg-success{% elif sale.status == 'PENDING' %}bg-warning{% else %}bg-danger{% endif %}">
+                    {{ sale.get_status_display }}
+                </span>
+            </div>
+            <h3 class="h1 mb-0">KES {{ sale.total|floatformat:2 }}</h3>
+            <p class="mb-0">Total Amount</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Left Column: Items & Totals -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-shopping-bag"></i> Items Purchased
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th width="5%">#</th>
+                                <th width="45%">Product</th>
+                                <th width="15%" class="text-center">Price</th>
+                                <th width="15%" class="text-center">Quantity</th>
+                                <th width="20%" class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <div>
+                                        <strong>{{ item.product_name }}</strong>
+                                        <br>
+                                        <small class="text-muted">SKU: {{ item.product_sku }}</small>
+                                    </div>
+                                </td>
+                                <td class="text-center">KES {{ item.unit_price|floatformat:2 }}</td>
+                                <td class="text-center">{{ item.quantity }}</td>
+                                <td class="text-end text-success">KES {{ item.total_price|floatformat:2 }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="total-row">
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-end"><strong>Subtotal:</strong></td>
+                                <td class="text-end">KES {{ sale.subtotal|floatformat:2 }}</td>
+                            </tr>
+                            {% if sale.discount_amount > 0 %}
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-end text-danger"><strong>Discount:</strong></td>
+                                <td class="text-end text-danger">-KES {{ sale.discount_amount|floatformat:2 }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-end"><strong>Tax ({{ sale.tax_rate }}%):</strong></td>
+                                <td class="text-end">KES {{ sale.tax_amount|floatformat:2 }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-end"><strong>Total:</strong></td>
+                                <td class="text-end text-success">
+                                    <strong>KES {{ sale.total|floatformat:2 }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-end"><strong>Amount Paid:</strong></td>
+                                <td class="text-end">KES {{ sale.amount_paid|floatformat:2 }}</td>
+                            </tr>
+                            {% if sale.change_given > 0 %}
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="text-end"><strong>Change Given:</strong></td>
+                                <td class="text-end">KES {{ sale.change_given|floatformat:2 }}</td>
+                            </tr>
+                            {% endif %}
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Details -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-credit-card"></i> Payment Details
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <strong>Payment Method:</strong><br>
+                            <span class="badge {% if sale.payment_method == 'MPESA' %}bg-success{% elif sale.payment_method == 'CASH' %}bg-warning{% else %}bg-info{% endif %}">
+                                {{ sale.get_payment_method_display }}
+                            </span>
+                        </p>
+                        
+                        {% if sale.payment_method == 'MPESA' %}
+                        <p>
+                            <strong>M-Pesa Details:</strong><br>
+                            Phone: {{ sale.mpesa_phone }}<br>
+                            Receipt: {{ sale.mpesa_receipt|default:"Pending" }}<br>
+                            Transaction ID: {{ sale.mpesa_transaction_id|default:"N/A" }}
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <strong>Cashier:</strong><br>
+                            {{ sale.cashier.get_full_name }}
+                        </p>
+                        <p>
+                            <strong>Sale Type:</strong><br>
+                            {% if sale.customer %}
+                            Customer Sale
+                            {% else %}
+                            Walk-in Sale
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                {% if sale.notes %}
+                <div class="mt-3">
+                    <strong>Notes:</strong>
+                    <div class="bg-light p-3 rounded mt-2">
+                        {{ sale.notes|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column: Actions & Info -->
+    <div class="col-md-4">
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-bolt"></i> Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'print_receipt' sale.id %}" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-print"></i> Print Receipt
+                    </a>
+                    <a href="{% url 'pos_dashboard' %}?sale={{ sale.id }}" class="btn btn-outline-primary">
+                        <i class="fas fa-redo"></i> Repeat Sale
+                    </a>
+                    
+                    {% if sale.status == 'COMPLETED' %}
+                    <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#refundModal">
+                        <i class="fas fa-undo"></i> Process Refund
+                    </button>
+                    {% endif %}
+                    
+                    {% if sale.status == 'PENDING' %}
+                    <button class="btn btn-success" id="completeSale">
+                        <i class="fas fa-check-circle"></i> Complete Sale
+                    </button>
+                    <button class="btn btn-danger" id="cancelSale">
+                        <i class="fas fa-times-circle"></i> Cancel Sale
+                    </button>
+                    {% endif %}
+                    
+                    {% if sale.status == 'COMPLETED' and sale.customer %}
+                    <a href="{% url 'customer_detail' sale.customer.pk %}" class="btn btn-outline-info">
+                        <i class="fas fa-user"></i> View Customer
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sale Statistics -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie"></i> Sale Statistics
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <h3 class="text-primary">{{ items|length }}</h3>
+                            <small class="text-muted">Items</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <h3 class="text-success">KES {{ sale.profit|floatformat:2 }}</h3>
+                            <small class="text-muted">Profit</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress mb-2" style="height: 20px;">
+                    <div class="progress-bar bg-success" style="width: 75%;">
+                        75% Profit Margin
+                    </div>
+                </div>
+                
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i> 
+                    Cost: KES {{ sale.subtotal|subtract:sale.profit|floatformat:2 }} | 
+                    Profit Margin: {{ sale.profit|divide:sale.subtotal|multiply:100|floatformat:1 }}%
+                </small>
+            </div>
+        </div>
+        
+        <!-- Timeline -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-history"></i> Sale Timeline
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-success"></div>
+                        <div class="timeline-content">
+                            <h6>Sale Created</h6>
+                            <p class="text-muted">{{ sale.created_at|date:"M d, Y H:i" }}</p>
+                        </div>
+                    </div>
+                    {% if sale.updated_at != sale.created_at %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-info"></div>
+                        <div class="timeline-content">
+                            <h6>Sale Updated</h6>
+                            <p class="text-muted">{{ sale.updated_at|date:"M d, Y H:i" }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Refund Modal -->
+<div class="modal fade" id="refundModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Process Refund</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="refundForm">
+                    <div class="mb-3">
+                        <label class="form-label">Refund Amount</label>
+                        <input type="number" class="form-control" 
+                               value="{{ sale.total|floatformat:2 }}" 
+                               max="{{ sale.total|floatformat:2 }}" 
+                               min="0" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Refund Reason</label>
+                        <select class="form-select" required>
+                            <option value="">Select reason</option>
+                            <option value="return">Product Return</option>
+                            <option value="damaged">Damaged Product</option>
+                            <option value="wrong_item">Wrong Item Delivered</option>
+                            <option value="customer_request">Customer Request</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        This action cannot be undone. Refund will be deducted from today's sales.
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmRefund">Process Refund</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Complete Sale
+    $('#completeSale').on('click', function() {
+        if (confirm('Are you sure you want to mark this sale as complete?')) {
+            $.ajax({
+                url: '{% url "sale_detail" sale.pk %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+                data: {
+                    action: 'complete'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    });
+    
+    // Cancel Sale
+    $('#cancelSale').on('click', function() {
+        if (confirm('Are you sure you want to cancel this sale? This cannot be undone.')) {
+            $.ajax({
+                url: '{% url "sale_detail" sale.pk %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+                data: {
+                    action: 'cancel'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    });
+    
+    // Confirm Refund
+    $('#confirmRefund').on('click', function() {
+        const amount = $('#refundForm input').val();
+        if (confirm(`Process refund of KES ${amount}? This will update the sale status to REFUNDED.`)) {
+            $.ajax({
+                url: '{% url "sale_detail" sale.pk %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken()
+                },
+                data: {
+                    action: 'refund',
+                    amount: amount,
+                    reason: $('#refundForm select').val(),
+                    notes: $('#refundForm textarea').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    });
+    
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}

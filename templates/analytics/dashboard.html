@@ -1,0 +1,617 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block title %}Analytics Dashboard - Winners Cosmetics{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-chart-bar"></i> Analytics Dashboard
+{% endblock %}
+
+{% block page_actions %}
+<div class="d-flex gap-2 flex-wrap align-items-center">
+    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <i class="fas fa-calendar"></i> Last 30 Days
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="?days=1">Today</a></li>
+        <li><a class="dropdown-item" href="?days=7">Last 7 Days</a></li>
+        <li><a class="dropdown-item" href="?days=30">Last 30 Days</a></li>
+        <li><a class="dropdown-item" href="?days=90">Last 90 Days</a></li>
+        <li><a class="dropdown-item" href="?days=365">This Year</a></li>
+    </ul>
+    <div class="vr"></div>
+    <a href="{% url 'sales_report' %}" class="btn btn-sm btn-outline-secondary">
+        <i class="fas fa-chart-line"></i> Sales Report
+    </a>
+    <a href="{% url 'financial_report' %}" class="btn btn-sm btn-outline-success">
+        <i class="fas fa-chart-pie"></i> Financial Report
+    </a>
+    <a href="{% url 'inventory_report' %}" class="btn btn-sm btn-outline-info">
+        <i class="fas fa-boxes"></i> Inventory Report
+    </a>
+</div>
+{% endblock %}
+
+{% block dashboard_content %}
+<!-- Key Metrics Cards -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card card-revenue">
+            <div class="stat-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-value">KES {{ sales_week.total|default:0|floatformat:2 }}</div>
+            <div class="stat-label">Weekly Revenue</div>
+            <small>{{ sales_week.count|default:0 }} transactions</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card card-profit">
+            <div class="stat-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <div class="stat-value">KES {{ month_profit|floatformat:2 }}</div>
+            <div class="stat-label">Monthly Profit</div>
+            <small>{{ month_profit|divide:sales_month.total|multiply:100|default:0|floatformat:1 }}% margin</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card card-customers">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-value">{{ total_customers }}</div>
+            <div class="stat-label">Total Customers</div>
+            <small>{{ new_customers_week }} new this week</small>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-line"></i> Monthly Sales Trend
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="monthlySalesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie"></i> Payment Method Distribution
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="paymentChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inventory Metrics -->
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-box"></i> Inventory Status
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-primary">{{ total_products }}</h3>
+                        <small class="text-muted">Total Products</small>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-warning">{{ low_stock_count }}</h3>
+                        <small class="text-muted">Low Stock</small>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <small>Stock Health</small>
+                        <small>{{ total_products|subtract:low_stock_count|subtract:out_of_stock_count }}/{{ total_products }}</small>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" 
+                             style="width: {% widthratio total_products|subtract:low_stock_count|subtract:out_of_stock_count total_products 100 %}%">
+                        </div>
+                        <div class="progress-bar bg-warning" 
+                             style="width: {% widthratio low_stock_count total_products 100 %}%">
+                        </div>
+                        <div class="progress-bar bg-danger" 
+                             style="width: {% widthratio out_of_stock_count total_products 100 %}%">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small class="text-success">Good</small>
+                        <small class="text-warning">Low</small>
+                        <small class="text-danger">Out</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-star"></i> Top Selling Products
+                </h5>
+                <a href="{% url 'product_performance' %}" class="btn btn-sm btn-outline-primary">
+                    View All
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Sold</th>
+                                <th>Revenue</th>
+                                <th>Profit</th>
+                                <th>Stock</th>
+                                <th>Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_products %}
+                            <tr>
+                                <td>
+                                    <strong>{{ product.name|truncatechars:30 }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ product.sku }}</small>
+                                </td>
+                                <td>{{ product.total_sold|default:0 }}</td>
+                                <td class="text-success">KES {{ product.total_revenue|default:0|floatformat:2 }}</td>
+                                <td class="text-success">KES {{ product.profit|default:0|floatformat:2 }}</td>
+                                <td>
+                                    {% if product.quantity <= product.low_stock_threshold %}
+                                    <span class="badge bg-warning">{{ product.quantity }}</span>
+                                    {% else %}
+                                    <span class="badge bg-success">{{ product.quantity }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge {% if product.profit_margin > 50 %}bg-success{% elif product.profit_margin > 20 %}bg-warning{% else %}bg-info{% endif %}">
+                                        {{ product.profit_margin|default:0|floatformat:1 }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No sales data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customer Insights -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-users"></i> Top Customers
+                </h5>
+                <a href="{% url 'customer_insights' %}" class="btn btn-sm btn-outline-primary">
+                    View All
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Total Spent</th>
+                                <th>Purchases</th>
+                                <th>Avg. Purchase</th>
+                                <th>Last Purchase</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in top_customers %}
+                            <tr>
+                                <td>
+                                    <strong>{{ customer.full_name }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ customer.membership_type }}</small>
+                                </td>
+                                <td class="text-success">KES {{ customer.total_spent|floatformat:2 }}</td>
+                                <td>{{ customer.num_purchases|default:0 }}</td>
+                                <td>KES {{ customer.avg_purchase|floatformat:2 }}</td>
+                                <td>
+                                    {% if customer.last_purchase_date %}
+                                    {{ customer.last_purchase_date|timesince }} ago
+                                    {% else %}
+                                    <span class="text-muted">Never</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No customer data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-tachometer-alt"></i> Performance Indicators
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6 mb-4">
+                        <div class="display-4 text-primary">
+                            {{ avg_rfm_score|default:0|floatformat:1 }}
+                        </div>
+                        <small class="text-muted">Avg. RFM Score</small>
+                    </div>
+                    <div class="col-6 mb-4">
+                        <div class="display-4 text-success">
+                            {{ profit_margin|default:0|floatformat:1 }}%
+                        </div>
+                        <small class="text-muted">Profit Margin</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="display-4 text-info">
+                            {{ avg_transaction_value|default:0|floatformat:0 }}
+                        </div>
+                        <small class="text-muted">Avg. Transaction (KES)</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="display-4 text-warning">
+                            {{ inventory_turnover|default:0|floatformat:2 }}
+                        </div>
+                        <small class="text-muted">Inventory Turnover</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="text-muted">Daily Avg.</div>
+                        <div class="h5">KES {{ sales_today.avg|default:0|floatformat:2 }}</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-muted">Conversion</div>
+                        <div class="h5">{{ conversion_rate|default:0|floatformat:1 }}%</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-muted">Growth</div>
+                        <div class="h5 text-success">
+                            {% if growth_rate > 0 %}+{% endif %}{{ growth_rate|default:0|floatformat:1 }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-history"></i> Recent Business Activity
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <h6>Today's Summary</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-shopping-cart text-success me-2"></i>
+                        <strong>{{ sales_today.count|default:0 }}</strong> sales completed
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-users text-primary me-2"></i>
+                        <strong>{{ new_customers_today|default:0 }}</strong> new customers
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-box text-warning me-2"></i>
+                        <strong>{{ low_stock_alerts_today|default:0 }}</strong> low stock alerts
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>This Week</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-chart-line text-success me-2"></i>
+                        <strong>KES {{ sales_week.total|default:0|floatformat:2 }}</strong> revenue
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-user-plus text-primary me-2"></i>
+                        <strong>{{ new_customers_week }}</strong> new customers
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-sync-alt text-info me-2"></i>
+                        <strong>{{ inventory_turnover_week|default:0 }}</strong> inventory turns
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>Trends</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-arrow-up text-success me-2"></i>
+                        Sales trend: <strong>{% if sales_trend > 0 %}+{% endif %}{{ sales_trend|default:0|floatformat:1 }}%</strong>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-arrow-up text-success me-2"></i>
+                        Customer growth: <strong>{% if customer_growth > 0 %}+{% endif %}{{ customer_growth|default:0|floatformat:1 }}%</strong>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-balance-scale text-warning me-2"></i>
+                        Profit margin: <strong>{{ profit_margin|default:0|floatformat:1 }}%</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block business_insights %}
+<!-- Business Insights Section -->
+<div class="insights-container">
+    <div class="insights-header">
+        <i class="fas fa-lightbulb"></i>
+        <h3>Business Insights & Recommendations</h3>
+    </div>
+    
+    <div class="insights-grid">
+        <!-- Sales Performance Insight -->
+        <div class="insight-card suggestion">
+            <div class="insight-title">
+                <i class="fas fa-chart-line" style="color: #10b981;"></i>
+                Sales Trend Analysis
+            </div>
+            <div class="insight-description">
+                {% if sales_trend > 0 %}
+                Your sales are trending positively this month. Continue with current marketing strategies and consider expanding featured product promotions.
+                {% else %}
+                Sales are declining. Focus on promotional campaigns and increase customer engagement through targeted marketing.
+                {% endif %}
+            </div>
+            <div class="insight-metric">
+                <span>Monthly Average:</span>
+                <span class="insight-metric-value">KES {{ sales_month.total|default:0|floatformat:0 }}</span>
+            </div>
+            <div class="insight-action">
+                <a href="{% url 'sales_report' %}">View Details →</a>
+            </div>
+        </div>
+
+        <!-- Product Performance Insight -->
+        <div class="insight-card market">
+            <div class="insight-title">
+                <i class="fas fa-box" style="color: #3b82f6;"></i>
+                Top Performing Products
+            </div>
+            <div class="insight-description">
+                {% if top_products %}
+                {{ top_products.0.name|truncatechars:30 }} leads sales with {{ top_products.0.total_sold }} units sold. Increase stock and create bundled offerings.
+                {% else %}
+                Analyze product performance to identify best sellers and optimize inventory allocation.
+                {% endif %}
+            </div>
+            <div class="insight-metric">
+                <span>Focus Products:</span>
+                <span class="insight-metric-value">{{ top_products|length }}</span>
+            </div>
+            <div class="insight-action">
+                <a href="{% url 'product_performance' %}">Explore Products →</a>
+            </div>
+        </div>
+
+        <!-- Customer Insight -->
+        <div class="insight-card positive">
+            <div class="insight-title">
+                <i class="fas fa-users" style="color: #06b6d4;"></i>
+                Customer Growth
+            </div>
+            <div class="insight-description">
+                You have {{ new_customers_week }} new customers this week. Implement loyalty programs to increase repeat purchases and customer lifetime value.
+            </div>
+            <div class="insight-metric">
+                <span>Total Customers:</span>
+                <span class="insight-metric-value">{{ total_customers }}</span>
+            </div>
+            <div class="insight-action">
+                <a href="{% url 'customer_insights' %}">Customer Analysis →</a>
+            </div>
+        </div>
+
+        <!-- Inventory Alert -->
+        <div class="insight-card alert">
+            <div class="insight-title">
+                <i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i>
+                Inventory Management
+            </div>
+            <div class="insight-description">
+                {% if low_stock_count > 0 %}
+                You have {{ low_stock_count }} items low on stock. Reorder fast-moving items to prevent stockouts and lost sales opportunity.
+                {% else %}
+                Inventory levels are healthy. Monitor seasonal trends for optimization opportunities.
+                {% endif %}
+            </div>
+            <div class="insight-metric">
+                <span>Low Stock Items:</span>
+                <span class="insight-metric-value">{{ low_stock_count }}</span>
+            </div>
+            <div class="insight-action">
+                <a href="{% url 'low_stock' %}">Review Stock →</a>
+            </div>
+        </div>
+
+        <!-- Profitability Insight -->
+        <div class="insight-card suggestion">
+            <div class="insight-title">
+                <i class="fas fa-coins" style="color: #10b981;"></i>
+                Profit Optimization
+            </div>
+            <div class="insight-description">
+                Current monthly profit margin is {{ profit_margin|default:0|floatformat:1 }}%. Focus on high-margin products and consider premium service offerings to increase profitability.
+            </div>
+            <div class="insight-metric">
+                <span>Monthly Profit:</span>
+                <span class="insight-metric-value">KES {{ month_profit|floatformat:0 }}</span>
+            </div>
+            <div class="insight-action">
+                <a href="{% url 'financial_report' %}">Financial Analysis →</a>
+            </div>
+        </div>
+
+        <!-- Market Focus Insight -->
+        <div class="insight-card market">
+            <div class="insight-title">
+                <i class="fas fa-target" style="color: #3b82f6;"></i>
+                Market Opportunity
+            </div>
+            <div class="insight-description">
+                Based on current trends, focus on expanding your customer base in the beauty segment. Introduce trending products and increase brand presence on social media.
+            </div>
+            <div class="insight-metric">
+                <span>Growth Potential:</span>
+                <span class="insight-metric-value">{{ growth_rate|default:0|floatformat:1 }}%</span>
+            </div>
+            <div class="insight-action">
+                <a href="{% url 'sales_report' %}">Market Analysis →</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Monthly Sales Chart
+const monthlyCtx = document.getElementById('monthlySalesChart').getContext('2d');
+const monthlySalesChart = new Chart(monthlyCtx, {
+    type: 'line',
+    data: {
+        labels: {{ monthly_labels|safe }},
+        datasets: [{
+            label: 'Revenue (KES)',
+            data: {{ monthly_revenue|safe }},
+            borderColor: '#ff6b6b',
+            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }, {
+            label: 'Profit (KES)',
+            data: {{ monthly_profit|safe }},
+            borderColor: '#1dd1a1',
+            backgroundColor: 'rgba(29, 209, 161, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Monthly Revenue & Profit Trend'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'KES ' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Payment Method Chart
+const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+const paymentChart = new Chart(paymentCtx, {
+    type: 'doughnut',
+    data: {
+        labels: {{ payment_labels|safe }},
+        datasets: [{
+            data: {{ payment_data|safe }},
+            backgroundColor: [
+                '#ff6b6b',
+                '#48dbfb',
+                '#1dd1a1',
+                '#f368e0',
+                '#ff9f43'
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += 'KES ' + context.parsed;
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

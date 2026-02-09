@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ order.po_number }} - Winners Cosmetics{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-shopping-cart"></i> Purchase Order #{{ order.po_number }}
+{% endblock %}
+
+{% block page_actions %}
+<div class="btn-group">
+    <a href="{% url 'purchase_order_edit' order.pk %}" class="btn btn-outline-primary">
+        <i class="fas fa-edit"></i> Edit
+    </a>
+    <a href="{% url 'purchase_order_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Orders
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Order Header -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Order Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="text-muted small">Order Number</label>
+                            <h6>{{ order.po_number }}</h6>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small">Supplier</label>
+                            <h6>{{ order.supplier.name }}</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="text-muted small">Order Date</label>
+                            <h6>{{ order.order_date|date:"M d, Y" }}</h6>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted small">Expected Delivery</label>
+                            <h6>{{ order.expected_date|date:"M d, Y" }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Order Items</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-end">Quantity</th>
+                                <th class="text-end">Unit Cost</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td>{{ item.product.name }}</td>
+                                <td class="text-end">{{ item.quantity }}</td>
+                                <td class="text-end">KES {{ item.unit_cost|floatformat:2 }}</td>
+                                <td class="text-end">KES {{ item.total_cost|floatformat:2 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-3">No items in this order</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Order Total:</td>
+                                <td class="text-end fw-bold">KES {{ order.total_amount|floatformat:2 }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Notes -->
+        {% if order.notes %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Notes</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ order.notes }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Status Badge -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Order Status</h5>
+            </div>
+            <div class="card-body text-center">
+                <span class="badge bg-{{ order.status|lower }} p-3" style="font-size: 1rem;">
+                    {% if order.status == 'DRAFT' %}
+                        <i class="fas fa-file"></i> Draft
+                    {% elif order.status == 'PENDING' %}
+                        <i class="fas fa-clock"></i> Pending Approval
+                    {% elif order.status == 'APPROVED' %}
+                        <i class="fas fa-check"></i> Approved
+                    {% elif order.status == 'ORDERED' %}
+                        <i class="fas fa-cart-arrow-down"></i> Ordered
+                    {% elif order.status == 'RECEIVED' %}
+                        <i class="fas fa-box"></i> Received
+                    {% elif order.status == 'COMPLETED' %}
+                        <i class="fas fa-check-circle"></i> Completed
+                    {% elif order.status == 'CANCELLED' %}
+                        <i class="fas fa-ban"></i> Cancelled
+                    {% else %}
+                        {{ order.status }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Order Details -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="text-muted small">Status</label>
+                    <p class="mb-0">{{ order.get_status_display }}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Created By</label>
+                    <p class="mb-0">{{ order.created_by.get_full_name|default:order.created_by }}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small">Created At</label>
+                    <p class="mb-0">{{ order.created_at|date:"M d, Y H:i" }}</p>
+                </div>
+                <div class="mb-0">
+                    <label class="text-muted small">Last Updated</label>
+                    <p class="mb-0">{{ order.updated_at|date:"M d, Y H:i" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+{% block title %}Stock Transactions - Winners Cosmetics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .transaction-type {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .type-purchase { background-color: #d4edda; color: #155724; }
+    .type-sale { background-color: #cce5ff; color: #004085; }
+    .type-adjustment { background-color: #fff3cd; color: #856404; }
+    .type-return { background-color: #d1ecf1; color: #0c5460; }
+    .type-damage { background-color: #f8d7da; color: #721c24; }
+    .type-transfer { background-color: #e2e3e5; color: #383d41; }
+    .type-expired { background-color: #d6d8d9; color: #1b1e21; }
+    .quantity-change {
+        font-weight: bold;
+    }
+    .quantity-positive { color: #28a745; }
+    .quantity-negative { color: #dc3545; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">
+        <i class="fas fa-exchange-alt"></i> Stock Transactions
+    </h1>
+    <div>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+        <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#bulkAdjustmentModal">
+            <i class="fas fa-cogs"></i> Bulk Adjustment
+        </a>
+    </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Transactions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" id="filterForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Start Date</label>
+                                <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">End Date</label>
+                                <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Transaction Type</label>
+                                <select class="form-select" name="transaction_type">
+                                    <option value="">All Types</option>
+                                    {% for type_code, type_name in transaction_types %}
+                                    <option value="{{ type_code }}" {% if transaction_type == type_code %}selected{% endif %}>
+                                        {{ type_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Product</label>
+                                <select class="form-select" name="product">
+                                    <option value="">All Products</option>
+                                    {% for product in products %}
+                                    <option value="{{ product.id }}" {% if product_id == product.id %}selected{% endif %}>
+                                        {{ product.name }} ({{ product.sku }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'stock_transactions' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Clear Filters
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Adjustment Modal -->
+<div class="modal fade" id="bulkAdjustmentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bulk Stock Adjustment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bulkAdjustmentForm">
+                    <div class="mb-3">
+                        <label class="form-label">Products</label>
+                        <select class="form-select" multiple size="5" id="bulkProducts">
+                            {% for product in products %}
+                            <option value="{{ product.id }}">{{ product.name }} (Current: {{ product.quantity }})</option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Hold Ctrl to select multiple products</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Adjustment Type</label>
+                        <select class="form-select" id="bulkAdjustmentType">
+                            <option value="ADD">Add Stock</option>
+                            <option value="REMOVE">Remove Stock</option>
+                            <option value="SET">Set Stock to Specific Value</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="bulkQuantity" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Reason</label>
+                        <select class="form-select" id="bulkReason">
+                            <option value="ADJUSTMENT">Stock Adjustment</option>
+                            <option value="PHYSICAL_COUNT">Physical Count</option>
+                            <option value="SEASONAL">Seasonal Adjustment</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" id="bulkNotes" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveBulkAdjustment">Apply Adjustments</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Stats -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h6 class="card-title">Total Transactions</h6>
+                <h2 class="mb-0">{{ page_obj.paginator.count }}</h2>
+                <small>all time</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h6 class="card-title">Stock Added</h6>
+                <h2 class="mb-0">
+                    {% with added=page_obj.object_list|filter_by_type:'PURCHASE'|sum_field:'quantity' %}
+                        {{ added|default:"0" }}
+                    {% endwith %}
+                </h2>
+                <small>units this period</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title">Stock Sold</h6>
+                <h2 class="mb-0">
+                    {% with sold=page_obj.object_list|filter_by_type:'SALE'|sum:'quantity'|abs %}
+                        {{ sold }}
+                    {% endwith %}
+                </h2>
+                <small>units this period</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h6 class="card-title">Net Change</h6>
+                <h2 class="mb-0">
+                    {% with net_change=page_obj.object_list|sum:'quantity' %}
+                        {{ net_change }}
+                    {% endwith %}
+                </h2>
+                <small>units this period</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Product</th>
+                        <th>Transaction Type</th>
+                        <th>Quantity Change</th>
+                        <th>Stock Levels</th>
+                        <th>Reference</th>
+                        <th>User</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in page_obj %}
+                    <tr>
+                        <td>
+                            {{ transaction.created_at|date:"M d, Y" }}
+                            <br>
+                            <small class="text-muted">{{ transaction.created_at|time:"H:i:s" }}</small>
+                        </td>
+                        <td>
+                            <a href="{% url 'product_detail' transaction.product.pk %}" class="text-decoration-none">
+                                {{ transaction.product.name }}
+                            </a>
+                            <br>
+                            <small class="text-muted">{{ transaction.product.sku }}</small>
+                        </td>
+                        <td>
+                            <span class="transaction-type type-{{ transaction.transaction_type|lower }}">
+                                {{ transaction.get_transaction_type_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="quantity-change {% if transaction.quantity >= 0 %}quantity-positive{% else %}quantity-negative{% endif %}">
+                                {% if transaction.quantity >= 0 %}+{% endif %}{{ transaction.quantity }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ transaction.previous_quantity }} → {{ transaction.new_quantity }}
+                        </td>
+                        <td>
+                            {% if transaction.reference %}
+                            <small>{{ transaction.reference|truncatechars:20 }}</small>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ transaction.created_by.get_full_name|default:"System" }}
+                        </td>
+                        <td>
+                            {% if transaction.notes %}
+                            <small>{{ transaction.notes|truncatechars:30 }}</small>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-exchange-alt fa-2x mb-3"></i>
+                                <p>No transactions found</p>
+                                {% if start_date or end_date or transaction_type or product_id %}
+                                <p>Try changing your filters</p>
+                                <a href="{% url 'stock_transactions' %}" class="btn btn-outline-primary">
+                                    Clear Filters
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if transaction_type %}&transaction_type={{ transaction_type }}{% endif %}{% if product_id %}&product={{ product_id }}{% endif %}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if transaction_type %}&transaction_type={{ transaction_type }}{% endif %}{% if product_id %}&product={{ product_id }}{% endif %}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if transaction_type %}&transaction_type={{ transaction_type }}{% endif %}{% if product_id %}&product={{ product_id }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if transaction_type %}&transaction_type={{ transaction_type }}{% endif %}{% if product_id %}&product={{ product_id }}{% endif %}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}{% if transaction_type %}&transaction_type={{ transaction_type }}{% endif %}{% if product_id %}&product={{ product_id }}{% endif %}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Transaction Chart -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-chart-bar"></i> Transaction Overview
+        </h5>
+    </div>
+    <div class="card-body">
+        <canvas id="transactionChart" height="100"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Transaction Chart
+    const ctx = document.getElementById('transactionChart').getContext('2d');
+    const transactionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Purchase', 'Sale', 'Adjustment', 'Return', 'Damage', 'Transfer', 'Expired'],
+            datasets: [{
+                label: 'Transaction Count',
+                data: [
+                    {{ page_obj.object_list|filter_by_type:'PURCHASE'|length }},
+                    {{ page_obj.object_list|filter_by_type:'SALE'|length }},
+                    {{ page_obj.object_list|filter_by_type:'ADJUSTMENT'|length }},
+                    {{ page_obj.object_list|filter_by_type:'RETURN'|length }},
+                    {{ page_obj.object_list|filter_by_type:'DAMAGE'|length }},
+                    {{ page_obj.object_list|filter_by_type:'TRANSFER'|length }},
+                    {{ page_obj.object_list|filter_by_type:'EXPIRED'|length }}
+                ],
+                backgroundColor: [
+                    '#28a745', '#007bff', '#ffc107', '#17a2b8', '#dc3545', '#6c757d', '#343a40'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+    
+    // Auto-submit filter form
+    $('#filterModal select').on('change', function() {
+        if ($(this).val()) {
+            $('#filterForm').submit();
+        }
+    });
+    
+    // Save bulk adjustment
+    $('#saveBulkAdjustment').on('click', function() {
+        const productIds = $('#bulkProducts').val();
+        const type = $('#bulkAdjustmentType').val();
+        const quantity = parseInt($('#bulkQuantity').val());
+        const reason = $('#bulkReason').val();
+        const notes = $('#bulkNotes').val();
+        
+        if (!productIds || productIds.length === 0) {
+            alert('Please select at least one product');
+            return;
+        }
+        
+        if (quantity <= 0) {
+            alert('Quantity must be greater than 0');
+            return;
+        }
+        
+        if (confirm(`Apply ${type} of ${quantity} units to ${productIds.length} product(s)?`)) {
+            $.ajax({
+                url: '{% url "stock_transactions" %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                    action: 'bulk_adjustment',
+                    product_ids: productIds,
+                    type: type,
+                    quantity: quantity,
+                    reason: reason,
+                    notes: notes
+                }),
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.error);
+                    }
+                }
+            });
+        }
+    });
+    
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}

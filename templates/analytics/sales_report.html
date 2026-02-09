@@ -1,0 +1,496 @@
+{% extends 'base_dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Sales Analytics - Winners Cosmetics{% endblock %}
+
+{% block page_title %}
+<i class="fas fa-chart-line"></i> Sales Analytics Report
+{% endblock %}
+
+{% block page_actions %}
+<div class="d-flex gap-2 flex-wrap align-items-center">
+    <a href="{% url 'inventory_report' %}" class="btn btn-sm btn-outline-info">
+        <i class="fas fa-boxes"></i> Inventory Report
+    </a>
+    <a href="{% url 'financial_report' %}" class="btn btn-sm btn-outline-success">
+        <i class="fas fa-chart-pie"></i> Financial Report
+    </a>
+    <a href="{% url 'product_performance' %}" class="btn btn-sm btn-outline-warning">
+        <i class="fas fa-star"></i> Product Performance
+    </a>
+    <div class="vr"></div>
+    <a href="{% url 'export_report_pdf' %}?report_type=sales&start_date={{ start_date|date:'Y-m-d' }}&end_date={{ end_date|date:'Y-m-d' }}" 
+       class="btn btn-sm btn-outline-danger">
+        <i class="fas fa-file-pdf"></i> Export PDF
+    </a>
+    <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+        <i class="fas fa-print"></i> Print
+    </button>
+    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#dateFilterModal">
+        <i class="fas fa-filter"></i> Filter Dates
+    </button>
+</div>
+{% endblock %}
+
+{% block dashboard_content %}
+<!-- Date Filter Modal -->
+<div class="modal fade" id="dateFilterModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Report Dates</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="GET">
+                    {{ form|crispy }}
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'sales_report' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-calendar-alt"></i> This Month
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards - Modern Style -->
+<div class="row mb-4 g-3">
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm"  style="border-top: 4px solid #10b981;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Total Revenue</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ summary.total_sales|default:0|floatformat:2 }}</h3>
+                        <small class="text-muted">{{ summary.total_transactions|default:0 }} transactions</small>
+                    </div>
+                    <i class="fas fa-coins text-success" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm"  style="border-top: 4px solid #3b82f6;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Average Sale</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ summary.avg_sale|default:0|floatformat:2 }}</h3>
+                        <small class="text-muted">per transaction</small>
+                    </div>
+                    <i class="fas fa-average text-info" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm"  style="border-top: 4px solid #f59e0b;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Total Discount</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ summary.total_discount|default:0|floatformat:2 }}</h3>
+                        <small class="text-muted">{{ summary.total_discount|divide:summary.total_sales|multiply:100|default:0|floatformat:1 }}% of revenue</small>
+                    </div>
+                    <i class="fas fa-tag text-warning" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm"  style="border-top: 4px solid #ef4444;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted small mb-2">Total Tax</p>
+                        <h3 class="font-weight-bold mb-1">KES {{ summary.total_tax|default:0|floatformat:2 }}</h3>
+                        <small class="text-muted">{{ summary.total_tax|divide:summary.total_sales|multiply:100|default:0|floatformat:1 }}% of revenue</small>
+                    </div>
+                    <i class="fas fa-percent text-danger" style="font-size: 2rem; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Daily Trend Chart -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-area text-primary"></i> Daily Sales Trend
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="dailyTrendChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Breakdown -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-credit-card text-success"></i> Payment Method Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Count</th>
+                                <th>Amount</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment in payment_breakdown %}
+                            <tr>
+                                <td>
+                                    <span class="badge {% if payment.payment_method == 'MPESA' %}bg-success{% elif payment.payment_method == 'CASH' %}bg-warning{% else %}bg-info{% endif %}">
+                                        {{ payment.payment_method }}
+                                    </span>
+                                </td>
+                                <td>{{ payment.count }}</td>
+                                <td class="text-success">KES {{ payment.total|floatformat:2 }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 10px;">
+                                            <div class="progress-bar" 
+                                                 style="width: {% widthratio payment.total summary.total_sales 100 %}%;
+                                                        background-color: {% if payment.payment_method == 'MPESA' %}#28a745{% elif payment.payment_method == 'CASH' %}#ffc107{% else %}#17a2b8{% endif %}">
+                                            </div>
+                                        </div>
+                                        <span>{% widthratio payment.total summary.total_sales 100 %}%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie text-info"></i> Payment Distribution
+                </h5>
+            </div>
+            <div class="card-body">
+                <canvas id="paymentChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Products -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-star text-warning"></i> Top Selling Products
+                </h5>
+                <span class="badge bg-primary">Top 20 Products</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Quantity Sold</th>
+                                <th>Revenue</th>
+                                <th>Profit</th>
+                                <th>Profit Margin</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in top_products %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <strong>{{ product.product__name|default:"Unknown Product" }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ product.product__sku|default:"N/A" }}</small>
+                                </td>
+                                <td>{{ product.product__sku|default:"N/A" }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ product.total_quantity|default:0 }}</span>
+                                </td>
+                                <td class="text-success">KES {{ product.total_revenue|default:0|floatformat:2 }}</td>
+                                <td class="text-success">KES {{ product.total_profit|default:0|floatformat:2 }}</td>
+                                <td>
+                                    <span class="badge {% if product.total_profit|divide:product.total_revenue|multiply:100 > 50 %}bg-success{% elif product.total_profit|divide:product.total_revenue|multiply:100 > 20 %}bg-warning{% else %}bg-info{% endif %}">
+                                        {% if product.total_revenue > 0 %}
+                                            {{ product.total_profit|divide:product.total_revenue|multiply:100|floatformat:1 }}%
+                                        {% else %}
+                                            0.0%
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% with ratio=product.total_quantity|divide:max_total_quantity %}
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar" 
+                                             style="width: {% widthratio product.total_quantity max_total_quantity 100 %}%;
+                                                    background-color: {% if ratio > 0.8 %}#28a745{% elif ratio > 0.5 %}#ffc107{% else %}#17a2b8{% endif %}">
+                                        </div>
+                                    </div>
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">No sales data available for this period</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Daily Breakdown -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-calendar-alt text-primary"></i> Daily Sales Breakdown
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>Transactions</th>
+                                <th>Total Sales</th>
+                                <th>Average Sale</th>
+                                <th>Growth</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for day in daily_sales %}
+                            <tr>
+                                <td>{{ day.day|date:"M d, Y" }}</td>
+                                <td>{{ day.day|date:"l" }}</td>
+                                <td>{{ day.daily_count }}</td>
+                                <td class="text-success">KES {{ day.daily_total|floatformat:2 }}</td>
+                                <td>
+                                    {% if day.daily_count > 0 %}
+                                        KES {{ day.daily_total|divide:day.daily_count|floatformat:2 }}
+                                    {% else %}
+                                        KES 0.00
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if forloop.counter0 > 0 %}
+                                        {% with prev_day=daily_sales|slice:forloop.counter0|last %}
+                                            {% if prev_day.daily_total > 0 %}
+                                                {% with growth=day.daily_total|subtract:prev_day.daily_total|divide:prev_day.daily_total|multiply:100 %}
+                                                    <span class="badge {% if growth > 0 %}bg-success{% else %}bg-danger{% endif %}">
+                                                        {% if growth > 0 %}+{% endif %}{{ growth|floatformat:1 }}%
+                                                    </span>
+                                                {% endwith %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% else %}
+                                        <span class="badge bg-secondary">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if day.daily_total > average_daily_sales|multiply:1.5 %}
+                                        <i class="fas fa-arrow-up text-success"></i> High
+                                    {% elif day.daily_total > average_daily_sales|multiply:0.8 %}
+                                        <i class="fas fa-minus text-warning"></i> Normal
+                                    {% else %}
+                                        <i class="fas fa-arrow-down text-danger"></i> Low
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No daily data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-primary">
+                                <td colspan="2"><strong>PERIOD TOTAL</strong></td>
+                                <td><strong>{{ summary.total_transactions|default:0 }}</strong></td>
+                                <td class="text-success"><strong>KES {{ summary.total_sales|default:0|floatformat:2 }}</strong></td>
+                                <td><strong>KES {{ summary.avg_sale|default:0|floatformat:2 }}</strong></td>
+                                <td colspan="2">
+                                    {% if daily_sales|length > 1 %}
+                                        {% with first_day=daily_sales.first.daily_total last_day=daily_sales.last.daily_total %}
+                                            {% if first_day > 0 %}
+                                                {% with overall_growth=last_day|subtract:first_day|divide:first_day|multiply:100 %}
+                                                    <strong>
+                                                        <span class="badge {% if overall_growth > 0 %}bg-success{% else %}bg-danger{% endif %}">
+                                                            Overall: {% if overall_growth > 0 %}+{% endif %}{{ overall_growth|floatformat:1 }}%
+                                                        </span>
+                                                    </strong>
+                                                {% endwith %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(document).ready(function() {
+    // Daily Trend Chart
+    const dailyCtx = document.getElementById('dailyTrendChart').getContext('2d');
+    const dailyChart = new Chart(dailyCtx, {
+        type: 'line',
+        data: {
+            labels: {{ daily_sales|map:'day'|date:"M d"|safe }},
+            datasets: [{
+                label: 'Daily Revenue (KES)',
+                data: {{ daily_sales|map:'daily_total'|safe }},
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Transaction Count',
+                data: {{ daily_sales|map:'daily_count'|safe }},
+                borderColor: '#28a745',
+                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                yAxisID: 'y1'
+            }]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Daily Sales Trend'
+                }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Revenue (KES)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return 'KES ' + value;
+                        }
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Transaction Count'
+                    },
+                    grid: {
+                        drawOnChartArea: false,
+                    },
+                }
+            }
+        }
+    });
+    
+    // Payment Method Chart
+    const paymentCtx = document.getElementById('paymentChart').getContext('2d');
+    const paymentChart = new Chart(paymentCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ payment_breakdown|map:'payment_method'|safe }},
+            datasets: [{
+                data: {{ payment_breakdown|map:'total'|safe }},
+                backgroundColor: [
+                    '#ffc107', '#28a745', '#007bff', '#17a2b8', '#6c757d',
+                    '#6610f2', '#e83e8c', '#fd7e14', '#20c997', '#343a40'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += 'KES ' + context.parsed;
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Auto-open filter modal if no date range selected
+    {% if not start_date or not end_date %}
+    $(document).ready(function() {
+        $('#dateFilterModal').modal('show');
+    });
+    {% endif %}
+});
+</script>
+{% endblock %}
