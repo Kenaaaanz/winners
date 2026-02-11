@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from decouple import config
 import logging
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,12 +81,25 @@ WSGI_APPLICATION = 'winners.wsgi.application'
 
 # Database
 # Using SQLite by default for easier setup
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+#DATABASES = {
+    #'default': {
+        #'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
+        #'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+    #}
+#}
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    #Production - PostgreSQL on Render
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True  # Important for Render
+        )
     }
-}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -219,7 +234,7 @@ MPESA_INITIATOR_PASSWORD = config('MPESA_INITIATOR_PASSWORD', default='Onsare@67
 MPESA_CERTIFICATE_PATH = config('MPESA_CERTIFICATE_PATH', default='')
 
 # Callback URLs (will be auto-generated)
-BASE_URL = config('BASE_URL', default='http://localhost:8000')
+BASE_URL = config('BASE_URL', default='http://http://127.0.0.1:4040/api')
 
 # Transaction Settings
 MPESA_MAX_AMOUNT = 150000  # Maximum amount per transaction
@@ -227,4 +242,4 @@ MPESA_MIN_AMOUNT = 1       # Minimum amount per transaction
 MPESA_TRANSACTION_FEE_PERCENTAGE = 0.01  # 1% transaction fee estimate
 
 # Security
-MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET', default='your-secret-key-here')
+MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET', default='rd_33FKei72j917YovoqGnFDzQukTy')

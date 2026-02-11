@@ -1160,3 +1160,18 @@ INFO 2026-02-09 12:59:16,337 basehttp "GET /pos/sales/8/receipt/ HTTP/1.1" 200 2
 INFO 2026-02-09 12:59:47,856 basehttp "GET /pos/sales/8/ HTTP/1.1" 200 38730
 INFO 2026-02-09 12:59:56,396 basehttp "GET /pos/sales/8/receipt/ HTTP/1.1" 200 2482
 INFO 2026-02-09 13:00:26,489 basehttp "GET /pos/sales/4/ HTTP/1.1" 200 37740
+INFO 2026-02-11 11:11:16,586 autoreload Watching for file changes with StatReloader
+INFO 2026-02-11 11:12:05,007 basehttp "GET / HTTP/1.1" 200 33570
+INFO 2026-02-11 11:12:06,473 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+WARNING 2026-02-11 11:12:09,004 basehttp "GET /favicon.ico HTTP/1.1" 404 6808
+INFO 2026-02-11 11:12:25,188 basehttp "GET /pos/ HTTP/1.1" 200 75557
+INFO 2026-02-11 11:12:25,602 basehttp "GET /media/products/images.jpg HTTP/1.1" 304 0
+INFO 2026-02-11 11:12:25,923 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 304 0
+INFO 2026-02-11 11:12:26,221 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-11 11:12:28,116 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-11 11:12:44,282 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 211
+INFO 2026-02-11 11:26:25,599 autoreload Watching for file changes with StatReloader
+INFO 2026-02-11 11:26:43,981 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 206
+INFO 2026-02-11 11:26:47,460 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 204
+INFO 2026-02-11 11:26:58,003 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 211
+INFO 2026-02-11 13:33:39,632 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
