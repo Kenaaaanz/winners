@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 set -o errexit
 
-# Nuclear clean
-rm -rf .venv 2>/dev/null || true
-python -m venv .venv
-source .venv/bin/activate
+# DON'T delete the entire venv - Render manages this
+# Instead, just ensure setuptools is pinned
 
-# Install with explicit version pin FIRST
-pip install --upgrade pip wheel
-pip install "setuptools<81"  # ← Install BEFORE your requirements
+# Install dependencies
+pip install -r requirements.txt
 
-# Now install your project
-poetry install  # OR pip install -r requirements.txt
+# CRITICAL: Downgrade setuptools
+pip install --force-reinstall "setuptools<81"
 
+# Django commands
 python manage.py collectstatic --no-input
 python manage.py migrate
