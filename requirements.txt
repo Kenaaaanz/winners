@@ -27,3 +27,5 @@ dj_database_url
 django-storages
 django-jazzmin
 psycopg2-binary
+gunicorn
+boto3
