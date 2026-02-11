@@ -1175,3 +1175,22 @@ INFO 2026-02-11 11:26:43,981 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 206
 INFO 2026-02-11 11:26:47,460 basehttp "POST /pos/update-cart/ HTTP/1.1" 200 204
 INFO 2026-02-11 11:26:58,003 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 211
 INFO 2026-02-11 13:33:39,632 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-11 22:36:04,709 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-11 22:36:56,914 base Session data corrupted
+INFO 2026-02-11 22:36:56,990 basehttp "GET / HTTP/1.1" 302 0
+WARNING 2026-02-11 22:36:57,098 base Session data corrupted
+INFO 2026-02-11 22:36:58,749 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 200 25552
+INFO 2026-02-11 22:36:59,705 basehttp "GET /static/css/unified.css HTTP/1.1" 304 0
+WARNING 2026-02-11 22:37:09,535 base Session data corrupted
+INFO 2026-02-11 22:37:10,611 basehttp "POST /accounts/login/?next=/ HTTP/1.1" 302 0
+INFO 2026-02-11 22:37:10,829 basehttp "GET / HTTP/1.1" 200 33570
+INFO 2026-02-11 22:37:14,578 basehttp "GET /pos/ HTTP/1.1" 200 75557
+INFO 2026-02-11 22:37:15,096 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-11 22:37:15,246 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-11 22:37:15,280 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-11 22:37:16,162 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-11 22:37:30,777 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 80
+INFO 2026-02-11 22:44:10,751 basehttp "GET /pos/ HTTP/1.1" 200 75557
+INFO 2026-02-11 22:44:12,075 basehttp "GET /pos/cart/ HTTP/1.1" 200 198
+INFO 2026-02-11 22:44:25,043 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 80
+INFO 2026-02-11 22:45:24,505 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
