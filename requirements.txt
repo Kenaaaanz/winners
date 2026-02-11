@@ -26,3 +26,4 @@ import-export
 dj_database_url
 django-storages
 django-jazzmin
+psycopg2-binary
