@@ -24,3 +24,5 @@ django-celery-results
 django-celery-beat
 import-export
 dj_database_url
+django-storages
+django-jazzmin
