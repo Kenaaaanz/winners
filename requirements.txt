@@ -23,3 +23,5 @@ django-celery-results==2.5.1
 django-celery-beat==2.5.0
 import-export
 dj_database_url
+setuptools
+wheel
