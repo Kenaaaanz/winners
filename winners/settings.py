@@ -243,4 +243,4 @@ MPESA_MIN_AMOUNT = 1       # Minimum amount per transaction
 MPESA_TRANSACTION_FEE_PERCENTAGE = 0.01  # 1% transaction fee estimate
 
 # Security
-MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET', default='rd_33FKei72j917YovoqGnFDzQukTy')
+MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET')

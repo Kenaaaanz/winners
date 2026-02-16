@@ -37,6 +37,7 @@ urlpatterns = [
     
     # M-Pesa API endpoints
     path('api/mpesa/', include('core.mpesa_urls')),
+    path('sandbox/mpesa/', include('core.mpesa_urls')),
 
 ]
 
