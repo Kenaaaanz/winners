@@ -215,13 +215,13 @@ MESSAGE_TAGS = {
 }
 
 # M-Pesa Configuration
-MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT', default='sandbox')  # 'sandbox' or 'production'
+MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT', default='production')  # 'sandbox' or 'production'
 
 # Sandbox Credentials (for testing)
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY', default='nOcuZAiz50VIwfOQVra2xGil4W2Y1cOyBAlWzpPImZMXSUtF')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET', default='cZIsoViWizjimu2485UyW68YF5oU988CnsBvGQtO6EH3KoRGcpRdFsVzOj2StT4z')
-MPESA_SHORTCODE = config('MPESA_SHORTCODE', default='174379')  # Sandbox: 174379
-MPESA_PASSKEY = config('MPESA_PASSKEY', default='bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919')
+MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
+MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
+MPESA_SHORTCODE = config('MPESA_SHORTCODE')  # Sandbox: 174379
+MPESA_PASSKEY = config('MPESA_PASSKEY')
 
 # Production Credentials (update for production)
 # MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY_PROD', default='')
