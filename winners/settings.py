@@ -215,13 +215,13 @@ MESSAGE_TAGS = {
 }
 
 # M-Pesa Configuration
-MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT', default='production')  # 'sandbox' or 'production'
+MPESA_ENVIRONMENT = os.environ.get('MPESA_ENVIRONMENT')
 
 # Sandbox Credentials (for testing)
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
-MPESA_SHORTCODE = config('MPESA_SHORTCODE')  # Sandbox: 174379
-MPESA_PASSKEY = config('MPESA_PASSKEY')
+MPESA_CONSUMER_KEY = os.environ.get('MPESA_CONSUMER_KEY')
+MPESA_CONSUMER_SECRET = os.environ.get('MPESA_CONSUMER_SECRET')
+MPESA_SHORTCODE = os.environ.get('MPESA_SHORTCODE')  # Sandbox: 174379
+MPESA_PASSKEY = os.environ.get('MPESA_PASSKEY')
 
 # Production Credentials (update for production)
 # MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY_PROD', default='')
@@ -230,12 +230,12 @@ MPESA_PASSKEY = config('MPESA_PASSKEY')
 # MPESA_PASSKEY = config('MPESA_PASSKEY_PROD', default='')
 
 # Initiator Credentials (for B2C, Reversal, etc.)
-MPESA_INITIATOR_NAME = config('MPESA_INITIATOR_NAME', default='winners')
-MPESA_INITIATOR_PASSWORD = config('MPESA_INITIATOR_PASSWORD', default='Onsare@674472')
-MPESA_CERTIFICATE_PATH = config('MPESA_CERTIFICATE_PATH', default='')
+MPESA_INITIATOR_NAME = os.environ.get('MPESA_INITIATOR_NAME', default='winners')
+MPESA_INITIATOR_PASSWORD = os.environ.get('MPESA_INITIATOR_PASSWORD', default='Onsare@674472')
+MPESA_CERTIFICATE_PATH = os.environ.get('MPESA_CERTIFICATE_PATH', default='')
 
 # Callback URLs (will be auto-generated)
-BASE_URL = config('BASE_URL', default='https://winners-gbaz.onrender.com')
+BASE_URL = os.environ.get('BASE_URL', default='https://winners-gbaz.onrender.com')
 
 # Transaction Settings
 MPESA_MAX_AMOUNT = 150000  # Maximum amount per transaction
@@ -243,4 +243,4 @@ MPESA_MIN_AMOUNT = 1       # Minimum amount per transaction
 MPESA_TRANSACTION_FEE_PERCENTAGE = 0.01  # 1% transaction fee estimate
 
 # Security
-MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET')
+MPESA_CALLBACK_SECRET = os.environ.get('MPESA_CALLBACK_SECRET')
