@@ -227,7 +227,7 @@ def process_sale(request):
                     tax_rate=tax_rate,
                     total=total,
                     payment_method=data.get('payment_method', 'CASH'),
-                    status='PENDING' if data.get('payment_method') == 'MPESA' else 'COMPLETED',
+                    status='PENDING' if data.get('payment_method') in ('MPESA', 'PAYSTACK') else 'COMPLETED',
                     notes=data.get('notes', ''),
                     amount_paid=Decimal(str(data.get('amount_paid', total))),
                     change_given=Decimal(str(data.get('change_given', 0)))
@@ -398,6 +398,22 @@ def sale_detail(request, pk):
     }
     
     return render(request, 'pos/sale_detail.html', context)
+
+@login_required
+def receipt(request, sale_id):
+    """View and download receipt for a sale"""
+    sale = get_object_or_404(Sale, id=sale_id)
+    
+    # Check permission - user must be cashier or admin
+    if request.user != sale.cashier and not request.user.is_staff:
+        return redirect('pos_dashboard')
+    
+    context = {
+        'sale': sale,
+        'items': sale.items.all(),
+    }
+    
+    return render(request, 'pos/receipt_view.html', context)
 
 @login_required
 def print_receipt(request, sale_id):

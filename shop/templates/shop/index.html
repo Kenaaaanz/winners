@@ -1,0 +1,807 @@
+{% extends 'shop/base_shop.html' %}
+{% load static %}
+
+{% block title %}Luxury Cosmetics - Winners Cosmetics{% endblock %}
+
+{% block content %}
+<style>
+  /* Luxury Typography */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  :root {
+    --gold: #D4AF37;
+    --rose-gold: #B76E79;
+    --champagne: #F7E7CE;
+    --charcoal: #2C2C2C;
+    --ivory: #FFFFF0;
+    --blush: #FADADD;
+    --plum: #8B4C61;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #faf9f8;
+  }
+
+  .luxury-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+
+  .luxury-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--rose-gold));
+  }
+
+  /* Hero Section - Elegant Carousel */
+  .luxury-hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    margin-bottom: 4rem;
+    border-radius: 0 0 50px 50px;
+    overflow: hidden;
+  }
+
+  .hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(44, 44, 44, 0.4) 0%, rgba(139, 76, 97, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-content {
+    color: white;
+    max-width: 800px;
+    padding: 2rem;
+    animation: fadeInUp 1.5s ease;
+  }
+
+  .hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 15px 40px;
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .hero-cta:hover::before {
+    left: 100%;
+  }
+
+  .hero-cta:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--charcoal);
+  }
+
+  /* Luxury Search Bar */
+  .luxury-search-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: -50px auto 3rem;
+    z-index: 10;
+  }
+
+  .luxury-search {
+    background: white;
+    border-radius: 50px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .luxury-search input {
+    flex: 1;
+    border: none;
+    padding: 18px 25px;
+    font-size: 1rem;
+    background: transparent;
+    outline: none;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  .luxury-search input::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+
+  .luxury-search button {
+    background: linear-gradient(135deg, var(--charcoal) 0%, var(--plum) 100%);
+    border: none;
+    color: var(--gold);
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid var(--gold);
+  }
+
+  .luxury-search button:hover {
+    background: linear-gradient(135deg, var(--plum) 0%, var(--charcoal) 100%);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Results Badge */
+  .results-badge {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--gold);
+    font-weight: 300;
+  }
+
+  .results-badge strong {
+    color: var(--plum);
+    font-weight: 600;
+  }
+
+  /* Product Grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+  }
+
+  .luxury-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  }
+
+  .luxury-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, var(--gold), var(--rose-gold)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .luxury-card:hover::before {
+    opacity: 1;
+  }
+
+  .luxury-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 40px -15px rgba(212, 175, 55, 0.3);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .badge-featured {
+    background: linear-gradient(135deg, var(--gold) 0%, #F5E6B2 100%);
+    color: var(--charcoal);
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    backdrop-filter: blur(5px);
+  }
+
+  .badge-new {
+    background: linear-gradient(135deg, var(--plum) 0%, #C06C84 100%);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 15px rgba(139, 76, 97, 0.3);
+  }
+
+  .product-image-wrapper {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+
+  .luxury-card:hover .product-image {
+    transform: scale(1.1);
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(44, 44, 44, 0.1) 100%);
+  }
+
+  .quick-actions {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    display: flex;
+    gap: 10px;
+    transition: transform 0.4s ease;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .luxury-card:hover .quick-actions {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .quick-action-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    color: var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .quick-action-btn:hover {
+    background: var(--gold);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .product-details {
+    padding: 25px 20px;
+    background: white;
+    position: relative;
+  }
+
+  .product-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--plum);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .product-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-weight: 300;
+  }
+
+  .product-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .brand-badge {
+    background: var(--champagne);
+    color: var(--charcoal);
+    padding: 5px 12px;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .stock-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stock-status.in-stock {
+    color: #2ecc71;
+  }
+
+  .stock-status.out-of-stock {
+    color: #e74c3c;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    padding-top: 15px;
+  }
+
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--plum);
+    line-height: 1;
+  }
+
+  .price-currency {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--gold);
+    margin-right: 2px;
+  }
+
+  .btn-shop {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--charcoal);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-shop:hover {
+    background: var(--gold);
+    color: white;
+    text-decoration: none;
+  }
+
+  /* Featured Section */
+  .featured-section {
+    margin-bottom: 5rem;
+    position: relative;
+  }
+
+  .featured-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .featured-header .luxury-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Pagination */
+  .luxury-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 3rem;
+  }
+
+  .page-link-luxury {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: white;
+    color: var(--charcoal);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .page-link-luxury:hover,
+  .page-link-luxury.active {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    color: white;
+    transform: scale(1.1);
+    border-color: transparent;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border-radius: 30px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .empty-state-icon {
+    font-size: 5rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .empty-state h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+  }
+
+  .empty-state p {
+    color: #666;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<div class="container-fluid p-0">
+  <!-- Hero Carousel -->
+  <div class="luxury-hero">
+    <div class="hero-slide active" style="background-image: url('{% static 'shop/images/Winners.png' %}')"></div>
+    <div class="hero-slide" style="background-image: url('{% static 'shop/images/winnershero1.png' %}')"></div>
+    <div class="hero-slide" style="background-image: url('{% static 'shop/images/winnershero2.png' %}')"></div>
+    <div class="hero-slide" style="background-image: url('{% static 'shop/images/winnershero3.png' %}')"></div>
+
+
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>Winners Cosmetics</h1>
+        <p>Where Beauty Meets Luxury</p>
+        <a href="#featured" class="hero-cta">Discover Collection</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Search Bar -->
+    <div class="luxury-search-wrapper">
+      <form method="get" class="luxury-search">
+        <input type="text" name="q" placeholder="Search for luxury beauty products..." value="{{ query }}">
+        <button type="submit">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </form>
+    </div>
+
+    <!-- Results Summary -->
+    {% if query %}
+      <div class="results-badge">
+        <i class="fas fa-search" style="color: var(--gold); margin-right: 10px;"></i>
+        <strong>{{ total_results }}</strong> exquisite product{{ total_results|pluralize }} found for "<strong>{{ query }}</strong>"
+      </div>
+    {% endif %}
+
+    <!-- Featured Section -->
+    {% if featured and not query %}
+      <div class="featured-section" id="featured">
+        <div class="featured-header">
+          <h2 class="luxury-title">
+            <i class="fas fa-star" style="color: var(--gold); margin-right: 10px;"></i> 
+            Featured Collection
+          </h2>
+        </div>
+        
+        <div class="product-grid">
+          {% for product in featured %}
+            <div class="luxury-card">
+              <div class="card-badge">
+                <span class="badge-featured">
+                  <i class="fas fa-crown"></i> FEATURED
+                </span>
+                {% if product.is_new %}
+                  <span class="badge-new">
+                    <i class="fas fa-sparkles"></i> NEW
+                  </span>
+                {% endif %}
+              </div>
+              
+              <div class="product-image-wrapper">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+                {% else %}
+                  <div class="product-image bg-light d-flex align-items-center justify-content-center">
+                    <i class="fas fa-spa fa-3x" style="color: var(--gold);"></i>
+                  </div>
+                {% endif %}
+                <div class="image-overlay"></div>
+                
+                <div class="quick-actions">
+                  <button class="quick-action-btn" onclick="addToWishlist({{ product.id }})">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="quick-action-btn" onclick="quickView({{ product.id }})">
+                    <i class="far fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="product-details">
+                <div class="product-category">{{ product.category.name }}</div>
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-description">{{ product.description|truncatewords:12 }}</p>
+                
+                <div class="product-meta">
+                  <span class="brand-badge">
+                    <i class="fas fa-tag"></i> {{ product.brand.name }}
+                  </span>
+                  <span class="stock-status {% if product.quantity > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                    {% if product.quantity > 0 %}
+                      <i class="fas fa-check-circle"></i> In Stock
+                    {% else %}
+                      <i class="fas fa-times-circle"></i> Out of Stock
+                    {% endif %}
+                  </span>
+                </div>
+                
+                <div class="product-footer">
+                  <div class="product-price">
+                    <span class="price-currency">Ksh</span> {{ product.selling_price|floatformat:0 }}
+                  </div>
+                  <a href="{% url 'shop:product_detail' product.id %}" class="btn-shop">
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- All Products -->
+    <div class="mb-5">
+      <h2 class="luxury-title">
+        {% if query %}
+          <i class="fas fa-search"></i> Search Results
+        {% else %}
+          <i class="fas fa-gem"></i> All Products
+        {% endif %}
+      </h2>
+
+      {% if page_obj.object_list %}
+        <div class="product-grid">
+          {% for product in page_obj %}
+            <div class="luxury-card">
+              <div class="product-image-wrapper">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+                {% else %}
+                  <div class="product-image bg-light d-flex align-items-center justify-content-center">
+                    <i class="fas fa-spa fa-3x" style="color: var(--gold);"></i>
+                  </div>
+                {% endif %}
+                <div class="image-overlay"></div>
+                
+                <div class="quick-actions">
+                  <button class="quick-action-btn" onclick="addToWishlist({{ product.id }})">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="quick-action-btn" onclick="quickView({{ product.id }})">
+                    <i class="far fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="product-details">
+                <div class="product-category">{{ product.category.name }}</div>
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-description">{{ product.description|truncatewords:12 }}</p>
+                
+                <div class="product-meta">
+                  <span class="brand-badge">
+                    <i class="fas fa-tag"></i> {{ product.brand.name }}
+                  </span>
+                  <span class="stock-status {% if product.quantity > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                    {% if product.quantity > 0 %}
+                      <i class="fas fa-check-circle"></i> In Stock
+                    {% else %}
+                      <i class="fas fa-times-circle"></i> Out of Stock
+                    {% endif %}
+                  </span>
+                </div>
+                
+                <div class="product-footer">
+                  <div class="product-price">
+                    <span class="price-currency">Ksh</span> {{ product.selling_price|floatformat:0 }}
+                  </div>
+                  <a href="{% url 'shop:product_detail' product.id %}" class="btn-shop">
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+          <div class="luxury-pagination">
+            {% if page_obj.has_previous %}
+              <a href="?page=1{% if query %}&q={{ query }}{% endif %}" class="page-link-luxury">
+                <i class="fas fa-angle-double-left"></i>
+              </a>
+              <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" class="page-link-luxury">
+                <i class="fas fa-angle-left"></i>
+              </a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <span class="page-link-luxury active">{{ num }}</span>
+              {% else %}
+                <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}" class="page-link-luxury">{{ num }}</a>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" class="page-link-luxury">
+                <i class="fas fa-angle-right"></i>
+              </a>
+              <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}" class="page-link-luxury">
+                <i class="fas fa-angle-double-right"></i>
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <i class="fas fa-spa"></i>
+          </div>
+          <h3>No Products Found</h3>
+          <p>We couldn't find any products matching your search. Please try different keywords or browse our featured collection.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Hero Carousel
+  document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    if (slides.length > 1) {
+      setInterval(nextSlide, 5000);
+    }
+  });
+
+  // Quick View Function (to be implemented)
+  function quickView(productId) {
+    // Implement quick view modal
+    console.log('Quick view for product:', productId);
+  }
+
+  // Add to Wishlist Function (to be implemented)
+  function addToWishlist(productId) {
+    // Implement wishlist functionality
+    console.log('Added to wishlist:', productId);
+  }
+</script>
+{% endblock %}

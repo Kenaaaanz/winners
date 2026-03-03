@@ -83,6 +83,9 @@ class Product(models.Model):
     batch_number = models.CharField(max_length=100, blank=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to='products/', blank=True)
+    # Ecommerce visibility flags
+    show_on_shop = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -197,6 +200,7 @@ class Sale(models.Model):
     PAYMENT_METHODS = [
         ('CASH', 'Cash'),
         ('MPESA', 'M-Pesa'),
+        ('PAYSTACK', 'Paystack'),
         ('CARD', 'Card'),
         ('BANK', 'Bank Transfer'),
         ('LOYALTY', 'Loyalty Points'),
@@ -228,10 +232,19 @@ class Sale(models.Model):
     mpesa_receipt = models.CharField(max_length=50, blank=True)
     mpesa_transaction_id = models.CharField(max_length=50, blank=True)
     mpesa_phone = models.CharField(max_length=15, blank=True)
+    paystack_reference = models.CharField(max_length=100, blank=True)
+    paystack_authorization_code = models.CharField(max_length=100, blank=True)
+    paystack_access_code = models.CharField(max_length=100, blank=True)
     card_last4 = models.CharField(max_length=4, blank=True)
     loyalty_points_used = models.IntegerField(default=0)
     loyalty_points_earned = models.IntegerField(default=0)
     notes = models.TextField(blank=True)
+    # Delivery information for ecommerce orders
+    delivery_name = models.CharField(max_length=200, blank=True)
+    delivery_phone = models.CharField(max_length=20, blank=True)
+    delivery_address = models.TextField(blank=True)
+    delivery_city = models.CharField(max_length=100, blank=True)
+    delivery_instructions = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -298,6 +311,59 @@ class SaleItem(models.Model):
     @property
     def profit(self):
         return (self.unit_price - self.cost_price) * self.quantity
+
+
+class PaystackTransaction(models.Model):
+    """
+    Track Paystack payment transactions
+    """
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('SUCCESS', 'Successful'),
+        ('FAILED', 'Failed'),
+        ('CANCELLED', 'Cancelled'),
+        ('REFUNDED', 'Refunded'),
+    ]
+    
+    sale = models.OneToOneField(Sale, on_delete=models.CASCADE, null=True, blank=True, related_name='paystack_transaction')
+    reference = models.CharField(max_length=100, unique=True)
+    access_code = models.CharField(max_length=100, blank=True)
+    authorization_code = models.CharField(max_length=100, blank=True)
+    email = models.EmailField()
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    currency = models.CharField(max_length=3, default='NGN')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    payment_status = models.CharField(max_length=20, blank=True)  # success, failed, etc.
+    authorization_url = models.URLField(blank=True)
+    access_code_url = models.URLField(blank=True)
+    paid_at = models.DateTimeField(null=True, blank=True)
+    verified_at = models.DateTimeField(null=True, blank=True)
+    customer_code = models.CharField(max_length=100, blank=True)
+    
+    # Metadata
+    metadata = models.JSONField(default=dict, blank=True)
+    gateway_response = models.JSONField(default=dict, blank=True)
+    
+    # Tracking
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['reference']),
+            models.Index(fields=['status']),
+            models.Index(fields=['email']),
+            models.Index(fields=['created_at']),
+        ]
+    
+    def __str__(self):
+        return f"Paystack Transaction {self.reference}"
+    
+    @property
+    def is_verified(self):
+        return self.status == 'SUCCESS'
+
 
 class StockTransaction(models.Model):
     TRANSACTION_TYPES = [
@@ -435,3 +501,46 @@ class Notification(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class StockReservation(models.Model):
+    """Reserve stock during pending payment to prevent overselling"""
+    STATUSES = [
+        ('ACTIVE', 'Active'),
+        ('CONFIRMED', 'Confirmed'),
+        ('RELEASED', 'Released'),
+        ('EXPIRED', 'Expired'),
+    ]
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reservations')
+    sale = models.OneToOneField(Sale, on_delete=models.CASCADE, related_name='stock_reservation', null=True, blank=True)
+    quantity = models.IntegerField()
+    status = models.CharField(max_length=10, choices=STATUSES, default='ACTIVE')
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+    released_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Reservation: {self.product.name} x{self.quantity} - {self.status}"
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at and self.status == 'ACTIVE'
+
+    def confirm(self):
+        """Mark reservation as confirmed (payment successful)"""
+        self.status = 'CONFIRMED'
+        self.confirmed_at = timezone.now()
+        self.save()
+
+    def release(self):
+        """Release reservation if payment failed or expired"""
+        self.status = 'RELEASED'
+        self.released_at = timezone.now()
+        self.save()
+        # Restore stock
+        self.product.quantity += self.quantity
+        self.product.save()

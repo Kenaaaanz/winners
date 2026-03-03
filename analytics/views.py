@@ -63,6 +63,21 @@ def analytics_dashboard(request):
         status='COMPLETED'
     ).aggregate(total=Sum('total'), count=Count('id'))
     
+    # E-Commerce specific metrics
+    ecommerce_sales_today = Sale.objects.filter(
+        created_at__date=today,
+        status='COMPLETED',
+        payment_method='PAYSTACK',
+        cashier__isnull=True
+    ).aggregate(total=Sum('total'), count=Count('id'))
+    
+    ecommerce_sales_month = Sale.objects.filter(
+        created_at__date__gte=month_ago,
+        status='COMPLETED',
+        payment_method='PAYSTACK',
+        cashier__isnull=True
+    ).aggregate(total=Sum('total'), count=Count('id'))
+    
     # Customer metrics
     total_customers = Customer.objects.count()
     new_customers_week = Customer.objects.filter(
@@ -144,6 +159,14 @@ def analytics_dashboard(request):
         payment_labels.append(item['payment_method'])
         payment_data.append(float(item['total'] or 0))
     
+    # E-Commerce conversion metrics
+    ecommerce_pending = Sale.objects.filter(
+        status='PENDING',
+        payment_method='PAYSTACK',
+        cashier__isnull=True,
+        created_at__date__gte=week_ago
+    ).count()
+    
     context = {
         'sales_today': sales_today,
         'sales_week': sales_week,
@@ -155,14 +178,18 @@ def analytics_dashboard(request):
         'out_of_stock_count': out_of_stock_count,
         'month_profit': month_profit,
         'monthly_trend': list(monthly_trend),
-        'monthly_labels': monthly_labels,  # NEW
-        'monthly_revenue': monthly_revenue,  # NEW
-        'monthly_profit': monthly_profit,  # NEW
+        'monthly_labels': monthly_labels,
+        'monthly_revenue': monthly_revenue,
+        'monthly_profit': monthly_profit,
         'top_products': top_products,
         'top_customers': top_customers,
         'payment_distribution': payment_distribution,
-        'payment_labels': payment_labels,  # NEW
-        'payment_data': payment_data,  # NEW
+        'payment_labels': payment_labels,
+        'payment_data': payment_data,
+        # E-Commerce metrics
+        'ecommerce_sales_today': ecommerce_sales_today,
+        'ecommerce_sales_month': ecommerce_sales_month,
+        'ecommerce_pending': ecommerce_pending,
     }
     
     return render(request, 'analytics/dashboard.html', context)

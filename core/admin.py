@@ -3,8 +3,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import (
     Profile, Category, Brand, Supplier, Product, Customer,
-    Sale, SaleItem, StockTransaction, PurchaseOrder, PurchaseOrderItem,
-    Expense, Notification
+    Sale, SaleItem, PaystackTransaction, StockTransaction, PurchaseOrder, PurchaseOrderItem,
+    Expense, Notification, StockReservation
 )
 
 class ProfileInline(admin.StackedInline):
@@ -31,8 +31,8 @@ admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('sku', 'name', 'category', 'brand', 'quantity', 'selling_price', 'is_active')
-    list_filter = ('category', 'brand', 'product_type', 'is_active')
+    list_display = ('sku', 'name', 'category', 'brand', 'quantity', 'selling_price', 'is_active', 'show_on_shop', 'is_featured')
+    list_filter = ('category', 'brand', 'product_type', 'is_active', 'show_on_shop', 'is_featured')
     search_fields = ('sku', 'name', 'barcode')
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
@@ -44,6 +44,9 @@ class ProductAdmin(admin.ModelAdmin):
         }),
         ('Inventory', {
             'fields': ('quantity', 'low_stock_threshold', 'reorder_quantity', 'expiry_date', 'batch_number', 'supplier')
+        }),
+        ('E-Commerce', {
+            'fields': ('show_on_shop', 'is_featured')
         }),
         ('Status', {
             'fields': ('is_active', 'created_at', 'updated_at')
@@ -58,18 +61,18 @@ class SaleItemInline(admin.TabularInline):
 class SaleAdmin(admin.ModelAdmin):
     list_display = ('invoice_number', 'customer', 'total', 'payment_method', 'status', 'created_at')
     list_filter = ('status', 'payment_method', 'created_at')
-    search_fields = ('invoice_number', 'customer__first_name', 'customer__last_name', 'mpesa_receipt')
+    search_fields = ('invoice_number', 'customer__first_name', 'customer__last_name', 'mpesa_receipt', 'paystack_reference')
     readonly_fields = ('invoice_number', 'created_at', 'updated_at')
     inlines = [SaleItemInline]
     fieldsets = (
         ('Sale Information', {
-            'fields': ('invoice_number', 'customer', 'cashier', 'notes')
+            'fields': ('invoice_number', 'customer', 'cashier', 'notes', 'delivery_name', 'delivery_phone', 'delivery_address', 'delivery_city', 'delivery_instructions')
         }),
         ('Totals', {
             'fields': ('subtotal', 'discount_amount', 'discount_percentage', 'tax_amount', 'tax_rate', 'total')
         }),
         ('Payment', {
-            'fields': ('payment_method', 'amount_paid', 'change_given', 'mpesa_receipt', 'mpesa_transaction_id', 'mpesa_phone')
+            'fields': ('payment_method', 'amount_paid', 'change_given', 'mpesa_receipt', 'mpesa_transaction_id', 'mpesa_phone', 'paystack_reference', 'paystack_access_code', 'paystack_authorization_code')
         }),
         ('Loyalty', {
             'fields': ('loyalty_points_used', 'loyalty_points_earned')
@@ -128,6 +131,47 @@ class PurchaseOrderAdmin(admin.ModelAdmin):
         }),
     )
 
+class PaystackTransactionAdmin(admin.ModelAdmin):
+    list_display = ('reference', 'email', 'amount', 'status', 'paid_at', 'created_at')
+    list_filter = ('status', 'created_at', 'payment_status')
+    search_fields = ('reference', 'email', 'access_code', 'authorization_code')
+    readonly_fields = ('reference', 'access_code_url', 'created_at', 'updated_at', 'gateway_response')
+    date_hierarchy = 'created_at'
+    fieldsets = (
+        ('Transaction Information', {
+            'fields': ('reference', 'email', 'amount', 'currency', 'status', 'payment_status')
+        }),
+        ('Paystack Details', {
+            'fields': ('access_code', 'authorization_code', 'customer_code', 'access_code_url')
+        }),
+        ('Payment Timeline', {
+            'fields': ('paid_at', 'verified_at', 'created_at', 'updated_at')
+        }),
+        ('Metadata', {
+            'fields': ('metadata', 'gateway_response'),
+            'classes': ('collapse',)
+        }),
+        ('Associated Sale', {
+            'fields': ('sale',)
+        }),
+    )
+    actions = ['mark_as_success', 'mark_as_failed', 'mark_as_refunded']
+    
+    def mark_as_success(self, request, queryset):
+        updated = queryset.update(status='SUCCESS')
+        self.message_user(request, f'{updated} transactions marked as successful.')
+    mark_as_success.short_description = 'Mark selected as successful'
+    
+    def mark_as_failed(self, request, queryset):
+        updated = queryset.update(status='FAILED')
+        self.message_user(request, f'{updated} transactions marked as failed.')
+    mark_as_failed.short_description = 'Mark selected as failed'
+    
+    def mark_as_refunded(self, request, queryset):
+        updated = queryset.update(status='REFUNDED')
+        self.message_user(request, f'{updated} transactions marked as refunded.')
+    mark_as_refunded.short_description = 'Mark selected as refunded'
+
 # Register all models
 admin.site.register(Category)
 admin.site.register(Brand)
@@ -135,10 +179,12 @@ admin.site.register(Supplier)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Sale, SaleAdmin)
+admin.site.register(PaystackTransaction, PaystackTransactionAdmin)
 admin.site.register(StockTransaction, StockTransactionAdmin)
 admin.site.register(PurchaseOrder, PurchaseOrderAdmin)
 admin.site.register(Expense)
 admin.site.register(Notification)
+admin.site.register(StockReservation)
 
 # Customize admin site
 admin.site.site_header = "Winners Cosmetics Management System"

@@ -1203,3 +1203,526 @@ INFO 2026-02-11 23:10:50,416 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
 INFO 2026-02-11 23:11:14,931 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 80
 INFO 2026-02-11 23:15:11,318 basehttp "POST /pos/clear-cart/ HTTP/1.1" 200 49
 INFO 2026-02-11 23:16:04,404 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-23 15:22:04,800 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 15:22:14,732 basehttp "GET / HTTP/1.1" 301 0
+INFO 2026-02-23 15:22:15,524 basehttp code 400, message Bad request version ('Ûõ]b`>¤\x17\x1b¡å\x891d\x893¤gP&\x92Ã')
+ERROR 2026-02-23 15:22:15,602 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:22:15,665 basehttp code 400, message Bad request version ('ºº\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06\x93jj\x00\x00\x00#\x00\x00DÍ\x00\x05\x00\x03\x02h2\x00\x1b\x00\x03\x02\x00\x02\x00')
+ERROR 2026-02-23 15:22:15,671 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:22:23,901 basehttp code 400, message Bad request syntax ('\x16\x03\x01\x06À\x01\x00\x06¼\x03\x03þ\x02ÒëyÚf&qüUù!þ²E«E')
+ERROR 2026-02-23 15:22:23,968 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:22:24,034 basehttp code 400, message Bad request version ('ªª\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06\x93úú\x00\x00\x00')
+ERROR 2026-02-23 15:22:24,034 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:22:44,447 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-23 15:22:56,521 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 15:23:18,721 basehttp code 400, message Bad request version ('\x9a\x9a\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x063JJ\x00\x00ÿ\x01\x00\x01\x00\x00')
+ERROR 2026-02-23 15:23:18,721 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:18,736 basehttp code 400, message Bad request version ('O+7\x97¹\x80+')
+ERROR 2026-02-23 15:23:18,736 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:20,486 basehttp code 400, message Bad request version ('\x83¨²\x91¨\x1b§p(°\x18\x12ì!¬W5Ædh\x16â\x97`\x95¥·\x86u\x8c·e\x13J')
+ERROR 2026-02-23 15:23:20,486 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:20,502 basehttp code 400, message Bad request version ('JJ\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06\x93\x8a\x8a\x00\x00\x00#\x00\x00\x00\x17\x00\x00DÍ\x00\x05\x00\x03\x02h2\x00\x1b\x00\x03\x02\x00\x02\x00')
+ERROR 2026-02-23 15:23:20,502 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:20,893 basehttp code 400, message Bad request version ('èÇ\x06vî\x17ª¡YöðÕ²5\x19£y@\x1aã?âE\x9eÏÍÃ4\x06\x8eÕ&')
+ERROR 2026-02-23 15:23:20,893 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:20,924 basehttp code 400, message Bad request version ('ºº\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06s')
+ERROR 2026-02-23 15:23:20,924 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:22,064 basehttp code 400, message Bad request version ('Î%\x18\x03\x8c\x90xXk')
+ERROR 2026-02-23 15:23:22,074 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:23:22,074 basehttp code 400, message Bad request version ('q÷\x8aµ\x8cÀsû@\x84eAÁ|©\x0fqJ½©\x00{Z\x7f\x08f¤\x1ab¹N.\x00Ð\x15û7þicj\x16\x90çÏÁn\x97©·.Í\x10¢)Ý\x9ch\x1ay.u:\x9c\x10\x18ë´\\ÐKÔÓ\x07c\x9b\x839Ì\xad¨É\x8e¡¨r$\x91]')
+ERROR 2026-02-23 15:23:22,074 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:24:14,816 basehttp code 400, message Bad request version ("{*'\x90")
+ERROR 2026-02-23 15:24:14,816 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:24:14,832 basehttp code 400, message Bad request version ("¯\x04'Ý\x8c;MÀGU\x1bªâÅ\x82\x97´_±ð\x92ÖÁ\x86½§\x89þ¦TE\\fw\x9b(NU£n\x93e8Q\x91¥Ø")
+ERROR 2026-02-23 15:24:14,832 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:25:33,299 basehttp code 400, message Bad request version ('ì<#<\x17\x8eQÂ\x96\x025\x87tÅ:q®ÔÒ.\x9f1\x0f\x12¦*ZJ*²\x88ÇætQyÄ\x149ó}êãpH`iÇèO\xadÐ¤\x14Ð>c\x1bl')
+ERROR 2026-02-23 15:25:33,299 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:25:33,299 basehttp code 400, message Bad request version ('\x03ló¤v%2RåÇ¯À\x07·æ¦9\x15GØ\x04d×¶OÈ`Bc2\x9b"(\x88Ù)')
+ERROR 2026-02-23 15:25:33,299 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:25:35,150 basehttp code 400, message Bad request version ("#\x82\x8fW.{ö-\x11È'GK\x92\x0fÅe\x8b8uza(¶Ð\x06+\x01Î¼£¬ÈâH[\x11K!\x98G")
+ERROR 2026-02-23 15:25:35,183 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:25:35,199 basehttp code 400, message Bad request version ('\x00\x02\x01\x00\x00')
+ERROR 2026-02-23 15:25:35,199 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:26:03,756 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 15:26:11,479 basehttp code 400, message Bad request version ('þ\x00')
+ERROR 2026-02-23 15:26:11,625 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:26:11,714 basehttp code 400, message Bad request version ('¤©~æn5\x14NW#qY\x1bO¬c³¸b\x01xA(\x00\x1b\x00\x03\x02\x00\x02\x00+\x00\x07\x06zz\x03\x04\x03\x03\x003\x04ï\x04í')
+ERROR 2026-02-23 15:26:11,714 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:26:23,480 basehttp code 400, message Bad request version ('P\x07\x10Ò\x00')
+ERROR 2026-02-23 15:26:23,480 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:26:23,490 basehttp code 400, message Bad request version ('-Á\x86àH\x17Á\x90d#W\x80:*\x82õ¨°ÓÚ®¢\x05r\x8fø\x99\x8a\x809Á\x1aÎ·äP&\x10¹â\x137\x0e¸ÀõÆI')
+ERROR 2026-02-23 15:26:23,601 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:26:41,518 basehttp code 400, message Bad request version ('[C®9±±÷\x8e{¤\x87EË\x7fî')
+ERROR 2026-02-23 15:26:41,518 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:26:41,518 basehttp code 400, message Bad request version ('Ä>U\x83\x9a¹\x93ÏÂï%ëð%')
+ERROR 2026-02-23 15:26:41,602 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:28:30,530 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 15:30:31,041 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 15:31:09,128 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 15:31:18,032 basehttp code 400, message Bad request version ('é\x9f;X±Ùé½\x19«\x87sýÁ÷¢£\x94\x15³xF@\x8a\x05KßXÎ#k\x8e\x8aßösS\x8bÍx2\x9b`Åxo÷§+³¦¡xO\x17]\x83H')
+ERROR 2026-02-23 15:31:18,159 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:18,325 basehttp code 400, message Bad request version ('\x01\x1a\x00\x00\x01\x00\x01\x9f\x00')
+ERROR 2026-02-23 15:31:18,340 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:22,950 basehttp code 400, message Bad request version ('\x00\x02\x01\x00ÿ\x01\x00\x01\x00\x00\x05\x00\x05\x01\x00\x00\x00\x00\x00')
+ERROR 2026-02-23 15:31:22,950 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:22,984 basehttp code 400, message Bad request version ('\x00\x02\x01\x00\x00')
+ERROR 2026-02-23 15:31:22,984 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:37,129 basehttp code 400, message Bad request version ('ä¼1&Ú¹\x81Ë)]É5u\x18}\x9aê±')
+ERROR 2026-02-23 15:31:37,129 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:37,146 basehttp code 400, message Bad request version ('\x00\x12\x00\x10\x04\x03\x08\x04\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01\x003\x04ï\x04í**\x00\x01\x00\x11ì\x04À®ì\x93\x04\x17E\x87\x13')
+ERROR 2026-02-23 15:31:37,197 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:40,796 basehttp code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x06')
+ERROR 2026-02-23 15:31:40,796 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 15:31:40,814 basehttp code 400, message Bad request version ('R8T\x11\x86\x15\x12¸ç1\x9a\x9bÚy\x7fÃ\x0fµxÁ;\x04Í_G©5·qªÛt¡Ë>\x18[oIPµUü\x82¾')
+ERROR 2026-02-23 15:31:40,814 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:01,415 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 18:12:35,008 basehttp code 400, message Bad request version ('úú\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06\x93úú\x00\x00ÿ\x01\x00\x01\x00\x00')
+ERROR 2026-02-23 18:12:35,024 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:35,327 basehttp code 400, message Bad request version ('\x92ë\x90N=uT\x9dÁíIÕòæ-\x18ý´ÂV')
+ERROR 2026-02-23 18:12:35,396 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:35,500 basehttp code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x06')
+ERROR 2026-02-23 18:12:35,524 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:35,668 basehttp code 400, message Bad request version ('!')
+ERROR 2026-02-23 18:12:35,668 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:43,423 basehttp code 400, message Bad request version ("±\x95$\\¬fk+.ÔiÆ'¹û§Çg\x81g?\x93\x89\x8aKF\x9f\x02\x0f^I\x8c\x81u")
+ERROR 2026-02-23 18:12:43,539 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:43,723 basehttp code 400, message Bad request version ('Âßv\x87ÍZPçCMWÔêþL\xad>Á&ýP+¥ÈmZñJêUW\x0e\x00')
+ERROR 2026-02-23 18:12:43,790 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:43,865 basehttp code 400, message Bad request version ('YC\x93\x80\x93\x8a')
+ERROR 2026-02-23 18:12:43,865 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:44,065 basehttp code 400, message Bad request version ('c:')
+ERROR 2026-02-23 18:12:44,065 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:48,070 basehttp code 400, message Bad request version ('¨ö/ðl')
+ERROR 2026-02-23 18:12:48,070 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:12:48,246 basehttp code 400, message Bad request version ('2')
+ERROR 2026-02-23 18:12:48,246 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:13:31,650 basehttp code 400, message Bad request version ('<ýÍ²\x13QÛ÷Í')
+ERROR 2026-02-23 18:13:31,650 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:13:31,788 basehttp code 400, message Bad request version ("n\x7fåz\x8d2¬ã(RRL'¢cS\x9b5\x00Ð^s0Û0åVænÜ¼Y£&âA\x86[õU£ù¼¥¨Êv×É\x8dM¯")
+ERROR 2026-02-23 18:13:31,823 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:13:45,058 basehttp code 400, message Bad request version ('úú\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06sZZ\x00\x00\x00')
+ERROR 2026-02-23 18:13:45,058 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:13:45,114 basehttp code 400, message Bad request version ('¦wï~ÕB¦;å¿³')
+ERROR 2026-02-23 18:13:45,114 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:14:27,656 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-23 18:14:36,519 autoreload Watching for file changes with StatReloader
+INFO 2026-02-23 18:15:37,177 basehttp code 400, message Bad request version ('h2\x02@æ7/æ#(§½')
+ERROR 2026-02-23 18:15:37,193 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:15:37,302 basehttp code 400, message Bad request version ('\x02h2\x08http/1.1\x00\x1b\x00\x03\x02\x00\x02\x003\x04ï\x04íªª\x00\x01\x00\x11ì\x04À¹\x932¯(\x05f\x84\x9b\x8dô\x7fPùCÓô\x03ü¬\x04\x16\x88MP8°²j3¾«\x00Ï\x19Fój\x99d)Dø')
+ERROR 2026-02-23 18:15:37,318 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-23 18:16:49,297 basehttp "GET / HTTP/1.1" 302 0
+INFO 2026-02-23 18:16:54,676 basehttp "GET /accounts/login/?next=/ HTTP/1.1" 200 25552
+INFO 2026-02-23 18:16:55,644 basehttp "GET /static/css/unified.css HTTP/1.1" 200 2615
+WARNING 2026-02-23 18:17:07,264 basehttp "GET /favicon.ico HTTP/1.1" 404 6964
+INFO 2026-02-23 18:19:48,900 basehttp "POST /accounts/login/?next=/ HTTP/1.1" 302 0
+INFO 2026-02-23 18:19:49,774 basehttp "GET / HTTP/1.1" 200 33540
+INFO 2026-02-23 18:19:55,183 basehttp "GET /pos/ HTTP/1.1" 200 75649
+INFO 2026-02-23 18:19:55,365 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-23 18:19:55,974 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-23 18:19:56,196 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-23 18:19:57,999 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-02-23 18:20:09,356 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-23 18:20:24,407 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-25 12:16:02,894 autoreload C:\Users\Gichaba\.env\winners\core\models.py changed, reloading.
+INFO 2026-02-25 12:16:59,260 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:23:48,441 autoreload C:\Users\Gichaba\.env\winners\winners\urls.py changed, reloading.
+INFO 2026-02-25 12:23:55,690 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:24:07,930 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-25 12:24:17,220 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:24:37,666 autoreload C:\Users\Gichaba\.env\winners\winners\urls.py changed, reloading.
+INFO 2026-02-25 12:24:44,419 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:29:05,814 autoreload C:\Users\Gichaba\.env\winners\core\models.py changed, reloading.
+INFO 2026-02-25 12:29:28,295 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:33:52,431 basehttp code 400, message Bad request version ('\x00\x12\x00\x10\x04\x03\x08\x04\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01\x00-\x00\x02\x01\x01\x00')
+ERROR 2026-02-25 12:33:52,431 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 12:33:52,481 basehttp code 400, message Bad request version ('\x1a\x1a\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x063ºº\x00\x00DÍ\x00\x05\x00\x03\x02h2\x00-\x00\x02\x01\x01ÿ\x01\x00\x01\x00\x00')
+ERROR 2026-02-25 12:33:52,496 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+ERROR 2026-02-25 12:34:12,580 basehttp "GET /pos/ HTTP/1.1" 500 250122
+INFO 2026-02-25 12:36:01,510 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:36:10,618 basehttp "GET /pos/ HTTP/1.1" 200 75669
+INFO 2026-02-25 12:36:11,143 basehttp "GET /static/css/unified.css HTTP/1.1" 200 2615
+INFO 2026-02-25 12:36:11,915 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-25 12:36:11,923 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-25 12:36:12,027 basehttp "GET /pos/cart/ HTTP/1.1" 200 201
+INFO 2026-02-25 12:36:20,169 basehttp "GET / HTTP/1.1" 200 23671
+INFO 2026-02-25 12:36:36,059 basehttp "GET /pos/ HTTP/1.1" 200 75669
+INFO 2026-02-25 12:36:36,067 basehttp "GET /pos/cart/ HTTP/1.1" 200 201
+INFO 2026-02-25 12:37:19,273 basehttp "GET /inventory/products/ HTTP/1.1" 200 41622
+INFO 2026-02-25 12:37:34,696 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 58534
+INFO 2026-02-25 12:37:54,453 basehttp "GET /inventory/products/1/edit/ HTTP/1.1" 200 43431
+INFO 2026-02-25 12:40:07,501 basehttp "GET /inventory/products/1/edit/ HTTP/1.1" 200 43431
+INFO 2026-02-25 12:40:10,728 basehttp "GET /inventory/products/1/ HTTP/1.1" 200 58534
+INFO 2026-02-25 12:40:27,525 basehttp "GET /inventory/products/ HTTP/1.1" 200 41622
+INFO 2026-02-25 12:41:52,898 basehttp "GET /admin HTTP/1.1" 301 0
+INFO 2026-02-25 12:41:53,904 basehttp "GET /admin/ HTTP/1.1" 200 37250
+INFO 2026-02-25 12:41:54,299 basehttp "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2026-02-25 12:41:54,339 basehttp "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2026-02-25 12:41:54,443 basehttp "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-02-25 12:41:54,443 basehttp "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2026-02-25 12:41:54,539 basehttp "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2026-02-25 12:41:54,691 basehttp "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2026-02-25 12:41:54,851 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-02-25 12:41:54,971 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-02-25 12:41:55,019 basehttp "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2026-02-25 12:41:55,035 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-02-25 12:42:02,218 basehttp "GET /admin/core/product/ HTTP/1.1" 200 29110
+INFO 2026-02-25 12:42:02,282 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-02-25 12:42:02,296 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-02-25 12:42:02,402 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-02-25 12:42:02,449 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-02-25 12:42:02,533 basehttp "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-02-25 12:42:02,535 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-02-25 12:42:02,568 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-02-25 12:42:02,568 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-25 12:42:02,684 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2026-02-25 12:42:02,707 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2026-02-25 12:42:02,897 basehttp "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2026-02-25 12:42:02,916 basehttp "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-02-25 12:42:02,948 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-02-25 12:42:09,503 basehttp "GET /admin/core/product/2/change/ HTTP/1.1" 200 43878
+INFO 2026-02-25 12:42:09,622 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-25 12:42:09,638 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-02-25 12:42:09,702 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2026-02-25 12:42:09,718 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2026-02-25 12:42:09,766 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2026-02-25 12:42:09,774 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2026-02-25 12:42:09,814 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-02-25 12:42:09,870 basehttp "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2026-02-25 12:42:09,870 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2026-02-25 12:42:10,038 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2026-02-25 12:42:23,952 basehttp "POST /admin/core/product/2/change/ HTTP/1.1" 302 0
+INFO 2026-02-25 12:42:24,143 basehttp "GET /admin/core/product/ HTTP/1.1" 200 29689
+INFO 2026-02-25 12:42:24,224 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-25 12:42:36,140 basehttp "GET / HTTP/1.1" 200 23790
+INFO 2026-02-25 12:43:38,397 autoreload C:\Users\Gichaba\.env\winners\shop\views.py changed, reloading.
+INFO 2026-02-25 12:43:59,526 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:45:24,189 autoreload C:\Users\Gichaba\.env\winners\core\models.py changed, reloading.
+INFO 2026-02-25 12:46:28,773 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:48:11,600 autoreload C:\Users\Gichaba\.env\winners\shop\views.py changed, reloading.
+INFO 2026-02-25 12:49:03,915 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:50:22,296 autoreload C:\Users\Gichaba\.env\winners\core\paystack_views.py changed, reloading.
+INFO 2026-02-25 12:50:49,844 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:55:01,710 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-25 12:55:41,915 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 12:56:20,079 autoreload C:\Users\Gichaba\.env\winners\analytics\views.py changed, reloading.
+INFO 2026-02-25 12:57:00,739 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:01:53,842 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:03:22,405 basehttp "GET / HTTP/1.1" 200 27227
+INFO 2026-02-25 13:03:49,431 basehttp "GET /product/2/ HTTP/1.1" 200 27431
+INFO 2026-02-25 13:04:02,717 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 13:04:05,565 basehttp "GET /cart/ HTTP/1.1" 200 26778
+INFO 2026-02-25 13:04:22,654 basehttp "GET /checkout/ HTTP/1.1" 200 29100
+ERROR 2026-02-25 13:04:49,309 paystack_service PAYSTACK_SECRET_KEY not properly configured!
+INFO 2026-02-25 13:04:49,373 basehttp "POST /checkout/ HTTP/1.1" 200 29402
+INFO 2026-02-25 13:05:21,850 basehttp "GET / HTTP/1.1" 200 27227
+INFO 2026-02-25 13:05:51,533 basehttp "GET /admin/core/product/ HTTP/1.1" 200 29605
+INFO 2026-02-25 13:05:56,191 basehttp "GET /admin/core/product/1/change/ HTTP/1.1" 200 44461
+INFO 2026-02-25 13:05:56,528 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-25 13:06:04,494 basehttp "POST /admin/core/product/1/change/ HTTP/1.1" 302 0
+INFO 2026-02-25 13:06:04,609 basehttp "GET /admin/core/product/ HTTP/1.1" 200 30181
+INFO 2026-02-25 13:06:04,719 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-25 13:06:10,900 basehttp "GET / HTTP/1.1" 200 28515
+INFO 2026-02-25 13:07:13,259 autoreload C:\Users\Gichaba\.env\winners\core\admin.py changed, reloading.
+INFO 2026-02-25 13:07:12,883 autoreload C:\Users\Gichaba\.env\winners\core\models.py changed, reloading.
+INFO 2026-02-25 13:07:34,494 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:07:34,494 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:18:04,382 basehttp "GET / HTTP/1.1" 200 12528
+INFO 2026-02-25 13:18:05,635 basehttp "GET /cart/ HTTP/1.1" 200 10733
+ERROR 2026-02-25 13:26:57,058 basehttp "GET / HTTP/1.1" 500 158318
+ERROR 2026-02-25 13:31:48,291 basehttp "GET / HTTP/1.1" 500 158887
+INFO 2026-02-25 13:35:14,545 autoreload C:\Users\Gichaba\.env\winners\shop\urls.py changed, reloading.
+INFO 2026-02-25 13:35:14,545 autoreload C:\Users\Gichaba\.env\winners\shop\urls.py changed, reloading.
+INFO 2026-02-25 13:35:53,561 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:35:53,873 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:36:21,529 autoreload C:\Users\Gichaba\.env\winners\shop\views.py changed, reloading.
+INFO 2026-02-25 13:36:21,712 autoreload C:\Users\Gichaba\.env\winners\shop\views.py changed, reloading.
+INFO 2026-02-25 13:36:41,613 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:36:45,293 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:37:00,171 autoreload C:\Users\Gichaba\.env\winners\shop\views.py changed, reloading.
+INFO 2026-02-25 13:37:00,219 autoreload C:\Users\Gichaba\.env\winners\shop\views.py changed, reloading.
+INFO 2026-02-25 13:37:09,925 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:37:10,077 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 13:37:34,477 basehttp "GET / HTTP/1.1" 200 38245
+WARNING 2026-02-25 13:37:37,522 basehttp "GET /static/shop/images/hero1.jpg HTTP/1.1" 404 1990
+WARNING 2026-02-25 13:37:37,590 basehttp "GET /static/shop/images/hero2.jpg HTTP/1.1" 404 1990
+WARNING 2026-02-25 13:37:38,088 basehttp "GET /static/shop/images/hero3.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:37:39,583 basehttp "GET /cart/ HTTP/1.1" 200 21832
+INFO 2026-02-25 13:38:16,630 basehttp "GET /product/1/ HTTP/1.1" 200 22642
+INFO 2026-02-25 13:38:17,110 basehttp "GET /cart/ HTTP/1.1" 200 21832
+INFO 2026-02-25 13:38:27,668 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 13:38:30,793 basehttp "GET /cart/ HTTP/1.1" 200 22613
+INFO 2026-02-25 13:38:31,465 basehttp "GET /cart/ HTTP/1.1" 200 22613
+WARNING 2026-02-25 13:38:42,729 basehttp "GET /static/shop/images/hero2.jpg HTTP/1.1" 404 1990
+WARNING 2026-02-25 13:38:42,825 basehttp "GET /static/shop/images/hero3.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:39:53,366 basehttp "GET /accounts/login/ HTTP/1.1" 200 25591
+WARNING 2026-02-25 13:40:04,962 basehttp "GET /static/shop/images/hero3.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:40:12,691 basehttp "GET / HTTP/1.1" 200 38245
+INFO 2026-02-25 13:40:12,843 basehttp "GET /cart/ HTTP/1.1" 200 22613
+WARNING 2026-02-25 13:40:12,883 basehttp "GET /static/shop/images/hero1.jpg HTTP/1.1" 404 1990
+WARNING 2026-02-25 13:40:12,995 basehttp "GET /static/shop/images/hero2.jpg HTTP/1.1" 404 1990
+WARNING 2026-02-25 13:40:13,123 basehttp "GET /static/shop/images/hero3.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:46:56,230 basehttp "GET / HTTP/1.1" 200 38247
+WARNING 2026-02-25 13:46:57,172 basehttp "GET /static/shop/images/hero2.jpg HTTP/1.1" 404 1990
+WARNING 2026-02-25 13:46:57,236 basehttp "GET /static/shop/images/hero3.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:46:57,404 basehttp "GET /static/shop/images/Winners.png HTTP/1.1" 200 165756
+INFO 2026-02-25 13:46:57,551 basehttp "GET /cart/ HTTP/1.1" 200 22613
+INFO 2026-02-25 13:46:59,661 basehttp "GET / HTTP/1.1" 200 38247
+WARNING 2026-02-25 13:47:00,645 basehttp "GET /static/shop/images/hero2.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:47:00,677 basehttp "GET /cart/ HTTP/1.1" 200 22613
+WARNING 2026-02-25 13:47:01,277 basehttp "GET /static/shop/images/hero3.jpg HTTP/1.1" 404 1990
+INFO 2026-02-25 13:54:08,814 basehttp "GET / HTTP/1.1" 200 38362
+WARNING 2026-02-25 13:54:09,594 basehttp "GET /static/shop/images/winnershero.jpg HTTP/1.1" 404 2008
+WARNING 2026-02-25 13:54:09,602 basehttp "GET /static/shop/images/winnershero2.jpg HTTP/1.1" 404 2011
+WARNING 2026-02-25 13:54:09,610 basehttp "GET /static/shop/images/winnershero3.jpg HTTP/1.1" 404 2011
+INFO 2026-02-25 13:54:10,106 basehttp "GET /cart/ HTTP/1.1" 200 22613
+INFO 2026-02-25 13:55:13,612 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 13:55:14,020 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 200 15513
+INFO 2026-02-25 13:55:14,082 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 200 5428
+INFO 2026-02-25 13:55:15,609 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 200 67472
+INFO 2026-02-25 13:55:16,704 basehttp "GET /cart/ HTTP/1.1" 200 22613
+INFO 2026-02-25 13:55:50,811 basehttp "GET /product/1/ HTTP/1.1" 200 22642
+INFO 2026-02-25 13:55:51,230 basehttp "GET /cart/ HTTP/1.1" 200 22613
+INFO 2026-02-25 13:56:00,702 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 13:56:04,476 basehttp "GET /cart/ HTTP/1.1" 200 22614
+INFO 2026-02-25 13:56:05,148 basehttp "GET /cart/ HTTP/1.1" 200 22614
+INFO 2026-02-25 13:56:29,120 basehttp "GET /login/ HTTP/1.1" 200 25591
+INFO 2026-02-25 13:56:41,057 basehttp "GET /pos/ HTTP/1.1" 200 75669
+INFO 2026-02-25 13:56:41,353 basehttp "GET /pos/cart/ HTTP/1.1" 200 201
+INFO 2026-02-25 13:56:52,099 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-02-25 13:56:52,259 basehttp "GET /accounts/login/ HTTP/1.1" 200 25576
+INFO 2026-02-25 13:57:02,069 basehttp "GET /pos/ HTTP/1.1" 302 0
+INFO 2026-02-25 13:57:02,261 basehttp "GET /accounts/login/?next=/pos/ HTTP/1.1" 200 25576
+INFO 2026-02-25 14:29:34,621 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 14:29:37,345 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-25 14:29:37,393 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-25 14:29:37,841 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 14:29:38,512 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 304 0
+INFO 2026-02-25 14:29:38,536 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 304 0
+INFO 2026-02-25 14:29:38,592 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 304 0
+INFO 2026-02-25 14:30:16,644 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 14:30:16,860 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 14:30:20,491 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 14:30:20,763 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 15:45:38,995 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-02-25 15:45:39,638 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 15:45:55,746 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 15:45:58,535 basehttp "GET /cart/ HTTP/1.1" 200 21832
+INFO 2026-02-25 15:46:00,167 basehttp "GET /cart/ HTTP/1.1" 200 21832
+WARNING 2026-02-25 15:46:57,982 basehttp "GET /shop/ HTTP/1.1" 404 6636
+INFO 2026-02-25 15:47:12,854 basehttp "GET /pos/ HTTP/1.1" 302 0
+INFO 2026-02-25 15:47:13,059 basehttp "GET /accounts/login/?next=/pos/ HTTP/1.1" 200 25576
+INFO 2026-02-25 15:47:21,122 basehttp "POST /accounts/login/?next=/pos/ HTTP/1.1" 302 0
+INFO 2026-02-25 15:47:21,217 basehttp "GET /pos/ HTTP/1.1" 200 75669
+INFO 2026-02-25 15:47:21,441 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-25 15:47:21,641 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-02-25 15:47:22,305 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-02-25 15:47:47,100 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 15:47:47,743 basehttp "GET /cart/ HTTP/1.1" 200 21832
+INFO 2026-02-25 15:47:47,856 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 304 0
+INFO 2026-02-25 15:47:48,332 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 304 0
+INFO 2026-02-25 15:47:48,432 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 304 0
+INFO 2026-02-25 16:17:57,098 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-02-25 16:17:57,468 basehttp "GET /cart/ HTTP/1.1" 200 21832
+INFO 2026-02-25 16:18:09,648 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 16:18:15,348 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:18:15,596 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:18:33,774 basehttp "GET /checkout/ HTTP/1.1" 200 24186
+INFO 2026-02-25 16:18:34,086 basehttp "GET /cart/ HTTP/1.1" 200 21835
+ERROR 2026-02-25 16:20:41,342 paystack_service PAYSTACK_SECRET_KEY not properly configured!
+INFO 2026-02-25 16:20:41,398 basehttp "POST /checkout/ HTTP/1.1" 200 24488
+INFO 2026-02-25 16:20:41,766 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:35:33,142 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-25 16:35:38,170 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-02-25 16:36:16,984 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:36:18,178 autoreload Watching for file changes with StatReloader
+ERROR 2026-02-25 16:37:33,841 paystack_service PAYSTACK_SECRET_KEY not properly configured!
+INFO 2026-02-25 16:37:34,917 basehttp "POST /checkout/ HTTP/1.1" 200 24488
+INFO 2026-02-25 16:37:35,203 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:39:14,432 autoreload C:\Users\Gichaba\.env\winners\core\paystack_config.py changed, reloading.
+INFO 2026-02-25 16:39:15,955 autoreload C:\Users\Gichaba\.env\winners\core\paystack_config.py changed, reloading.
+INFO 2026-02-25 16:39:47,611 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:39:50,250 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:41:22,293 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202602-54197D-20260225164122-D01EEF7F, Amount=1856.0
+ERROR 2026-02-25 16:41:22,310 paystack_service Error initializing transaction: HTTPSConnectionPool(host='api.paystack.co', port=443): Max retries exceeded with url: /transaction/initialize (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000215643DCF50>: Failed to resolve 'api.paystack.co' ([Errno 11001] getaddrinfo failed)"))
+INFO 2026-02-25 16:41:22,432 basehttp "POST /checkout/ HTTP/1.1" 200 24728
+INFO 2026-02-25 16:41:23,470 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:41:43,493 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 16:41:43,681 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 304 0
+INFO 2026-02-25 16:41:43,681 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 304 0
+INFO 2026-02-25 16:41:43,708 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 304 0
+INFO 2026-02-25 16:41:43,852 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:41:46,179 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 16:41:46,329 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:41:53,481 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-02-25 16:41:53,683 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:41:56,859 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 16:41:58,751 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:41:58,943 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:42:06,053 basehttp "GET /checkout/ HTTP/1.1" 200 24186
+INFO 2026-02-25 16:42:06,492 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:42:17,551 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202602-4FDF7F-20260225164217-D6F2392E, Amount=2320.0
+ERROR 2026-02-25 16:42:17,671 paystack_service Error initializing transaction: HTTPSConnectionPool(host='api.paystack.co', port=443): Max retries exceeded with url: /transaction/initialize (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000215643D5550>: Failed to resolve 'api.paystack.co' ([Errno 11001] getaddrinfo failed)"))
+INFO 2026-02-25 16:42:17,759 basehttp "POST /checkout/ HTTP/1.1" 200 24728
+INFO 2026-02-25 16:42:17,903 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:42:56,764 autoreload C:\Users\Gichaba\.env\winners\core\paystack_service.py changed, reloading.
+INFO 2026-02-25 16:42:56,943 autoreload C:\Users\Gichaba\.env\winners\core\paystack_service.py changed, reloading.
+INFO 2026-02-25 16:43:08,890 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:43:09,136 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:43:48,912 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 16:43:49,537 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:43:51,351 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 16:43:51,743 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:44:17,299 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:44:47,164 basehttp "GET /admin/core/product/ HTTP/1.1" 200 29605
+INFO 2026-02-25 16:44:48,868 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-02-25 16:45:11,556 basehttp code 400, message Bad request syntax ('\x16\x03\x01\x07\x00\x01\x00\x06ü\x03\x03¼uGd§,Ãs\x02s/¶W\x8f;')
+ERROR 2026-02-25 16:45:11,556 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 16:45:11,604 basehttp code 400, message Bad request version ('\x00\x02\x01\x00\x00')
+ERROR 2026-02-25 16:45:11,604 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 16:45:29,089 basehttp code 400, message Bad request version (';\x8a\x13>Ì\x81îäÍ')
+ERROR 2026-02-25 16:45:29,833 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 16:45:30,081 basehttp code 400, message Bad HTTP/0.9 request type ("\x16\x03\x01\x06À\x01\x00\x06¼\x03\x03©ßoþd\x8cÇ\x0e\x8f½¬Nô\x06'Ïq2ÓÕÑ³È7§\x06ÎÍÀ²\x0e\x05")
+ERROR 2026-02-25 16:45:30,097 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 16:45:30,531 basehttp code 400, message Bad request version ('\x00\x12\x00\x10\x04\x03\x08\x04\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01\x00')
+ERROR 2026-02-25 16:45:30,563 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 16:45:30,699 basehttp code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x07\x00\x01\x00\x06ü\x03\x03ú\x93\x95\x04\x8c\x10\x9d\x9d<\x7f¥LäYü\x88²pøÛõ\x8c;!!;÷µ3Úùµ')
+ERROR 2026-02-25 16:45:30,859 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 16:45:46,258 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 16:45:46,699 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:45:52,207 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-02-25 16:45:52,368 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:45:57,208 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 16:45:59,239 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:45:59,567 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:04,933 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 16:46:05,093 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:06,045 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:09,459 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:09,675 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:11,442 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 16:46:11,610 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:18,621 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:19,087 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:46:22,645 basehttp "GET /checkout/ HTTP/1.1" 200 24186
+INFO 2026-02-25 16:46:23,885 basehttp "GET /cart/ HTTP/1.1" 200 21835
+ERROR 2026-02-25 16:46:34,089 paystack_service PAYSTACK_SECRET_KEY not properly configured!
+INFO 2026-02-25 16:46:34,185 basehttp "POST /checkout/ HTTP/1.1" 200 24488
+INFO 2026-02-25 16:46:34,465 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:50:16,090 autoreload C:\Users\Gichaba\.env\winners\core\paystack_service.py changed, reloading.
+INFO 2026-02-25 16:50:16,604 autoreload C:\Users\Gichaba\.env\winners\core\paystack_service.py changed, reloading.
+INFO 2026-02-25 16:50:25,251 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:50:25,251 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:51:06,772 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202602-F8552D-20260225165106-8ACCDC6C, Amount=2784.0
+ERROR 2026-02-25 16:51:06,804 paystack_service Error initializing transaction: HTTPSConnectionPool(host='api.paystack.co', port=443): Max retries exceeded with url: /transaction/initialize (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001493FA65C90>: Failed to resolve 'api.paystack.co' ([Errno 11001] getaddrinfo failed)"))
+INFO 2026-02-25 16:51:06,953 basehttp "POST /checkout/ HTTP/1.1" 200 24728
+INFO 2026-02-25 16:51:07,449 basehttp "GET /cart/ HTTP/1.1" 200 21835
+INFO 2026-02-25 16:55:18,558 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202602-5A076F-20260225165518-F4F24EED, Amount=2784.0
+INFO 2026-02-25 16:55:21,900 paystack_service Successfully initialized transaction: SHOP-INV-202602-5A076F-20260225165518-F4F24EED
+INFO 2026-02-25 16:55:22,498 basehttp "POST /checkout/ HTTP/1.1" 302 0
+INFO 2026-02-25 16:55:54,938 autoreload C:\Users\Gichaba\.env\winners\core\paystack_service.py changed, reloading.
+INFO 2026-02-25 16:56:08,192 autoreload C:\Users\Gichaba\.env\winners\core\paystack_service.py changed, reloading.
+INFO 2026-02-25 16:56:40,199 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 16:56:40,375 autoreload Watching for file changes with StatReloader
+INFO 2026-02-25 19:43:19,927 basehttp code 400, message Bad request version ('\x8a\x8a\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x063JJ\x00\x00\x00')
+ERROR 2026-02-25 19:43:20,095 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 19:43:20,747 basehttp code 400, message Bad request version ('"êc\x00')
+ERROR 2026-02-25 19:43:20,981 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-25 19:44:02,502 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 19:44:03,087 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 304 0
+INFO 2026-02-25 19:44:03,095 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 304 0
+INFO 2026-02-25 19:44:03,127 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 304 0
+INFO 2026-02-25 19:44:04,087 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 19:44:20,920 basehttp "GET /pos/ HTTP/1.1" 200 75826
+INFO 2026-02-25 19:44:21,573 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-25 19:44:27,673 basehttp "GET /analytics/ HTTP/1.1" 200 61483
+INFO 2026-02-25 19:45:13,910 basehttp "GET /analytics/sales/ HTTP/1.1" 200 62630
+INFO 2026-02-25 19:45:48,075 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-25 19:45:48,563 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 19:45:54,553 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-02-25 19:45:54,703 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-25 19:45:57,803 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-02-25 19:46:00,302 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-02-25 19:46:00,966 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-02-25 19:46:04,301 basehttp "GET /checkout/ HTTP/1.1" 200 24182
+INFO 2026-02-25 19:46:05,437 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-02-25 19:46:25,116 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202602-2DAEDB-20260225194625-02D5D1E6, Amount=464.0
+ERROR 2026-02-25 19:46:25,326 paystack_service Error initializing transaction: HTTPSConnectionPool(host='api.paystack.co', port=443): Max retries exceeded with url: /transaction/initialize (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000160A7978250>: Failed to resolve 'api.paystack.co' ([Errno 11001] getaddrinfo failed)"))
+INFO 2026-02-25 19:46:25,366 basehttp "POST /checkout/ HTTP/1.1" 200 24724
+INFO 2026-02-25 19:46:26,798 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-02-26 00:47:34,197 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202602-691B68-20260226004734-A94958FB, Amount=464.0
+INFO 2026-02-26 00:47:35,958 paystack_service Successfully initialized transaction: SHOP-INV-202602-691B68-20260226004734-A94958FB
+INFO 2026-02-26 00:47:36,072 basehttp "POST /checkout/ HTTP/1.1" 302 0
+INFO 2026-02-26 00:48:43,303 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-02-26 00:48:43,665 basehttp "GET /static/shop/images/Winners.png HTTP/1.1" 304 0
+INFO 2026-02-26 00:48:43,677 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 304 0
+INFO 2026-02-26 00:48:44,043 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 304 0
+INFO 2026-02-26 00:48:44,515 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-02-26 00:48:45,524 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 304 0
+INFO 2026-02-26 00:48:56,875 basehttp "GET /pos/ HTTP/1.1" 200 75826
+INFO 2026-02-26 00:48:57,426 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-26 00:49:11,619 basehttp "GET /analytics/ HTTP/1.1" 200 61471
+INFO 2026-02-26 00:49:32,838 basehttp "GET /analytics/sales/ HTTP/1.1" 200 62630
+INFO 2026-02-26 00:50:10,576 basehttp "GET /pos/sales/ HTTP/1.1" 200 60739
+INFO 2026-02-26 00:50:24,945 basehttp "GET /pos/sales/14/ HTTP/1.1" 200 38112
+INFO 2026-02-26 00:51:03,092 basehttp "GET /pos/ HTTP/1.1" 200 75826
+INFO 2026-02-26 00:51:03,255 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-02-26 00:51:05,290 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-02-26 00:51:15,182 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-02-26 00:51:59,633 basehttp code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x06À\x01\x00\x06¼\x03\x03eÉ\x8e\x9a2\x0ed\x10[')
+ERROR 2026-02-26 00:51:59,669 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-02-26 00:51:59,700 basehttp code 400, message Bad request version ('\x8a\x8a\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x063ÚÚ\x00\x00\x00')
+ERROR 2026-02-26 00:51:59,700 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-03-03 13:14:24,473 autoreload Watching for file changes with StatReloader
+INFO 2026-03-03 13:16:39,821 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-03-03 13:16:40,739 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-03-03 13:16:40,800 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-03-03 13:16:41,264 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 200 5428
+INFO 2026-03-03 13:16:41,322 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 200 67472
+INFO 2026-03-03 13:16:41,322 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 200 15513
+INFO 2026-03-03 13:16:41,322 basehttp "GET /static/shop/images/Winners.png HTTP/1.1" 200 165756
+INFO 2026-03-03 13:16:41,876 basehttp "GET /cart/ HTTP/1.1" 200 19591
+WARNING 2026-03-03 13:16:44,299 basehttp "GET /favicon.ico HTTP/1.1" 404 6654
+INFO 2026-03-03 13:16:55,611 basehttp "GET /accounts/login/ HTTP/1.1" 200 25576
+INFO 2026-03-03 13:16:55,731 basehttp "GET /static/css/unified.css HTTP/1.1" 200 2615
+INFO 2026-03-03 13:17:01,660 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-03-03 13:17:01,826 basehttp "GET /app/ HTTP/1.1" 200 34428
+INFO 2026-03-03 13:17:11,844 basehttp "GET /pos/ HTTP/1.1" 200 77071
+INFO 2026-03-03 13:17:12,108 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-03 13:17:21,742 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-03-03 13:17:34,389 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-03-03 13:17:35,290 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-E15A03-20260303131735-7D383F4F, Amount=464.0
+INFO 2026-03-03 13:17:36,838 paystack_service Successfully initialized transaction: SALE-INV-202603-E15A03-20260303131735-7D383F4F
+INFO 2026-03-03 13:17:36,889 paystack_views Initialized Paystack payment for sale INV-202603-E15A03: SALE-INV-202603-E15A03-20260303131735-7D383F4F
+INFO 2026-03-03 13:17:36,971 basehttp "GET /api/paystack/checkout/16/ HTTP/1.1" 200 45426
+INFO 2026-03-03 13:18:33,046 basehttp "GET /analytics/ HTTP/1.1" 200 58532
+INFO 2026-03-03 13:18:55,847 basehttp "GET /analytics/sales/ HTTP/1.1" 200 51666
+INFO 2026-03-03 13:19:03,324 basehttp "GET /analytics/products/ HTTP/1.1" 200 51973
+INFO 2026-03-03 13:19:16,027 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 52184
+INFO 2026-03-03 13:19:30,218 basehttp "GET /analytics/sales/ HTTP/1.1" 200 51666
+INFO 2026-03-03 13:19:44,282 basehttp "GET /pos/sales/ HTTP/1.1" 200 64654
+INFO 2026-03-03 13:19:59,062 basehttp "GET /app/customers/ HTTP/1.1" 200 34704
+INFO 2026-03-03 13:20:03,112 basehttp "GET /pos/sales/ HTTP/1.1" 200 64654
+INFO 2026-03-03 13:20:17,658 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2026-03-03 13:20:17,709 basehttp "GET /accounts/login/ HTTP/1.1" 200 25576
+INFO 2026-03-03 13:20:24,942 basehttp code 400, message Bad request syntax ('\x16\x03\x01\x07\x00\x01\x00\x06ü\x03\x03\x98%(+')
+ERROR 2026-03-03 13:20:24,942 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-03-03 13:20:24,991 basehttp code 400, message Bad request version ('EÙOÝ\x92\x90e\x16\x87¦21Fé\x81¶ãã')
+ERROR 2026-03-03 13:20:24,991 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-03-03 13:20:27,625 basehttp code 400, message Bad request version ('\x00\x02\x01\x00\x00')
+ERROR 2026-03-03 13:20:27,625 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-03-03 13:20:27,757 basehttp code 400, message Bad request version ('+_85')
+ERROR 2026-03-03 13:20:27,757 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-03-03 13:21:48,051 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-03-03 13:21:49,256 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-03-03 13:21:49,347 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-03-03 13:21:49,966 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-03-03 13:21:53,341 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-03-03 13:21:53,454 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-03-03 13:21:56,673 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-03-03 13:21:59,057 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-03-03 13:21:59,270 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-03-03 13:22:03,292 basehttp "GET /checkout/ HTTP/1.1" 200 24182
+INFO 2026-03-03 13:22:03,453 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-03-03 13:23:22,541 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202603-96AF7D-20260303132322-C3FA8BF5, Amount=464.0
+INFO 2026-03-03 13:23:23,581 paystack_service Successfully initialized transaction: SHOP-INV-202603-96AF7D-20260303132322-C3FA8BF5
+INFO 2026-03-03 13:23:23,604 basehttp "POST /checkout/ HTTP/1.1" 302 0

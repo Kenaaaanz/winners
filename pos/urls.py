@@ -19,6 +19,7 @@ urlpatterns = [
     path('sales/process/', views.process_sale, name='process_sale'),
     path('sales/', views.sale_list, name='sale_list'),
     path('sales/<int:pk>/', views.sale_detail, name='sale_detail'),
+    path('receipt/<int:sale_id>/', views.receipt, name='receipt'),
     path('sales/<int:sale_id>/receipt/', views.print_receipt, name='print_receipt'),
     path('sales/daily/', views.daily_sales_report, name='daily_sales'),
     

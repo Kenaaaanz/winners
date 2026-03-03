@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Authentication
+     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('accounts/password-reset/', 
@@ -23,8 +24,11 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), 
          name='password_reset_complete'),
     
-    # Core app
-    path('', include('core.urls')),
+     # Shop (ecommerce) as site root
+     path('', include('shop.urls')),
+
+     # Core app (admin dashboard and staff areas)
+     path('app/', include('core.urls')),
     
     # POS app
     path('pos/', include('pos.urls')),
@@ -37,7 +41,9 @@ urlpatterns = [
     
     # M-Pesa API endpoints
     path('api/mpesa/', include('core.mpesa_urls')),
-    path('sandbox/mpesa/', include('core.mpesa_urls')),
+    
+    # Paystack API endpoints
+    path('api/paystack/', include('core.paystack_urls')),
 
 ]
 

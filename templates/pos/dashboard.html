@@ -420,6 +420,44 @@
         outline: none;
     }
 
+    /* Payment Method Buttons */
+    .payment-method-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .payment-method-btn {
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .payment-method-btn i {
+        font-size: 1.25rem;
+    }
+
+    .payment-method-btn:hover {
+        border-color: var(--pos-primary);
+        color: var(--pos-primary);
+    }
+
+    .payment-method-btn.active {
+        background: var(--pos-primary);
+        border-color: var(--pos-primary);
+        color: white;
+    }
+
     /* Action Buttons */
     .action-buttons {
         padding: 1rem 1.5rem;
@@ -763,20 +801,15 @@
 
                 <div class="payment-field">
                     <label><i class="fas fa-credit-card me-1"></i> Payment Method</label>
-                    <select class="payment-select" id="paymentMethod">
-                        {% for method in payment_methods %}
-                        <option value="{{ method.0 }}">{{ method.1 }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="payment-field" id="mpesaField" style="display: none;">
-                    <label><i class="fas fa-mobile-alt me-1"></i> M-Pesa Phone</label>
-                    <input type="tel" 
-                           class="payment-input" 
-                           id="mpesaPhone" 
-                           placeholder="07XXXXXXXX"
-                           pattern="[0-9]{10}">
+                    <input type="hidden" id="paymentMethod" value="CASH">
+                    <div class="payment-method-buttons">
+                        <button type="button" class="payment-method-btn active" data-method="CASH">
+                            <i class="fas fa-money-bill-wave"></i> Pay with Cash
+                        </button>
+                        <button type="button" class="payment-method-btn" data-method="PAYSTACK">
+                            <i class="fas fa-credit-card"></i> Pay with PayStack
+                        </button>
+                    </div>
                 </div>
 
                 <div class="payment-field">
@@ -958,9 +991,14 @@ class POSSystem {
             }
         });
 
-        // Payment method change
-        document.getElementById('paymentMethod')?.addEventListener('change', (e) => {
-            this.toggleMpesaField(e.target.value === 'MPESA');
+        // Payment method button clicks
+        document.querySelectorAll('.payment-method-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.payment-method-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('paymentMethod').value = btn.dataset.method;
+            });
         });
 
         // Process sale button
@@ -1346,24 +1384,35 @@ class POSSystem {
             const result = await response.json();
 
             if (response.ok && result.success) {
-                this.showToast('Sale completed successfully!', 'success');
-                
-                // Clear form
-                document.getElementById('saleNotes').value = '';
-                document.getElementById('customerSelect').value = '';
-                document.getElementById('amountPaid').value = '0.00';
-                document.getElementById('paymentMethod').value = 'CASH';
-                this.discountAmount = 0;
-                this.discountPercent = 0;
-                
-                // Clear cart from server
-                this.cart = [];
-                this.renderCart();
-                
-                // Show receipt if provided
-                setTimeout(() => {
-                    this.printReceipt();
-                }, 500);
+                // Handle PayStack payment
+                if (saleData.payment_method === 'PAYSTACK') {
+                    this.showToast('Redirecting to payment...', 'info');
+                    setTimeout(() => {
+                        // Redirect to PayStack checkout page
+                        window.location.href = `/api/paystack/checkout/${result.sale_id}/`;
+                    }, 800);
+                } else {
+                    // Cash payment - complete immediately
+                    this.showToast('Sale completed successfully!', 'success');
+                    
+                    // Clear form
+                    document.getElementById('saleNotes').value = '';
+                    document.getElementById('customerSelect').value = '';
+                    document.getElementById('amountPaid').value = '0.00';
+                    document.getElementById('paymentMethod').value = 'CASH';
+                    document.querySelector('.payment-method-btn[data-method="CASH"]').click();
+                    this.discountAmount = 0;
+                    this.discountPercent = 0;
+                    
+                    // Clear cart from server
+                    this.cart = [];
+                    this.renderCart();
+                    
+                    // Redirect to receipt
+                    setTimeout(() => {
+                        window.location.href = `/pos/receipt/${result.sale_id}/`;
+                    }, 500);
+                }
             } else {
                 this.showToast(result.error || 'Failed to process sale', 'danger');
             }

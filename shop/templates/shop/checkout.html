@@ -1,0 +1,168 @@
+{% extends 'shop/base_shop.html' %}
+
+{% block title %}Checkout - Winners Cosmetics{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="mb-5">
+    <i class="fas fa-lock"></i> Secure Checkout
+  </h1>
+
+  {% if error %}
+    <div class="alert alert-danger alert-dismissible fade show">
+      <i class="fas fa-exclamation-circle"></i> {{ error }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  {% endif %}
+
+  {% if sale %}
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle"></i> Processing payment for order <strong>{{ sale.invoice_number }}</strong>...
+    </div>
+  {% else %}
+    <form method="post" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <div class="row">
+        <!-- Billing & Contact Info -->
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fas fa-user"></i> Contact Information</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label class="form-label">First Name *</label>
+                <input type="text" name="first_name" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" name="last_name" class="form-control">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Email *</label>
+                <input type="email" name="email" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input type="tel" name="phone" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Address -->
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Delivery Address</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label class="form-label">Recipient Name *</label>
+                <input type="text" name="delivery_name" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Recipient Phone *</label>
+                <input type="tel" name="delivery_phone" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">City *</label>
+                <input type="text" name="delivery_city" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Street Address *</label>
+                <textarea name="delivery_address" rows="3" class="form-control" placeholder="Enter complete address..." required></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Delivery Instructions (Optional)</label>
+                <textarea name="delivery_instructions" rows="2" class="form-control" placeholder="e.g., Leave at gate, call on arrival..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fas fa-list"></i> Order Summary</h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Product</th>
+                    <th class="text-end">Qty</th>
+                    <th class="text-end">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in cart %}
+                    <tr>
+                      <td>{{ item.product_name }}</td>
+                      <td class="text-end">{{ item.quantity }}</td>
+                      <td class="text-end">Ksh {{ item.total_price|floatformat:0 }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Summary -->
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title mb-3">Payment</h5>
+              
+              <div class="mb-3 d-flex justify-content-between">
+                <span>Subtotal:</span>
+                <strong>Ksh {{ subtotal|floatformat:0 }}</strong>
+              </div>
+
+              <div class="mb-3 d-flex justify-content-between">
+                <span>Tax (16%):</span>
+                <strong>Ksh {{ tax_amount|floatformat:0 }}</strong>
+              </div>
+
+              <hr>
+
+              <div class="mb-4 d-flex justify-content-between">
+                <h6>Total:</h6>
+                <h5 class="text-primary">Ksh {{ total|floatformat:0 }}</h5>
+              </div>
+
+              <button type="submit" class="btn btn-success btn-lg w-100" id="pay-btn">
+                <i class="fas fa-credit-card"></i> Pay with Paystack
+              </button>
+
+              <p class="text-muted text-center mt-3">
+                <small><i class="fas fa-shield-alt"></i> Your payment is secure and encrypted</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+</div>
+
+<script>
+  (function() {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+{% endblock %}
