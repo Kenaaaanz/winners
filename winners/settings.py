@@ -18,7 +18,7 @@ SECRET_KEY = config('SECRET_KEY', default='1u$3*++q7vw_h=bu8_do0icw^%l&sh7y*%d!h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = [#'.onrender.com',
+ALLOWED_HOSTS = ['.onrender.com',
                  'localhost',
                  '127.0.0.1']
 # Application definition
@@ -83,25 +83,25 @@ WSGI_APPLICATION = 'winners.wsgi.application'
 
 # Database
 # Using SQLite by default for easier setup
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
-    }
-}
-
-#DATABASE_URL = os.environ.get('DATABASE_URL')
-
-#if DATABASE_URL:
-    #Production - PostgreSQL on Render
-   # DATABASES = {
-    #    'default': dj_database_url.config(
-     #       default=DATABASE_URL,
-      #      conn_max_age=600,
-       #     conn_health_checks=True,
-        #    ssl_require=True  # Important for Render
-        #)
+#DATABASES = {
+ #   'default': {
+  #      'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
+   #     'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
     #}
+#}
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    #Production - PostgreSQL on Render
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True  # Important for Render
+        )
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -255,8 +255,8 @@ MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET')
 
 
 # Paystack Configuration
-PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY', default='pk_test_84bee673cf72bf8dccf8468d8248811066cfef96')
-PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY', default='sk_test_041187b838f3f830b638c8c8626c2131a089da40')
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 
 # Paystack Settings
 PAYSTACK_BASE_URL = 'https://api.paystack.co'
