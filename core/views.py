@@ -61,6 +61,13 @@ def profile(request):
     }
     return render(request, 'core/profile.html', context)
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Sum, F, Q
+import json
+
 @login_required
 def dashboard(request):
     # Get today's date
@@ -91,36 +98,91 @@ def dashboard(request):
     # Get recent sales
     recent_sales = Sale.objects.filter(
         status='COMPLETED'
-    ).order_by('-created_at')[:10]
+    ).select_related('customer').order_by('-created_at')[:10]
     
-    # Get sales chart data
-    sales_data = []
+    # Get sales chart data - FORMAT 1: Separate labels and data
+    sales_labels = []
+    sales_values = []
+    
+    for i in range(6, -1, -1):  # Last 7 days from 6 days ago to today
+        day = today - timedelta(days=i)
+        day_sales = Sale.objects.filter(
+            created_at__date=day,
+            status='COMPLETED'
+        ).aggregate(total=Sum('total'))['total'] or 0
+        
+        sales_labels.append(day.strftime('%a'))  # Mon, Tue, etc.
+        sales_values.append(float(day_sales))
+    
+    # Get top products with calculated fields
+    top_products = Product.objects.annotate(
+        total_sold=Sum('saleitem__quantity', filter=Q(saleitem__sale__status='COMPLETED'))
+    ).filter(total_sold__gt=0).order_by('-total_sold')[:5]
+    
+    # Add calculated fields to each product
+    for product in top_products:
+        product.total_sold = product.total_sold or 0
+    
+    # FORMAT 2: If you prefer the list of dicts format (for backward compatibility)
+    sales_data_dicts = []
     for i in range(7):
         day = today - timedelta(days=i)
         day_sales = Sale.objects.filter(
             created_at__date=day,
             status='COMPLETED'
         ).aggregate(total=Sum('total'))['total'] or 0
-        sales_data.append({
+        sales_data_dicts.append({
             'day': day.strftime('%a'),
             'sales': float(day_sales)
         })
-    sales_data.reverse()
+    sales_data_dicts.reverse()
     
-    # Get top products
-    top_products = Product.objects.annotate(
-        total_sold=Sum('saleitem__quantity')
-    ).filter(total_sold__gt=0).order_by('-total_sold')[:5]
+    # Calculate additional metrics
+    # Average transaction value
+    total_transactions = Sale.objects.filter(
+        status='COMPLETED',
+        created_at__date__gte=month_ago
+    ).count()
+    
+    avg_transaction_value = 0
+    if total_transactions > 0:
+        avg_transaction_value = total_sales_week / total_transactions
+    
+    # Growth rate (compare with previous period)
+    previous_period_start = week_ago - timedelta(days=7)
+    previous_period_sales = Sale.objects.filter(
+        created_at__date__gte=previous_period_start,
+        created_at__date__lt=week_ago,
+        status='COMPLETED'
+    ).aggregate(total=Sum('total'))['total'] or 0
+    
+    growth_rate = 0
+    if previous_period_sales > 0:
+        growth_rate = ((total_sales_week - previous_period_sales) / previous_period_sales) * 100
     
     context = {
+        # Basic stats
         'total_sales_today': total_sales_today,
         'total_sales_week': total_sales_week,
         'total_customers': total_customers,
         'total_products': total_products,
+        
+        # Lists
         'low_stock_products': low_stock_products,
         'recent_sales': recent_sales,
-        'sales_data': sales_data,
         'top_products': top_products,
+        
+        # Chart data - Option 1 (Recommended for your template)
+        'sales_labels': json.dumps(sales_labels),
+        'sales_data': json.dumps(sales_values),
+        
+        # Chart data - Option 2 (If you need the dict format elsewhere)
+        'sales_data_dicts': sales_data_dicts,
+        
+        # Additional metrics
+        'avg_transaction_value': avg_transaction_value,
+        'growth_rate': growth_rate,
+        'total_transactions_month': total_transactions,
     }
     
     return render(request, 'core/dashboard.html', context)

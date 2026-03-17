@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <h5>Amount</h5>
-                            <h2 class="text-primary">₦{{ transaction.amount|floatformat:2 }}</h2>
+                            <h2 class="text-primary">KES{{ transaction.amount|floatformat:2 }}</h2>
                             <p class="text-muted">{{ transaction.currency }}</p>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="list-group-item">
                         <label class="text-muted">Amount</label>
-                        <p>₦{{ transaction.amount|floatformat:2 }} {{ transaction.currency }}</p>
+                        <p>KES{{ transaction.amount|floatformat:2 }} {{ transaction.currency }}</p>
                     </div>
                     <div class="list-group-item">
                         <label class="text-muted">Payment Status</label>
@@ -199,7 +199,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="text-muted">Total Amount</label>
-                                <p><strong>₦{{ sale.total|floatformat:2 }}</strong></p>
+                                <p><strong>KES{{ sale.total|floatformat:2 }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -220,8 +220,8 @@
                                     <tr>
                                         <td>{{ item.product_name }}</td>
                                         <td>{{ item.quantity }}</td>
-                                        <td>₦{{ item.unit_price|floatformat:2 }}</td>
-                                        <td>₦{{ item.total_price|floatformat:2 }}</td>
+                                        <td>KES{{ item.unit_price|floatformat:2 }}</td>
+                                        <td>KES{{ item.total_price|floatformat:2 }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -281,10 +281,10 @@
                     <div class="form-group">
                         <label for="refundAmount">Refund Amount</label>
                         <div class="input-group">
-                            <span class="input-group-text">₦</span>
+                            <span class="input-group-text">KES</span>
                             <input type="number" step="0.01" class="form-control" id="refundAmount" name="amount" value="{{ transaction.amount }}" max="{{ transaction.amount }}" required>
                         </div>
-                        <small class="form-text text-muted">Maximum refund: ₦{{ transaction.amount|floatformat:2 }}</small>
+                        <small class="form-text text-muted">Maximum refund: KES{{ transaction.amount|floatformat:2 }}</small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -306,7 +306,7 @@
             return;
         }
         
-        if (confirm(`Are you sure you want to refund ₦${amount}?`)) {
+        if (confirm(`Are you sure you want to refund KES${amount}?`)) {
             fetch(`/api/paystack/refund/${transactionId}/`, {
                 method: 'POST',
                 headers: {

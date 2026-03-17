@@ -4,7 +4,52 @@
 
 {% block title %}Dashboard - Winners Cosmetics{% endblock %}
 
-{% block extra_css %}{% endblock %}
+{% block extra_css %}
+<style>
+    /* Add any dashboard-specific styles here */
+    .stat-card {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid;
+    }
+
+    .stat-card.card-1 { border-left-color: #ff6b6b; }
+    .stat-card.card-2 { border-left-color: #48dbfb; }
+    .stat-card.card-3 { border-left-color: #1dd1a1; }
+    .stat-card.card-4 { border-left-color: #f368e0; }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .stat-card.card-1 .stat-icon { color: #ff6b6b; }
+    .stat-card.card-2 .stat-icon { color: #48dbfb; }
+    .stat-card.card-3 .stat-icon { color: #1dd1a1; }
+    .stat-card.card-4 .stat-icon { color: #f368e0; }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2d3436;
+        margin: 5px 0;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: #636e72;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -183,44 +228,105 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- Load Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
 <script>
-// Sales Chart
-const ctx = document.getElementById('salesChart').getContext('2d');
-const salesChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: {{ sales_data|safe }},
-        datasets: [{
-            label: 'Daily Sales (KES)',
-            data: {{ sales_data|safe }},
-            borderColor: '#ff6b6b',
-            backgroundColor: 'rgba(255, 107, 107, 0.1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we have data and chart element exists
+    const chartElement = document.getElementById('salesChart');
+    
+    if (!chartElement) {
+        console.error('Chart element not found');
+        return;
+    }
+    
+    // Get data from Django template
+    const salesLabels = {{ sales_labels|safe }};  // Days of week
+    const salesData = {{ sales_data|safe }};      // Sales amounts
+    
+    console.log('Sales Labels:', salesLabels);
+    console.log('Sales Data:', salesData);
+    
+    // Check if data exists
+    if (!salesData || salesData.length === 0) {
+        console.warn('No sales data available');
+        chartElement.parentNode.innerHTML = '<p class="text-muted text-center">No sales data available</p>';
+        return;
+    }
+    
+    // Create chart
+    try {
+        const ctx = chartElement.getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: salesLabels,
+                datasets: [{
+                    label: 'Daily Sales (KES)',
+                    data: salesData,
+                    borderColor: '#ff6b6b',
+                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#ff6b6b',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
             },
-            title: {
-                display: true,
-                text: 'Last 7 Days Sales'
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return 'KES ' + value;
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += 'KES ' + context.parsed.y.toLocaleString();
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'KES ' + value.toLocaleString();
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }
-        }
+        });
+        
+        console.log('Chart created successfully');
+    } catch (error) {
+        console.error('Error creating chart:', error);
+        chartElement.parentNode.innerHTML = '<p class="text-danger text-center">Error loading chart</p>';
     }
 });
 </script>

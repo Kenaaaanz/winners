@@ -1726,3 +1726,150 @@ INFO 2026-03-03 13:22:03,453 basehttp "GET /cart/ HTTP/1.1" 200 21831
 INFO 2026-03-03 13:23:22,541 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202603-96AF7D-20260303132322-C3FA8BF5, Amount=464.0
 INFO 2026-03-03 13:23:23,581 paystack_service Successfully initialized transaction: SHOP-INV-202603-96AF7D-20260303132322-C3FA8BF5
 INFO 2026-03-03 13:23:23,604 basehttp "POST /checkout/ HTTP/1.1" 302 0
+INFO 2026-03-17 14:09:53,951 autoreload Watching for file changes with StatReloader
+INFO 2026-03-17 14:11:46,795 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-03-17 14:11:53,461 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-03-17 14:11:54,822 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-03-17 14:11:55,009 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-03-17 14:11:55,681 basehttp "GET /static/shop/images/Winners.png HTTP/1.1" 200 165756
+INFO 2026-03-17 14:11:56,074 basehttp "GET /static/shop/images/winnershero1.png HTTP/1.1" 200 5428
+INFO 2026-03-17 14:11:57,137 basehttp "GET /static/shop/images/winnershero2.png HTTP/1.1" 200 15513
+INFO 2026-03-17 14:11:57,852 basehttp "GET /static/shop/images/winnershero3.png HTTP/1.1" 200 67472
+WARNING 2026-03-17 14:12:02,652 basehttp "GET /favicon.ico HTTP/1.1" 404 6654
+INFO 2026-03-17 14:12:16,117 basehttp "GET /accounts/login/ HTTP/1.1" 200 25576
+INFO 2026-03-17 14:12:16,667 basehttp "GET /static/css/unified.css HTTP/1.1" 200 2615
+INFO 2026-03-17 14:12:29,579 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2026-03-17 14:12:30,448 basehttp "GET /app/ HTTP/1.1" 200 34422
+INFO 2026-03-17 14:12:42,098 basehttp "GET /analytics/ HTTP/1.1" 200 67441
+INFO 2026-03-17 14:13:05,123 basehttp "GET /analytics/sales/ HTTP/1.1" 200 51667
+INFO 2026-03-17 14:13:22,310 basehttp "GET /analytics/inventory/ HTTP/1.1" 200 52185
+INFO 2026-03-17 14:13:41,173 basehttp "GET /analytics/financial/ HTTP/1.1" 200 52686
+INFO 2026-03-17 14:13:57,420 basehttp "GET /analytics/ HTTP/1.1" 200 67441
+INFO 2026-03-17 14:14:12,429 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:14:12,753 basehttp "GET /media/products/1a43b0b09aa244c6bb096a6172864b61-screen.webp HTTP/1.1" 200 40194
+INFO 2026-03-17 14:14:12,763 basehttp "GET /media/products/images.jpg HTTP/1.1" 200 4958
+INFO 2026-03-17 14:14:13,156 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:14:17,663 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-03-17 14:14:31,076 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-03-17 14:14:32,076 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-90665A-20260317141432-0DEC1C2E, Amount=696.0
+INFO 2026-03-17 14:14:34,105 paystack_service Successfully initialized transaction: SALE-INV-202603-90665A-20260317141432-0DEC1C2E
+INFO 2026-03-17 14:14:34,206 paystack_views Initialized Paystack payment for sale INV-202603-90665A: SALE-INV-202603-90665A-20260317141432-0DEC1C2E
+INFO 2026-03-17 14:14:34,242 basehttp "GET /api/paystack/checkout/18/ HTTP/1.1" 200 45534
+INFO 2026-03-17 14:17:25,489 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-90665A-20260317141725-C8F8EFA5, Amount=696.0
+INFO 2026-03-17 14:17:27,739 paystack_service Successfully initialized transaction: SALE-INV-202603-90665A-20260317141725-C8F8EFA5
+ERROR 2026-03-17 14:17:27,997 paystack_views Error initializing Paystack payment: UNIQUE constraint failed: core_paystacktransaction.sale_id
+INFO 2026-03-17 14:17:28,081 basehttp "GET /api/paystack/checkout/18/ HTTP/1.1" 302 0
+INFO 2026-03-17 14:17:29,072 basehttp "GET /pos/ HTTP/1.1" 200 77825
+INFO 2026-03-17 14:17:30,966 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:17:54,960 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-03-17 14:18:05,199 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-03-17 14:18:06,269 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-CE766F-20260317141806-578F8480, Amount=464.0
+INFO 2026-03-17 14:18:07,292 paystack_service Successfully initialized transaction: SALE-INV-202603-CE766F-20260317141806-578F8480
+INFO 2026-03-17 14:18:07,624 paystack_views Initialized Paystack payment for sale INV-202603-CE766F: SALE-INV-202603-CE766F-20260317141806-578F8480
+INFO 2026-03-17 14:18:07,999 basehttp "GET /api/paystack/checkout/19/ HTTP/1.1" 200 45537
+INFO 2026-03-17 14:22:36,007 basehttp "GET / HTTP/1.1" 200 38363
+INFO 2026-03-17 14:22:36,487 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-03-17 14:22:40,865 basehttp "GET /product/2/ HTTP/1.1" 200 22601
+INFO 2026-03-17 14:22:41,387 basehttp "GET /cart/ HTTP/1.1" 200 19591
+INFO 2026-03-17 14:22:43,432 basehttp "POST /cart/add/ HTTP/1.1" 200 34
+INFO 2026-03-17 14:22:45,302 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-03-17 14:22:45,521 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-03-17 14:22:47,615 basehttp "GET /checkout/ HTTP/1.1" 200 24182
+INFO 2026-03-17 14:22:47,886 basehttp "GET /cart/ HTTP/1.1" 200 21831
+INFO 2026-03-17 14:23:24,707 paystack_service Initializing Paystack transaction: Reference=SHOP-INV-202603-BFD173-20260317142324-859B5C9D, Amount=464.0
+INFO 2026-03-17 14:23:25,813 paystack_service Successfully initialized transaction: SHOP-INV-202603-BFD173-20260317142324-859B5C9D
+INFO 2026-03-17 14:23:25,871 basehttp "POST /checkout/ HTTP/1.1" 302 0
+INFO 2026-03-17 14:24:05,284 basehttp "GET /checkout/ HTTP/1.1" 302 0
+INFO 2026-03-17 14:24:17,645 basehttp "GET /admin/ HTTP/1.1" 200 39535
+INFO 2026-03-17 14:24:17,828 basehttp "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1" 200 2637
+INFO 2026-03-17 14:24:17,911 basehttp "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2026-03-17 14:24:17,963 basehttp "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2026-03-17 14:24:18,187 basehttp "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2026-03-17 14:24:18,206 basehttp "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2026-03-17 14:24:18,227 basehttp "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2026-03-17 14:24:18,253 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-17 14:24:19,747 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2026-03-17 14:24:19,747 basehttp "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2026-03-17 14:24:19,747 basehttp "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+INFO 2026-03-17 14:24:32,517 basehttp "GET /admin/core/stockreservation/ HTTP/1.1" 200 20958
+INFO 2026-03-17 14:24:32,661 basehttp "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2026-03-17 14:24:32,679 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-03-17 14:24:32,812 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-03-17 14:24:32,812 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-03-17 14:24:32,831 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-03-17 14:24:32,858 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-17 14:24:32,929 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-03-17 14:24:32,950 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-03-17 14:24:33,158 basehttp "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2026-03-17 14:24:33,993 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-03-17 14:24:34,025 basehttp "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2026-03-17 14:24:41,290 basehttp "GET /admin/core/sale/ HTTP/1.1" 200 38139
+INFO 2026-03-17 14:24:41,373 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-17 14:25:11,734 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:25:11,977 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:27:06,130 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-03-17 14:30:11,696 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:30:11,908 basehttp "GET /pos/cart/ HTTP/1.1" 200 201
+INFO 2026-03-17 14:30:14,977 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-03-17 14:30:21,492 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 104
+INFO 2026-03-17 14:30:22,370 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-CA2577-20260317143022-E8E08C1B, Amount=1160.0
+INFO 2026-03-17 14:30:23,593 paystack_service Successfully initialized transaction: SALE-INV-202603-CA2577-20260317143022-E8E08C1B
+INFO 2026-03-17 14:30:23,645 paystack_views Initialized Paystack payment for sale INV-202603-CA2577: SALE-INV-202603-CA2577-20260317143022-E8E08C1B
+INFO 2026-03-17 14:30:23,659 basehttp "GET /api/paystack/checkout/21/ HTTP/1.1" 200 45895
+INFO 2026-03-17 14:35:12,337 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-CA2577-20260317143512-E78FEE6E, Amount=1160.0
+INFO 2026-03-17 14:35:13,437 paystack_service Successfully initialized transaction: SALE-INV-202603-CA2577-20260317143512-E78FEE6E
+ERROR 2026-03-17 14:35:13,454 paystack_views Error initializing Paystack payment: UNIQUE constraint failed: core_paystacktransaction.sale_id
+INFO 2026-03-17 14:35:13,462 basehttp "GET /api/paystack/checkout/21/ HTTP/1.1" 302 0
+INFO 2026-03-17 14:35:14,203 basehttp "GET /pos/ HTTP/1.1" 200 77825
+INFO 2026-03-17 14:35:14,486 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:35:19,937 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-03-17 14:35:20,874 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-03-17 14:35:27,702 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 104
+INFO 2026-03-17 14:35:28,590 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-648ABB-20260317143528-18588A44, Amount=1160.0
+INFO 2026-03-17 14:35:29,937 paystack_service Successfully initialized transaction: SALE-INV-202603-648ABB-20260317143528-18588A44
+INFO 2026-03-17 14:35:30,018 paystack_views Initialized Paystack payment for sale INV-202603-648ABB: SALE-INV-202603-648ABB-20260317143528-18588A44
+INFO 2026-03-17 14:35:30,151 basehttp "GET /api/paystack/checkout/22/ HTTP/1.1" 200 45895
+INFO 2026-03-17 14:39:41,727 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:39:41,878 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:39:43,687 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:39:43,807 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:39:44,637 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:39:44,802 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:39:46,488 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-03-17 14:39:47,349 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-03-17 14:39:49,535 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 104
+INFO 2026-03-17 14:39:50,338 basehttp "GET /pos/receipt/23/ HTTP/1.1" 200 36285
+INFO 2026-03-17 14:40:20,030 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:40:20,187 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:40:22,579 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 204
+INFO 2026-03-17 14:40:23,414 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 343
+INFO 2026-03-17 14:40:30,760 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 104
+INFO 2026-03-17 14:40:31,649 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-2381E8-20260317144031-1D49F2D4, Amount=1160.0
+INFO 2026-03-17 14:40:32,662 paystack_service Successfully initialized transaction: SALE-INV-202603-2381E8-20260317144031-1D49F2D4
+INFO 2026-03-17 14:40:32,711 paystack_views Initialized Paystack payment for sale INV-202603-2381E8: SALE-INV-202603-2381E8-20260317144031-1D49F2D4
+INFO 2026-03-17 14:40:32,737 basehttp "GET /api/paystack/checkout/24/ HTTP/1.1" 200 45895
+INFO 2026-03-17 14:41:10,411 basehttp "GET /analytics/ HTTP/1.1" 200 67487
+INFO 2026-03-17 14:41:24,035 basehttp "GET /app/ HTTP/1.1" 200 34435
+INFO 2026-03-17 14:50:23,668 autoreload C:\Users\Gichaba\.env\winners\core\views.py changed, reloading.
+INFO 2026-03-17 14:50:47,976 autoreload Watching for file changes with StatReloader
+INFO 2026-03-17 14:51:20,489 autoreload C:\Users\Gichaba\.env\winners\core\views.py changed, reloading.
+INFO 2026-03-17 14:51:30,225 autoreload Watching for file changes with StatReloader
+INFO 2026-03-17 14:51:54,021 autoreload C:\Users\Gichaba\.env\winners\core\views.py changed, reloading.
+INFO 2026-03-17 14:52:01,317 autoreload Watching for file changes with StatReloader
+INFO 2026-03-17 14:52:21,932 autoreload C:\Users\Gichaba\.env\winners\core\views.py changed, reloading.
+INFO 2026-03-17 14:52:34,616 autoreload Watching for file changes with StatReloader
+INFO 2026-03-17 14:52:53,787 basehttp "GET /app/ HTTP/1.1" 200 37796
+INFO 2026-03-17 14:53:28,381 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:53:28,599 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:53:33,646 basehttp "GET /analytics/ HTTP/1.1" 200 67487
+INFO 2026-03-17 14:53:45,842 basehttp "GET /analytics/sales/ HTTP/1.1" 200 55217
+INFO 2026-03-17 14:58:38,145 autoreload Watching for file changes with StatReloader
+INFO 2026-03-17 14:59:08,565 basehttp "GET /pos/ HTTP/1.1" 200 77229
+INFO 2026-03-17 14:59:08,885 basehttp "GET /pos/cart/ HTTP/1.1" 200 61
+INFO 2026-03-17 14:59:10,455 basehttp "POST /pos/add-to-cart/ HTTP/1.1" 200 207
+INFO 2026-03-17 14:59:21,779 basehttp "POST /pos/sales/process/ HTTP/1.1" 200 103
+INFO 2026-03-17 14:59:22,680 paystack_service Initializing Paystack transaction: Reference=SALE-INV-202603-B678E3-20260317145922-F87844FA, Amount=464.0
+INFO 2026-03-17 14:59:23,897 paystack_service Successfully initialized transaction: SALE-INV-202603-B678E3-20260317145922-F87844FA
+INFO 2026-03-17 14:59:23,938 paystack_views Initialized Paystack payment for sale INV-202603-B678E3: SALE-INV-202603-B678E3-20260317145922-F87844FA
+INFO 2026-03-17 14:59:23,964 basehttp "GET /api/paystack/checkout/25/ HTTP/1.1" 200 45537
+INFO 2026-03-17 15:00:50,678 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.

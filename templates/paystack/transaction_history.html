@@ -45,7 +45,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h6 class="text-muted">Total Amount</h6>
-                    <h3 class="text-success">₦{{ total_amount|floatformat:2 }}</h3>
+                    <h3 class="text-success">KES{{ total_amount|floatformat:2 }}</h3>
                 </div>
             </div>
         </div>
@@ -100,7 +100,7 @@
                                 <code>{{ transaction.reference }}</code>
                             </td>
                             <td>
-                                <strong>₦{{ transaction.amount|floatformat:2 }}</strong>
+                                <strong>KES{{ transaction.amount|floatformat:2 }}</strong>
                             </td>
                             <td>{{ transaction.email }}</td>
                             <td>
@@ -145,7 +145,7 @@
                                             <div class="form-group">
                                                 <label for="refundAmount{{ transaction.pk }}">Refund Amount</label>
                                                 <input type="number" step="0.01" class="form-control" id="refundAmount{{ transaction.pk }}" name="amount" value="{{ transaction.amount }}" max="{{ transaction.amount }}">
-                                                <small class="form-text text-muted">Maximum: ₦{{ transaction.amount|floatformat:2 }}</small>
+                                                <small class="form-text text-muted">Maximum: KES{{ transaction.amount|floatformat:2 }}</small>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -181,7 +181,7 @@
             return;
         }
         
-        if (confirm(`Are you sure you want to refund ₦${amount}?`)) {
+        if (confirm(`Are you sure you want to refund KES${amount}?`)) {
             fetch(`/api/paystack/refund/${transactionId}/`, {
                 method: 'POST',
                 headers: {

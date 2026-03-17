@@ -13,10 +13,10 @@ LOG_DIR = BASE_DIR / 'logs'
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='1u$3*++q7vw_h=bu8_do0icw^%l&sh7y*%d!h4a+^=v+nxbai#')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool, default=True)
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['.onrender.com',
                  'localhost',
@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'winners.wsgi.application'
 # Database
 # Using SQLite by default for easier setup
 #DATABASES = {
- #   'default': {
-  #      'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-   #     'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
-    #}
+    #'default': {
+     #   'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
+    #    'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+   # }
 #}
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -223,13 +223,13 @@ MESSAGE_TAGS = {
 
 
 # M-Pesa Configuration
-MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT')  # 'sandbox' or 'production'
+#MPESA_ENVIRONMENT = config('MPESA_ENVIRONMENT')  # 'sandbox' or 'production'
 
 # Sandbox Credentials (for testing)
-MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
-MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
-MPESA_SHORTCODE = config('MPESA_SHORTCODE')  # Sandbox: 174379
-MPESA_PASSKEY = config('MPESA_PASSKEY')
+#MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY')
+#MPESA_CONSUMER_SECRET = config('MPESA_CONSUMER_SECRET')
+#MPESA_SHORTCODE = config('MPESA_SHORTCODE')  # Sandbox: 174379
+#MPESA_PASSKEY = config('MPESA_PASSKEY')
 
 # Production Credentials (update for production)
 # MPESA_CONSUMER_KEY = config('MPESA_CONSUMER_KEY_PROD', default='')
@@ -238,20 +238,20 @@ MPESA_PASSKEY = config('MPESA_PASSKEY')
 # MPESA_PASSKEY = config('MPESA_PASSKEY_PROD', default='')
 
 # Initiator Credentials (for B2C, Reversal, etc.)
-MPESA_INITIATOR_NAME = config('MPESA_INITIATOR_NAME', default='winners')
-MPESA_INITIATOR_PASSWORD = config('MPESA_INITIATOR_PASSWORD', default='Onsare@674472')
-MPESA_CERTIFICATE_PATH = config('MPESA_CERTIFICATE_PATH', default='')
+#MPESA_INITIATOR_NAME = config('MPESA_INITIATOR_NAME', default='winners')
+#MPESA_INITIATOR_PASSWORD = config('MPESA_INITIATOR_PASSWORD', default='Onsare@674472')
+#MPESA_CERTIFICATE_PATH = config('MPESA_CERTIFICATE_PATH', default='')
 
 # Callback URLs (will be auto-generated)
 #BASE_URL = config('BASE_URL', default='https://winners-gbaz.onrender.com')
 
 # Transaction Settings
-MPESA_MAX_AMOUNT = 150000  # Maximum amount per transaction
-MPESA_MIN_AMOUNT = 1       # Minimum amount per transaction
-MPESA_TRANSACTION_FEE_PERCENTAGE = 0.01  # 1% transaction fee estimate
+#MPESA_MAX_AMOUNT = 150000  # Maximum amount per transaction
+#MPESA_MIN_AMOUNT = 1       # Minimum amount per transaction
+#MPESA_TRANSACTION_FEE_PERCENTAGE = 0.01  # 1% transaction fee estimate
 
 # Security
-MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET')
+#MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET')
 
 
 # Paystack Configuration
@@ -260,8 +260,8 @@ PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 
 # Paystack Settings
 PAYSTACK_BASE_URL = 'https://api.paystack.co'
-PAYSTACK_MAX_AMOUNT = 50000000  # Maximum amount in Kobo (50 million Naira)
-PAYSTACK_MIN_AMOUNT = 100       # Minimum amount in Kobo (1 Naira)
+PAYSTACK_MAX_AMOUNT = 50000000  # Maximum amount in Kobo (50 million Ksh)
+PAYSTACK_MIN_AMOUNT = 100       # Minimum amount in Kobo (100 Ksh)
 
 # Paystack Logging
 LOGGING['loggers']['paystack'] = {

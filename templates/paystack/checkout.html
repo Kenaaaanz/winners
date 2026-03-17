@@ -28,11 +28,11 @@
                                 {% endif %}
                             </div>
                             <div class="col-md-6 text-right">
-                                <p><strong>Subtotal:</strong> ₦{{ sale.subtotal|floatformat:2 }}</p>
-                                <p><strong>Tax ({{ sale.tax_rate }}%):</strong> ₦{{ sale.tax_amount|floatformat:2 }}</p>
-                                <p><strong>Discount:</strong> -₦{{ sale.discount_amount|floatformat:2 }}</p>
+                                <p><strong>Subtotal:</strong> KES{{ sale.subtotal|floatformat:2 }}</p>
+                                <p><strong>Tax ({{ sale.tax_rate }}%):</strong> KES{{ sale.tax_amount|floatformat:2 }}</p>
+                                <p><strong>Discount:</strong> -KES{{ sale.discount_amount|floatformat:2 }}</p>
                                 <hr>
-                                <h5 class="text-success"><strong>Total Amount:</strong> ₦{{ sale.total|floatformat:2 }}</h5>
+                                <h5 class="text-success"><strong>Total Amount:</strong> KES{{ sale.total|floatformat:2 }}</h5>
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
                                     <tr>
                                         <td>{{ item.product_name }}</td>
                                         <td>{{ item.quantity }}</td>
-                                        <td>₦{{ item.unit_price|floatformat:2 }}</td>
-                                        <td>₦{{ item.total_price|floatformat:2 }}</td>
+                                        <td>KES{{ item.unit_price|floatformat:2 }}</td>
+                                        <td>KES{{ item.total_price|floatformat:2 }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -69,7 +69,7 @@
                         <h4 class="alert-heading">Payment Instructions</h4>
                         <p>Click the button below to proceed with payment using Paystack. You will be redirected to a secure payment page where you can enter your payment details.</p>
                         <hr>
-                        <p class="mb-0"><strong>Amount to Pay:</strong> ₦{{ sale.total|floatformat:2 }}</p>
+                        <p class="mb-0"><strong>Amount to Pay:</strong> KES{{ sale.total|floatformat:2 }}</p>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -79,7 +79,7 @@
                 <div class="card-footer d-flex justify-content-between">
                     <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
                     <button type="button" class="btn btn-primary btn-lg" id="paystack-button">
-                        <i class="fas fa-credit-card"></i> Pay ₦{{ sale.total|floatformat:2 }} with Paystack
+                        <i class="fas fa-credit-card"></i> Pay KES{{ sale.total|floatformat:2 }} with Paystack
                     </button>
                 </div>
             </div>
@@ -102,11 +102,11 @@
             email: '{{ paystack_txn.email }}',
             amount: {{ paystack_txn.amount|floatformat:0|safe }} * 100,  // Convert to kobo
             ref: '{{ paystack_txn.reference }}',
-            currency: 'NGN',
+            currency: 'KES',
             onClose: function() {
                 alert('Payment window closed.');
                 button.disabled = false;
-                button.innerHTML = '<i class="fas fa-credit-card"></i> Pay ₦{{ sale.total|floatformat:2 }} with Paystack';
+                button.innerHTML = '<i class="fas fa-credit-card"></i> Pay KES{{ sale.total|floatformat:2 }} with Paystack';
             },
             onSuccess: function(response) {
                 console.log('Payment successful:', response);
@@ -160,7 +160,7 @@
                             </div>
                             <hr>
                             <p><strong>Invoice Number:</strong> ${data.invoice_number}</p>
-                            <p><strong>Amount Paid:</strong> ₦${data.amount}</p>
+                            <p><strong>Amount Paid:</strong> KES${data.amount}</p>
                             <p><strong>Status:</strong> <span class="badge badge-success">${data.status}</span></p>
                         </div>
                         <div class="modal-footer">

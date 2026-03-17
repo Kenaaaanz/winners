@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
+{{ block.super }}
 <style>
     :root {
         --primary-color: #10b981;
@@ -557,7 +558,7 @@
     <main class="main-content">
         <!-- Page Header -->
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-4">
-            <h1 class="h2">{% block page_title %}{% endblock %}</h1>
+            <h1 class="h2">{% block page_title %}Dashboard{% endblock %}</h1>
             <div class="btn-toolbar">
                 {% block page_actions %}{% endblock %}
             </div>
@@ -573,7 +574,11 @@
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
 <script>
 // Dashboard-specific JavaScript can be added here
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Dashboard loaded');
+});
 </script>
 {% endblock %}
