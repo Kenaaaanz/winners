@@ -29,3 +29,7 @@ django-jazzmin
 psycopg2-binary
 gunicorn
 boto3
+whitenoise==6.5.0
+cloudinary==1.36.0
+cloudinary-storage==0.3.1
+django-cloudinary-storage
