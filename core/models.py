@@ -5,12 +5,14 @@ from django.core.exceptions import ValidationError
 from decimal import Decimal
 import uuid
 from datetime import date
+from cloudinary.models import CloudinaryField
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, blank=True)
     address = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to='profiles/', blank=True)
+    profile_picture = CloudinaryField('image')
     role = models.CharField(max_length=50, default='Staff')
     date_of_birth = models.DateField(null=True, blank=True)
     hire_date = models.DateField(auto_now_add=True)
@@ -35,7 +37,7 @@ class Category(models.Model):
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
-    logo = models.ImageField(upload_to='brands/', blank=True)
+    logo = CloudinaryField('image')
     website = models.URLField(blank=True)
     
     def __str__(self):
@@ -82,7 +84,7 @@ class Product(models.Model):
     expiry_date = models.DateField(null=True, blank=True)
     batch_number = models.CharField(max_length=100, blank=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(upload_to='products/', blank=True)
+    image = CloudinaryField('image')
     # Ecommerce visibility flags
     show_on_shop = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
@@ -331,7 +333,7 @@ class PaystackTransaction(models.Model):
     authorization_code = models.CharField(max_length=100, blank=True)
     email = models.EmailField()
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    currency = models.CharField(max_length=3, default='NGN')
+    currency = models.CharField(max_length=3, default='KES')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     payment_status = models.CharField(max_length=20, blank=True)  # success, failed, etc.
     authorization_url = models.URLField(blank=True)
