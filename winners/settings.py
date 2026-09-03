@@ -23,8 +23,8 @@ DEBUG = config('DEBUG')
 ALLOWED_HOSTS = ['.onrender.com',
                  'localhost',
                  '127.0.0.1',
-                winnerscosmetics.com,
-                www.winnerscosmetics.com]
+                 'winnerscosmetics.com',
+                 'www.winnerscosmetics.com']
 
 # Application definition
 INSTALLED_APPS = [
