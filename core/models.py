@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.core.validators import MinValueValidator, RegexValidator
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from decimal import Decimal
 import uuid
 from datetime import date
@@ -153,7 +154,7 @@ class Customer(models.Model):
     ]
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    customer_id = models.CharField(max_length=20, unique=True, default=uuid.uuid4)
+    customer_id = models.CharField(max_length=36, unique=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)

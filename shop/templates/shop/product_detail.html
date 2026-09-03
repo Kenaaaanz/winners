@@ -46,8 +46,9 @@
       <!-- Price -->
       <div class="mb-4">
         <h3 class="display-5 text-primary">
-          Ksh {{ product.selling_price|floatformat:0 }}
+          Ksh <span id="product-total">{{ product.selling_price|floatformat:0 }}</span>
         </h3>
+        <small class="text-muted">Total for selected quantity</small>
       </div>
 
       <!-- Stock Status -->
@@ -112,16 +113,28 @@
   const qtyPlus = document.getElementById('qty-plus');
   const addBtn = document.getElementById('add-btn');
   const maxQty = {{ available_stock }};
+  const unitPrice = {{ product.selling_price }};
+
+  function updateProductTotal() {
+    const quantity = Math.max(1, Math.min(maxQty, parseInt(qtyInput.value, 10) || 1));
+    qtyInput.value = quantity;
+    document.getElementById('product-total').textContent = (unitPrice * quantity).toFixed(0);
+  }
 
   qtyMinus.addEventListener('click', () => {
     let val = parseInt(qtyInput.value);
     if (val > 1) qtyInput.value = val - 1;
+    updateProductTotal();
   });
 
   qtyPlus.addEventListener('click', () => {
     let val = parseInt(qtyInput.value);
     if (val < maxQty) qtyInput.value = val + 1;
+    updateProductTotal();
   });
+
+  qtyInput.addEventListener('input', updateProductTotal);
+  updateProductTotal();
 
   addBtn.addEventListener('click', () => {
     const quantity = parseInt(qtyInput.value);

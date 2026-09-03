@@ -1873,3 +1873,24 @@ INFO 2026-03-17 14:59:23,897 paystack_service Successfully initialized transacti
 INFO 2026-03-17 14:59:23,938 paystack_views Initialized Paystack payment for sale INV-202603-B678E3: SALE-INV-202603-B678E3-20260317145922-F87844FA
 INFO 2026-03-17 14:59:23,964 basehttp "GET /api/paystack/checkout/25/ HTTP/1.1" 200 45537
 INFO 2026-03-17 15:00:50,678 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-09-02 09:42:13,992 autoreload Watching for file changes with StatReloader
+INFO 2026-09-02 09:42:37,599 basehttp code 400, message Bad request version ('l_\x8dÇ¸h\x15\x87óú\x044\x1bÝË§T\x99I\x875\x0f%.@Ü´Íër\x00')
+ERROR 2026-09-02 09:42:37,614 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:42:37,644 basehttp code 400, message Bad request version ('¦i<l\x14\x07\x15à?k¼sIà¨æ\x15ÀNB\x91c%°é{\x8a\x18')
+ERROR 2026-09-02 09:42:37,691 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:43:46,106 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-09-02 09:44:12,670 autoreload Watching for file changes with StatReloader
+INFO 2026-09-02 09:44:21,280 basehttp code 400, message Bad request version ('\x96Ì\x86¦r')
+ERROR 2026-09-02 09:44:21,313 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:44:21,790 basehttp code 400, message Bad request version ('qN')
+ERROR 2026-09-02 09:44:21,795 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:44:22,044 basehttp code 400, message Bad request version ('vm°\x80W\x86êJ0t\x7f@V¢@\x8b´OÜêÙjà£\x96ë')
+ERROR 2026-09-02 09:44:22,044 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:44:22,162 basehttp code 400, message Bad request version ('ºº\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06\x93')
+ERROR 2026-09-02 09:44:22,162 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:44:34,786 basehttp code 400, message Bad request syntax ('\x16\x03\x01\x06à\x01\x00\x06Ü\x03\x03+\x10^¿U\x84D\x96Ì\x91FR\x8f¦\x00ü[\x88ùf\x8bù\x8a²pß')
+ERROR 2026-09-02 09:44:34,795 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:44:34,853 basehttp code 400, message Bad request version ('\x97\x1aY\x16üÊyªâ¨Dg0"\x01\x0f\x98\x88Î¶\x8b*~ßGÃ\x02\x16©ñq®¶¦ÅvÕ÷jØ5²ü\x12\x902\x9b`L¹(ä9$\x9fä#\x99\x14÷\x01©Ò\x95áJQ\x03-\x14Ù\x94\x10')
+ERROR 2026-09-02 09:44:34,854 basehttp You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-09-02 09:45:38,814 autoreload C:\Users\Gichaba\.env\winners\winners\settings.py changed, reloading.
+INFO 2026-09-02 09:45:51,206 autoreload Watching for file changes with StatReloader

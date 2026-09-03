@@ -42,7 +42,7 @@
                       <strong>Ksh {{ item.total_price|floatformat:0 }}</strong>
                     </td>
                     <td>
-                      <button class="btn btn-sm btn-outline-danger" onclick="removeItem({{ item.product_id }})">
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeItem({{ item.product_id }})" aria-label="Remove {{ item.product_name }}">
                         <i class="fas fa-trash"></i>
                       </button>
                     </td>
@@ -101,7 +101,7 @@
 <script>
 function removeItem(productId) {
   if (confirm('Remove this item from cart?')) {
-    fetch('{% url "shop:add_to_cart" %}', {
+    fetch('{% url "shop:remove_from_cart" %}', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ function removeItem(productId) {
       },
       body: JSON.stringify({
         product_id: productId,
-        quantity: 0
+        product_id: productId
       })
     }).then(r => r.json()).then(d => {
       if (d.success) location.reload();

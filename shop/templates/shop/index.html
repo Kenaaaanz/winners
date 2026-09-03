@@ -44,110 +44,11 @@
     background: linear-gradient(90deg, var(--gold), var(--rose-gold));
   }
 
-  /* Hero Section - Elegant Carousel */
-  .luxury-hero {
-    position: relative;
-    height: 70vh;
-    min-height: 500px;
-    margin-bottom: 4rem;
-    border-radius: 0 0 50px 50px;
-    overflow: hidden;
-  }
-
-  .hero-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-    background-size: cover;
-    background-position: center;
-  }
-
-  .hero-slide.active {
-    opacity: 1;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(44, 44, 44, 0.4) 0%, rgba(139, 76, 97, 0.3) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .hero-content {
-    color: white;
-    max-width: 800px;
-    padding: 2rem;
-    animation: fadeInUp 1.5s ease;
-  }
-
-  .hero-content h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 4rem;
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  .hero-content p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    margin-bottom: 2rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  }
-
-  .hero-cta {
-    display: inline-block;
-    padding: 15px 40px;
-    background: transparent;
-    border: 2px solid var(--gold);
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
-    transition: left 0.5s ease;
-  }
-
-  .hero-cta:hover::before {
-    left: 100%;
-  }
-
-  .hero-cta:hover {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--charcoal);
-  }
-
   /* Luxury Search Bar */
   .luxury-search-wrapper {
     position: relative;
     max-width: 600px;
-    margin: -50px auto 3rem;
+    margin: 3rem auto;
     z-index: 10;
   }
 
@@ -554,23 +455,6 @@
 </style>
 
 <div class="container-fluid p-0">
-  <!-- Hero Carousel -->
-  <div class="luxury-hero">
-    <div class="hero-slide active" style="background-image: url('{% static 'shop/images/Winners.png' %}')"></div>
-    <div class="hero-slide" style="background-image: url('{% static 'shop/images/winnershero1.png' %}')"></div>
-    <div class="hero-slide" style="background-image: url('{% static 'shop/images/winnershero2.png' %}')"></div>
-    <div class="hero-slide" style="background-image: url('{% static 'shop/images/winnershero3.png' %}')"></div>
-
-
-    <div class="hero-overlay">
-      <div class="hero-content">
-        <h1>Winners Cosmetics</h1>
-        <p>Where Beauty Meets Luxury</p>
-        <a href="#featured" class="hero-cta">Discover Collection</a>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
     <!-- Search Bar -->
     <div class="luxury-search-wrapper">
@@ -581,6 +465,13 @@
         </button>
       </form>
     </div>
+
+    <nav class="category-nav mb-4" aria-label="Shop by category">
+      <a href="{% url 'shop:index' %}" class="btn {% if not selected_category %}btn-dark{% else %}btn-outline-dark{% endif %}">All products</a>
+      {% for category in categories %}
+        <a href="?category={{ category.id }}" class="btn {% if selected_category == category.id|stringformat:'s' %}btn-dark{% else %}btn-outline-dark{% endif %}">{{ category.name }}</a>
+      {% endfor %}
+    </nav>
 
     <!-- Results Summary -->
     {% if query %}
@@ -776,22 +667,6 @@
 </div>
 
 <script>
-  // Hero Carousel
-  document.addEventListener('DOMContentLoaded', function() {
-    const slides = document.querySelectorAll('.hero-slide');
-    let currentSlide = 0;
-
-    function nextSlide() {
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add('active');
-    }
-
-    if (slides.length > 1) {
-      setInterval(nextSlide, 5000);
-    }
-  });
-
   // Quick View Function (to be implemented)
   function quickView(productId) {
     // Implement quick view modal

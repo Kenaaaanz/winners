@@ -11,13 +11,14 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
-from core.models import Product, Sale, SaleItem, Customer, PaystackTransaction, StockReservation
+from core.models import Category, Product, Sale, SaleItem, Customer, PaystackTransaction, StockReservation
 from core.paystack_service import PaystackService
 
 
 def index(request):
     """Shop index with search and pagination"""
     query = request.GET.get('q', '').strip()
+    category_id = request.GET.get('category', '').strip()
     page = request.GET.get('page', 1)
     
     # Filter products
@@ -30,6 +31,14 @@ def index(request):
             Q(category__name__icontains=query) |
             Q(brand__name__icontains=query)
         )
+
+    if category_id.isdigit():
+        products = products.filter(category_id=category_id)
+
+    categories = Category.objects.filter(
+        product__is_active=True,
+        product__show_on_shop=True,
+    ).distinct()
     
     # Get featured separately
     featured = products.filter(is_featured=True)[:8]
@@ -48,6 +57,8 @@ def index(request):
         'featured': featured,
         'query': query,
         'total_results': products.count(),
+        'categories': categories,
+        'selected_category': category_id,
     }
     return render(request, 'shop/index.html', context)
 
@@ -114,6 +125,8 @@ def add_to_cart(request):
             data = json.loads(request.body)
             product_id = data.get('product_id')
             quantity = int(data.get('quantity', 1))
+            if quantity < 1:
+                return JsonResponse({'success': False, 'error': 'Quantity must be at least 1'})
 
             product = get_object_or_404(Product, id=product_id, is_active=True, show_on_shop=True)
             
@@ -153,6 +166,21 @@ def add_to_cart(request):
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
 
+@require_POST
+def remove_from_cart(request):
+    """Remove one product from the session cart."""
+    try:
+        payload = json.loads(request.body) if request.body else {}
+        product_id = int(request.POST.get('product_id') or payload.get('product_id'))
+    except (TypeError, ValueError, json.JSONDecodeError):
+        return JsonResponse({'success': False, 'error': 'Invalid product'})
+
+    cart = [item for item in _get_cart(request) if item['product_id'] != product_id]
+    request.session['shop_cart'] = cart
+    request.session.modified = True
+    return JsonResponse({'success': True, 'cart_count': len(cart)})
+
+
 def checkout(request):
     """Checkout with delivery info and stock reservation"""
     cart = _get_cart(request)
@@ -172,8 +200,6 @@ def checkout(request):
         first_name = data.get('first_name', '')
         last_name = data.get('last_name', '')
         phone = data.get('phone', '')
-        delivery_name = data.get('delivery_name', '')
-        delivery_phone = data.get('delivery_phone', '')
         delivery_address = data.get('delivery_address', '')
         delivery_city = data.get('delivery_city', '')
         delivery_instructions = data.get('delivery_instructions', '')
@@ -202,8 +228,6 @@ def checkout(request):
                     amount_paid=Decimal('0'),
                     payment_method='PAYSTACK',
                     status='PENDING',
-                    delivery_name=delivery_name,
-                    delivery_phone=delivery_phone,
                     delivery_address=delivery_address,
                     delivery_city=delivery_city,
                     delivery_instructions=delivery_instructions,
@@ -246,8 +270,6 @@ def checkout(request):
                     'invoice_number': sale.invoice_number,
                     'customer_email': email,
                     'delivery': {
-                        'name': delivery_name,
-                        'phone': delivery_phone,
                         'address': delivery_address,
                         'city': delivery_city,
                         'instructions': delivery_instructions,
