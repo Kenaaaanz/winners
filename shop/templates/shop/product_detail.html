@@ -1,161 +1,837 @@
 {% extends 'shop/base_shop.html' %}
 
-{% block title %}{{ product.name }} - Winners Cosmetics Shop{% endblock %}
+{% block title %}{{ product.name }} - Winners Cosmetics Luxury Shop{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="row">
+<style>
+  /* Luxury Product Detail Styles */
+  :root {
+    --gold: #D4AF37;
+    --rose-gold: #B76E79;
+    --champagne: #F7E7CE;
+    --charcoal: #2C2C2C;
+    --ivory: #FFFFF0;
+    --blush: #FADADD;
+    --plum: #8B4C61;
+    --cream: #FFF5E6;
+  }
+
+  .product-detail-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Breadcrumb */
+  .luxury-breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+
+  .luxury-breadcrumb .breadcrumb-item {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #999;
+  }
+
+  .luxury-breadcrumb .breadcrumb-item a {
+    color: var(--charcoal);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .luxury-breadcrumb .breadcrumb-item a:hover {
+    color: var(--gold);
+  }
+
+  .luxury-breadcrumb .breadcrumb-item.active {
+    color: var(--plum);
+    font-weight: 600;
+  }
+
+  .luxury-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
+
+  /* Product Image */
+  .product-image-wrapper {
+    position: relative;
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 2px solid rgba(212, 175, 55, 0.1);
+    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .product-image-wrapper:hover {
+    border-color: var(--gold);
+    box-shadow: 0 30px 80px -15px rgba(212, 175, 55, 0.15);
+  }
+
+  .product-image-main {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .product-image-wrapper:hover .product-image-main {
+    transform: scale(1.02);
+  }
+
+  .product-image-placeholder {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe4 100%);
+  }
+
+  .product-image-placeholder i {
+    font-size: 6rem;
+    color: rgba(212, 175, 55, 0.2);
+    margin-bottom: 1rem;
+  }
+
+  .product-image-placeholder p {
+    color: #999;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  /* Product Badges */
+  .product-badges {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 5;
+  }
+
+  .product-badge {
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-badge.featured {
+    background: linear-gradient(135deg, var(--gold) 0%, #F5E6B2 100%);
+    color: var(--charcoal);
+  }
+
+  .product-badge.new {
+    background: linear-gradient(135deg, var(--plum) 0%, #C06C84 100%);
+    color: white;
+  }
+
+  .product-badge i {
+    margin-right: 6px;
+  }
+
+  /* Product Details */
+  .product-details-card {
+    padding: 0 0 0 2rem;
+  }
+
+  .product-category-tag {
+    display: inline-block;
+    background: var(--champagne);
+    color: var(--plum);
+    padding: 0.3rem 1rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .product-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .product-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 1rem 0 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  }
+
+  .product-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  .product-meta-item i {
+    color: var(--gold);
+    font-size: 1rem;
+    width: 20px;
+  }
+
+  .product-meta-item strong {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  /* Price Section */
+  .price-section {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+  }
+
+  .product-price-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--plum);
+    line-height: 1;
+  }
+
+  .price-currency-symbol {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gold);
+    margin-right: 4px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .price-total-label {
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: 300;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Stock Status */
+  .stock-status-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  .stock-status-large.in-stock {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+    border: 1px solid rgba(46, 204, 113, 0.2);
+  }
+
+  .stock-status-large.out-of-stock {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+  }
+
+  .stock-status-large i {
+    font-size: 1.1rem;
+  }
+
+  /* Description */
+  .description-section {
+    margin: 1.5rem 0;
+  }
+
+  .description-section h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--charcoal);
+    margin-bottom: 0.8rem;
+  }
+
+  .description-section .description-text {
+    color: #666;
+    line-height: 1.8;
+    font-weight: 300;
+    font-size: 0.95rem;
+  }
+
+  /* Add to Cart */
+  .add-to-cart-section {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    border: 2px solid rgba(212, 175, 55, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .add-to-cart-section:hover {
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.05);
+  }
+
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .quantity-selector label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    margin-right: 0.5rem;
+  }
+
+  .qty-control {
+    display: flex;
+    align-items: center;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 50px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .qty-control button {
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: transparent;
+    color: var(--charcoal);
+    font-size: 1.2rem;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-control button:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+  }
+
+  .qty-control button:active {
+    transform: scale(0.9);
+  }
+
+  .qty-control input {
+    width: 60px;
+    border: none;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    padding: 0.5rem 0;
+    background: transparent;
+    outline: none;
+  }
+
+  .qty-control input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .qty-control input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .btn-add-cart {
+    padding: 0.8rem 2.5rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .btn-add-cart:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+    color: white;
+  }
+
+  .btn-add-cart:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-add-cart:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-add-cart i {
+    font-size: 1.1rem;
+  }
+
+  /* Secure Checkout Alert */
+  .secure-alert {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e6f3ff 100%);
+    border: 1px solid rgba(52, 152, 219, 0.2);
+    border-radius: 12px;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #2c3e50;
+    font-size: 0.85rem;
+    margin: 1rem 0;
+  }
+
+  .secure-alert i {
+    color: #3498db;
+    font-size: 1.2rem;
+  }
+
+  /* Back Button */
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background: transparent;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 50px;
+    color: var(--charcoal);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .btn-back:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateX(-5px);
+    text-decoration: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .product-details-card {
+      padding: 2rem 0 0;
+    }
+
+    .product-title {
+      font-size: 2.2rem;
+    }
+
+    .product-image-main,
+    .product-image-placeholder {
+      height: 400px;
+    }
+
+    .product-price-display {
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .product-detail-container {
+      padding: 1rem;
+    }
+
+    .product-title {
+      font-size: 1.8rem;
+    }
+
+    .product-image-main,
+    .product-image-placeholder {
+      height: 300px;
+    }
+
+    .product-meta-grid {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .product-price-display {
+      font-size: 2rem;
+    }
+
+    .add-to-cart-section {
+      padding: 1rem;
+    }
+
+    .quantity-selector {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .qty-control button {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+
+    .qty-control input {
+      width: 50px;
+    }
+
+    .btn-add-cart {
+      width: 100%;
+      justify-content: center;
+      padding: 0.8rem 1.5rem;
+    }
+
+    .price-section {
+      padding: 1rem;
+    }
+
+    .product-badges {
+      top: 12px;
+      left: 12px;
+      gap: 6px;
+    }
+
+    .product-badge {
+      font-size: 0.6rem;
+      padding: 5px 12px;
+    }
+
+    .secure-alert {
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .product-image-main,
+    .product-image-placeholder {
+      height: 250px;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+    }
+
+    .product-price-display {
+      font-size: 1.6rem;
+    }
+
+    .price-currency-symbol {
+      font-size: 1rem;
+    }
+
+    .stock-status-large {
+      font-size: 0.75rem;
+      padding: 0.3rem 1rem;
+    }
+
+    .btn-add-cart {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<div class="product-detail-container">
+  <div class="row g-4">
     <!-- Product Image -->
-    <div class="col-md-5 mb-4">
-      {% if product.image %}
-        <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
-      {% else %}
-        <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 400px;">
-          <div class="text-center">
-            <i class="fas fa-image fa-5x text-muted mb-3"></i>
-            <p class="text-muted">No image available</p>
+    <div class="col-lg-5">
+      <div class="product-image-wrapper">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" class="product-image-main" alt="{{ product.name }}" loading="lazy">
+        {% else %}
+          <div class="product-image-placeholder">
+            <i class="fas fa-spa"></i>
+            <p>No image available</p>
           </div>
+        {% endif %}
+        
+        <div class="product-badges">
+          {% if product.is_featured %}
+            <span class="product-badge featured">
+              <i class="fas fa-crown"></i> Featured
+            </span>
+          {% endif %}
+          {% if product.is_new %}
+            <span class="product-badge new">
+              <i class="fas fa-sparkles"></i> New
+            </span>
+          {% endif %}
         </div>
-      {% endif %}
+      </div>
     </div>
 
     <!-- Product Details -->
-    <div class="col-md-7">
-      <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'shop:index' %}">Shop</a></li>
-          <li class="breadcrumb-item">{{ product.category.name }}</li>
-          <li class="breadcrumb-item active">{{ product.name }}</li>
-        </ol>
-      </nav>
+    <div class="col-lg-7">
+      <div class="product-details-card">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="luxury-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'shop:index' %}"><i class="fas fa-home"></i> Shop</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'shop:index' %}?category={{ product.category.id }}">{{ product.category.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+          </ol>
+        </nav>
 
-      <h1 class="mb-2">{{ product.name }}</h1>
-      
-      <div class="mb-3">
-        <p class="text-muted">
-          <small>Brand: <strong>{{ product.brand|default:"N/A" }}</strong></small>
-        </p>
-        <p class="text-muted">
-          <small>Category: <strong>{{ product.category.name }}</strong></small>
-        </p>
-        <p class="text-muted">
-          <small>SKU: <strong>{{ product.sku }}</strong></small>
-        </p>
-      </div>
+        <!-- Title & Category -->
+        <span class="product-category-tag">
+          <i class="fas fa-tag"></i> {{ product.category.name }}
+        </span>
+        <h1 class="product-title">{{ product.name }}</h1>
 
-      <!-- Price -->
-      <div class="mb-4">
-        <h3 class="display-5 text-primary">
-          Ksh <span id="product-total">{{ product.selling_price|floatformat:0 }}</span>
-        </h3>
-        <small class="text-muted">Total for selected quantity</small>
-      </div>
-
-      <!-- Stock Status -->
-      <div class="mb-4">
-        {% if available_stock > 0 %}
-          <span class="badge bg-success p-2">
-            <i class="fas fa-check-circle"></i> {{ available_stock }} in stock
+        <!-- Product Meta -->
+        <div class="product-meta-grid">
+          <span class="product-meta-item">
+            <i class="fas fa-building"></i>
+            Brand: <strong>{{ product.brand|default:"N/A" }}</strong>
           </span>
-        {% else %}
-          <span class="badge bg-danger p-2">
-            <i class="fas fa-times-circle"></i> Out of stock
+          <span class="product-meta-item">
+            <i class="fas fa-barcode"></i>
+            SKU: <strong>{{ product.sku }}</strong>
           </span>
-        {% endif %}
-      </div>
+          <span class="product-meta-item">
+            <i class="fas fa-box"></i>
+            Category: <strong>{{ product.category.name }}</strong>
+          </span>
+        </div>
 
-      <!-- Description -->
-      <div class="mb-5">
-        <h5>Description</h5>
-        <p class="text-justify">{{ product.description|linebreaks }}</p>
-      </div>
-
-      <!-- Add to Cart -->
-      <div class="mb-4">
-        {% if available_stock > 0 %}
-          <form id="add-to-cart-form" class="d-flex gap-3 align-items-center">
-            <!-- Quantity Selector -->
-            <div class="input-group" style="width: 150px;">
-              <button class="btn btn-outline-secondary" type="button" id="qty-minus">−</button>
-              <input type="number" id="quantity" name="quantity" class="form-control text-center" value="1" min="1" max="{{ available_stock }}">
-              <button class="btn btn-outline-secondary" type="button" id="qty-plus">+</button>
+        <!-- Price Section -->
+        <div class="price-section">
+          <div class="d-flex align-items-baseline gap-3 flex-wrap">
+            <div>
+              <span class="product-price-display">
+                <span class="price-currency-symbol">Ksh</span> 
+                <span id="product-total">{{ product.selling_price|floatformat:0 }}</span>
+              </span>
+              <span class="price-total-label">Total for selected quantity</span>
             </div>
+          </div>
+        </div>
 
-            <!-- Add to Cart Button -->
-            <button type="button" class="btn btn-primary btn-lg" id="add-btn">
-              <i class="fas fa-shopping-cart"></i> Add to Cart
+        <!-- Stock Status -->
+        <div>
+          {% if available_stock > 0 %}
+            <span class="stock-status-large in-stock">
+              <i class="fas fa-check-circle"></i> 
+              {{ available_stock }} in stock — Ready to ship
+            </span>
+          {% else %}
+            <span class="stock-status-large out-of-stock">
+              <i class="fas fa-times-circle"></i> 
+              Out of stock — Check back soon
+            </span>
+          {% endif %}
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <h5>
+            <i class="fas fa-align-left" style="color: var(--gold); margin-right: 8px;"></i>
+            Product Description
+          </h5>
+          <div class="description-text">{{ product.description|linebreaks }}</div>
+        </div>
+
+        <!-- Add to Cart -->
+        <div class="add-to-cart-section">
+          {% if available_stock > 0 %}
+            <form id="add-to-cart-form" class="d-flex flex-wrap align-items-center gap-3">
+              <div class="quantity-selector">
+                <label for="quantity">
+                  <i class="fas fa-sort-amount-up-alt" style="color: var(--gold);"></i>
+                  Quantity
+                </label>
+                <div class="qty-control">
+                  <button type="button" id="qty-minus" aria-label="Decrease quantity">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <input type="number" id="quantity" name="quantity" 
+                         value="1" min="1" max="{{ available_stock }}" 
+                         aria-label="Quantity">
+                  <button type="button" id="qty-plus" aria-label="Increase quantity">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button type="button" class="btn-add-cart" id="add-btn">
+                <i class="fas fa-shopping-bag"></i> 
+                Add to Cart
+              </button>
+            </form>
+          {% else %}
+            <button class="btn-add-cart" disabled style="width: 100%; justify-content: center;">
+              <i class="fas fa-times"></i> 
+              Out of Stock
             </button>
-          </form>
-        {% else %}
-          <button class="btn btn-secondary btn-lg" disabled>
-            <i class="fas fa-times"></i> Out of Stock
-          </button>
-        {% endif %}
-      </div>
+          {% endif %}
+        </div>
 
-      <!-- Related Info -->
-      <div class="alert alert-info">
-        <i class="fas fa-info-circle"></i>
-        <strong>Secure checkout:</strong> We use Paystack for secure payments. Delivery available to selected areas.
-      </div>
+        <!-- Secure Checkout Alert -->
+        <div class="secure-alert">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <strong>Secure checkout:</strong> We use Paystack for secure payments. 
+            Delivery available to selected areas.
+          </div>
+        </div>
 
-      <!-- Back to Shop -->
-      <a href="{% url 'shop:index' %}" class="btn btn-outline-secondary">
-        <i class="fas fa-arrow-left"></i> Back to Shop
-      </a>
+        <!-- Back to Shop -->
+        <a href="{% url 'shop:index' %}" class="btn-back">
+          <i class="fas fa-arrow-left"></i> Back to Shop
+        </a>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-  const qtyInput = document.getElementById('quantity');
-  const qtyMinus = document.getElementById('qty-minus');
-  const qtyPlus = document.getElementById('qty-plus');
-  const addBtn = document.getElementById('add-btn');
-  const maxQty = {{ available_stock }};
-  const unitPrice = {{ product.selling_price }};
+  (function() {
+    'use strict';
 
-  function updateProductTotal() {
-    const quantity = Math.max(1, Math.min(maxQty, parseInt(qtyInput.value, 10) || 1));
-    qtyInput.value = quantity;
-    document.getElementById('product-total').textContent = (unitPrice * quantity).toFixed(0);
-  }
+    const qtyInput = document.getElementById('quantity');
+    const qtyMinus = document.getElementById('qty-minus');
+    const qtyPlus = document.getElementById('qty-plus');
+    const addBtn = document.getElementById('add-btn');
+    const maxQty = {{ available_stock }};
+    const unitPrice = {{ product.selling_price }};
+    const totalDisplay = document.getElementById('product-total');
 
-  qtyMinus.addEventListener('click', () => {
-    let val = parseInt(qtyInput.value);
-    if (val > 1) qtyInput.value = val - 1;
+    // Update total price based on quantity
+    function updateProductTotal() {
+      let quantity = parseInt(qtyInput.value, 10) || 1;
+      quantity = Math.max(1, Math.min(maxQty, quantity));
+      qtyInput.value = quantity;
+      
+      const total = unitPrice * quantity;
+      totalDisplay.textContent = total.toFixed(0);
+    }
+
+    // Quantity controls
+    if (qtyMinus) {
+      qtyMinus.addEventListener('click', function() {
+        let val = parseInt(qtyInput.value, 10) || 1;
+        if (val > 1) {
+          qtyInput.value = val - 1;
+          updateProductTotal();
+        }
+      });
+    }
+
+    if (qtyPlus) {
+      qtyPlus.addEventListener('click', function() {
+        let val = parseInt(qtyInput.value, 10) || 1;
+        if (val < maxQty) {
+          qtyInput.value = val + 1;
+          updateProductTotal();
+        }
+      });
+    }
+
+    if (qtyInput) {
+      qtyInput.addEventListener('input', updateProductTotal);
+      qtyInput.addEventListener('change', function() {
+        let val = parseInt(this.value, 10) || 1;
+        if (val < 1) this.value = 1;
+        if (val > maxQty) this.value = maxQty;
+        updateProductTotal();
+      });
+    }
+
+    // Initialize total
     updateProductTotal();
-  });
 
-  qtyPlus.addEventListener('click', () => {
-    let val = parseInt(qtyInput.value);
-    if (val < maxQty) qtyInput.value = val + 1;
-    updateProductTotal();
-  });
+    // Add to cart
+    if (addBtn) {
+      addBtn.addEventListener('click', function() {
+        const quantity = parseInt(qtyInput.value, 10) || 1;
+        const addBtn = this;
+        
+        // Show loading state
+        const originalHtml = addBtn.innerHTML;
+        addBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+        addBtn.disabled = true;
 
-  qtyInput.addEventListener('input', updateProductTotal);
-  updateProductTotal();
+        fetch('{% url "shop:add_to_cart" %}', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify({
+            product_id: {{ product.id }},
+            quantity: quantity
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Show success feedback
+            addBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+            addBtn.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)';
+            setTimeout(() => {
+              window.location.href = '{% url "shop:view_cart" %}';
+            }, 500);
+          } else {
+            addBtn.innerHTML = originalHtml;
+            addBtn.disabled = false;
+            alert('Error: ' + (data.error || 'Could not add to cart. Please try again.'));
+          }
+        })
+        .catch(function(error) {
+          addBtn.innerHTML = originalHtml;
+          addBtn.disabled = false;
+          alert('Error: ' + error.message || 'Could not add to cart. Please try again.');
+        });
+      });
+    }
 
-  addBtn.addEventListener('click', () => {
-    const quantity = parseInt(qtyInput.value);
-    fetch('{% url "shop:add_to_cart" %}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': '{{ csrf_token }}'
-      },
-      body: JSON.stringify({
-        product_id: {{ product.id }},
-        quantity: quantity
-      })
-    }).then(r => r.json()).then(d => {
-      if (d.success) {
-        alert('Added to cart!');
-        window.location.href = '{% url "shop:view_cart" %}';
-      } else {
-        alert('Error: ' + (d.error || 'Unknown error'));
-      }
-    }).catch(err => alert('Error: ' + err));
-  });
+    // Keyboard support for quantity
+    if (qtyInput) {
+      qtyInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          updateProductTotal();
+        }
+      });
+    }
+
+  })();
 </script>
 {% endblock %}

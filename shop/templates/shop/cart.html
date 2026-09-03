@@ -3,19 +3,34 @@
 {% block title %}Shopping Cart - Winners Cosmetics{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-  <h1 class="mb-5">
-    <i class="fas fa-shopping-cart"></i> Shopping Cart
-  </h1>
+<div class="shop-cart-container py-5">
+  <!-- Luxury Cart Header -->
+  <div class="cart-header mb-5">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>
+        <h1 class="cart-title">
+          <i class="fas fa-shopping-bag me-3 gold-icon"></i>
+          <span>Shopping Cart</span>
+        </h1>
+        <p class="cart-subtitle text-muted">Review and perfect your selection</p>
+      </div>
+      {% if cart %}
+        <div class="cart-items-count">
+          <span class="badge bg-gold rounded-pill">{{ cart|length }} items</span>
+        </div>
+      {% endif %}
+    </div>
+    <div class="gold-divider"></div>
+  </div>
 
   {% if cart %}
-    <div class="row">
+    <div class="row g-4">
       <!-- Cart Items -->
       <div class="col-lg-8">
-        <div class="card">
+        <div class="cart-items-card">
           <div class="table-responsive">
-            <table class="table table-hover mb-0">
-              <thead class="table-light">
+            <table class="table cart-table">
+              <thead>
                 <tr>
                   <th>Product</th>
                   <th>Price</th>
@@ -26,24 +41,31 @@
               </thead>
               <tbody>
                 {% for item in cart %}
-                  <tr>
+                  <tr class="cart-item">
                     <td>
-                      <strong>{{ item.product_name }}</strong>
-                      <br>
-                      <small class="text-muted">SKU: {{ item.product_sku }}</small>
+                      <div class="product-info">
+                        <div class="product-icon-wrapper">
+                          <i class="fas fa-crown"></i>
+                        </div>
+                        <div>
+                          <strong class="product-name">{{ item.product_name }}</strong>
+                          <br>
+                          <small class="text-muted sku-label">SKU: {{ item.product_sku }}</small>
+                        </div>
+                      </div>
                     </td>
                     <td>
-                      Ksh {{ item.unit_price|floatformat:0 }}
+                      <span class="price-tag">Ksh {{ item.unit_price|floatformat:0 }}</span>
                     </td>
                     <td>
-                      <span class="badge bg-info">{{ item.quantity }}</span>
+                      <span class="quantity-badge">{{ item.quantity }}</span>
                     </td>
                     <td>
-                      <strong>Ksh {{ item.total_price|floatformat:0 }}</strong>
+                      <span class="total-price">Ksh {{ item.total_price|floatformat:0 }}</span>
                     </td>
                     <td>
-                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeItem({{ item.product_id }})" aria-label="Remove {{ item.product_name }}">
-                        <i class="fas fa-trash"></i>
+                      <button type="button" class="btn-remove" onclick="removeItem({{ item.product_id }})" aria-label="Remove {{ item.product_name }}">
+                        <i class="fas fa-times"></i>
                       </button>
                     </td>
                   </tr>
@@ -56,51 +78,541 @@
 
       <!-- Order Summary -->
       <div class="col-lg-4">
-        <div class="card sticky-top" style="top: 20px;">
-          <div class="card-body">
-            <h5 class="card-title mb-4">Order Summary</h5>
-
-            <div class="mb-3 d-flex justify-content-between">
-              <span>Subtotal:</span>
-              <strong>Ksh {{ subtotal|floatformat:0 }}</strong>
+        <div class="order-summary-card sticky-top" style="top: 120px;">
+          <div class="summary-header">
+            <i class="fas fa-receipt"></i>
+            <h5>Order Summary</h5>
+          </div>
+          
+          <div class="summary-body">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span class="summary-value">Ksh {{ subtotal|floatformat:0 }}</span>
             </div>
 
-            <div class="mb-3 d-flex justify-content-between">
-              <span>Tax (16%):</span>
-              <strong>Ksh {{ tax|floatformat:0 }}</strong>
+            <div class="summary-row">
+              <span>Tax (16%)</span>
+              <span class="summary-value">Ksh {{ tax|floatformat:0 }}</span>
             </div>
 
-            <hr>
+            <div class="gold-divider-light"></div>
 
-            <div class="mb-4 d-flex justify-content-between">
-              <h6>Total:</h6>
-              <h5 class="text-primary">Ksh {{ total|floatformat:0 }}</h5>
+            <div class="summary-row total-row">
+              <span class="total-label">Total</span>
+              <span class="total-value">Ksh {{ total|floatformat:0 }}</span>
             </div>
 
-            <a href="{% url 'shop:checkout' %}" class="btn btn-primary btn-lg w-100 mb-2">
-              <i class="fas fa-credit-card"></i> Proceed to Checkout
-            </a>
+            <div class="summary-actions">
+              <a href="{% url 'shop:checkout' %}" class="btn-checkout">
+                <i class="fas fa-credit-card me-2"></i> Proceed to Checkout
+              </a>
 
-            <a href="{% url 'shop:index' %}" class="btn btn-outline-secondary w-100">
-              <i class="fas fa-arrow-left"></i> Continue Shopping
-            </a>
+              <a href="{% url 'shop:index' %}" class="btn-continue">
+                <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+              </a>
+            </div>
+
+            <div class="secure-checkout">
+              <i class="fas fa-lock"></i>
+              <span>Secure checkout</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   {% else %}
-    <div class="alert alert-info">
-      <i class="fas fa-info-circle"></i> Your cart is empty.
+    <!-- Empty Cart State -->
+    <div class="empty-cart-wrapper">
+      <div class="empty-cart-icon">
+        <i class="fas fa-shopping-bag"></i>
+        <div class="empty-cart-glow"></div>
+      </div>
+      <h2 class="empty-cart-title">Your Cart is Empty</h2>
+      <p class="empty-cart-text">Discover our luxury collection and find your perfect match.</p>
+      <a href="{% url 'shop:index' %}" class="btn-start-shopping">
+        <i class="fas fa-sparkles me-2"></i> Start Shopping
+      </a>
     </div>
-    <a href="{% url 'shop:index' %}" class="btn btn-primary">
-      <i class="fas fa-shopping-bag"></i> Start Shopping
-    </a>
   {% endif %}
 </div>
 
+<style>
+/* Luxury Cart Styles */
+:root {
+    --gold: #D4AF37;
+    --rose-gold: #B76E79;
+    --champagne: #F7E7CE;
+    --charcoal: #2C2C2C;
+    --plum: #8B4C61;
+    --cream: #FFF5E6;
+}
+
+.shop-cart-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.6s ease;
+}
+
+/* Cart Header */
+.cart-header {
+    position: relative;
+}
+
+.cart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 2.8rem;
+    color: var(--charcoal);
+    margin-bottom: 0.25rem;
+}
+
+.gold-icon {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cart-subtitle {
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-left: 4rem;
+}
+
+.gold-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--rose-gold) 100%);
+    margin-top: 1rem;
+    border-radius: 2px;
+}
+
+.cart-items-count .badge {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%) !important;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border: 2px solid white;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Cart Items Table */
+.cart-items-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    transition: all 0.3s ease;
+}
+
+.cart-items-card:hover {
+    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.1);
+}
+
+.cart-table {
+    margin-bottom: 0;
+}
+
+.cart-table thead {
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+}
+
+.cart-table thead th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: var(--charcoal);
+    padding: 1.2rem 1rem;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.15);
+}
+
+.cart-table tbody td {
+    padding: 1.2rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.product-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(183, 110, 121, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.product-icon-wrapper i {
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.cart-item:hover .product-icon-wrapper {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(183, 110, 121, 0.2) 100%);
+}
+
+.product-name {
+    font-weight: 600;
+    color: var(--charcoal);
+    font-size: 0.95rem;
+}
+
+.sku-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.3px;
+}
+
+.price-tag {
+    font-weight: 500;
+    color: var(--charcoal);
+}
+
+.quantity-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 20px;
+    font-weight: 600;
+    color: var(--plum);
+    font-size: 0.85rem;
+}
+
+.total-price {
+    font-weight: 600;
+    color: var(--charcoal);
+    font-size: 1rem;
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: #ccc;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove:hover {
+    background: rgba(183, 110, 121, 0.1);
+    color: var(--rose-gold);
+    transform: rotate(90deg);
+}
+
+/* Order Summary */
+.order-summary-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.order-summary-card:hover {
+    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.1);
+}
+
+.summary-header {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.summary-header i {
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.summary-header h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.summary-body {
+    padding: 1.5rem 2rem 2rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    font-size: 0.95rem;
+    color: var(--charcoal);
+}
+
+.summary-value {
+    font-weight: 500;
+}
+
+.gold-divider-light {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1rem 0;
+}
+
+.total-row {
+    padding-top: 1rem;
+    border-top: 2px solid rgba(212, 175, 55, 0.15);
+}
+
+.total-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.total-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.summary-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-checkout {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    font-size: 0.95rem;
+}
+
+.btn-checkout:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+    color: white;
+}
+
+.btn-continue {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    color: var(--charcoal);
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 50px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-continue:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateY(-2px);
+}
+
+.secure-checkout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    color: #999;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.secure-checkout i {
+    color: var(--gold);
+}
+
+/* Empty Cart */
+.empty-cart-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.empty-cart-icon {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.empty-cart-icon i {
+    font-size: 4rem;
+    color: rgba(212, 175, 55, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.empty-cart-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.empty-cart-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 2.2rem;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+}
+
+.empty-cart-text {
+    color: #999;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+.btn-start-shopping {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-start-shopping:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .shop-cart-container {
+        padding: 1rem;
+    }
+
+    .cart-title {
+        font-size: 2rem;
+    }
+
+    .cart-subtitle {
+        margin-left: 0;
+        font-size: 0.9rem;
+    }
+
+    .cart-items-count {
+        display: none;
+    }
+
+    .product-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .product-icon-wrapper {
+        width: 35px;
+        height: 35px;
+    }
+
+    .product-icon-wrapper i {
+        font-size: 0.9rem;
+    }
+
+    .summary-body {
+        padding: 1rem 1.5rem 1.5rem;
+    }
+
+    .btn-checkout, .btn-continue {
+        font-size: 0.85rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .order-summary-card {
+        margin-top: 2rem;
+    }
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table tbody td {
+        display: block;
+        padding: 0.8rem 1rem;
+        border: none;
+    }
+
+    .cart-table tbody tr {
+        display: block;
+        border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+        padding: 1rem 0;
+    }
+
+    .cart-item {
+        position: relative;
+    }
+
+    .btn-remove {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+/* Utilities */
+.bg-gold {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+}
+</style>
+
 <script>
 function removeItem(productId) {
-  if (confirm('Remove this item from cart?')) {
+  if (confirm('Remove this item from your cart?')) {
     fetch('{% url "shop:remove_from_cart" %}', {
       method: 'POST',
       headers: {
@@ -108,7 +620,6 @@ function removeItem(productId) {
         'X-CSRFToken': '{{ csrf_token }}'
       },
       body: JSON.stringify({
-        product_id: productId,
         product_id: productId
       })
     }).then(r => r.json()).then(d => {

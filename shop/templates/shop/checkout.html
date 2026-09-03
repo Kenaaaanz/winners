@@ -3,48 +3,78 @@
 {% block title %}Checkout - Winners Cosmetics{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-  <h1 class="mb-5">
-    <i class="fas fa-lock"></i> Secure Checkout
-  </h1>
+<div class="checkout-container py-5">
+  <!-- Luxury Checkout Header -->
+  <div class="checkout-header mb-5">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>
+        <h1 class="checkout-title">
+          <i class="fas fa-lock me-3 gold-icon"></i>
+          <span>Secure Checkout</span>
+        </h1>
+        <p class="checkout-subtitle text-muted">Complete your purchase with confidence</p>
+      </div>
+      <div class="checkout-steps">
+        <span class="step active">1. Cart</span>
+        <span class="step-separator">—</span>
+        <span class="step active">2. Checkout</span>
+        <span class="step-separator">—</span>
+        <span class="step">3. Confirmation</span>
+      </div>
+    </div>
+    <div class="gold-divider"></div>
+  </div>
 
   {% if error %}
-    <div class="alert alert-danger alert-dismissible fade show">
-      <i class="fas fa-exclamation-circle"></i> {{ error }}
+    <div class="alert alert-luxury alert-dismissible fade show">
+      <i class="fas fa-exclamation-circle"></i> 
+      <span>{{ error }}</span>
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
   {% endif %}
 
   {% if sale %}
-    <div class="alert alert-info">
-      <i class="fas fa-info-circle"></i> Processing payment for order <strong>{{ sale.invoice_number }}</strong>...
+    <div class="processing-wrapper">
+      <div class="processing-card">
+        <div class="processing-icon">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        <h4>Processing Payment</h4>
+        <p>Order <strong>{{ sale.invoice_number }}</strong> is being processed...</p>
+        <div class="processing-progress">
+          <div class="progress-bar"></div>
+        </div>
+      </div>
     </div>
   {% else %}
     <form method="post" class="needs-validation" novalidate>
       {% csrf_token %}
-      <div class="row">
+      <div class="row g-4">
         <!-- Billing & Contact Info -->
         <div class="col-lg-6">
-          <div class="card mb-4">
-            <div class="card-header bg-light">
-              <h5 class="mb-0"><i class="fas fa-user"></i> Contact Information</h5>
+          <div class="info-card">
+            <div class="info-card-header">
+              <i class="fas fa-user"></i>
+              <h5>Contact Information</h5>
             </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <label class="form-label">First Name *</label>
-                <input type="text" name="first_name" class="form-control" required>
+            <div class="info-card-body">
+              <div class="form-group">
+                <label class="form-label">First Name <span class="required">*</span></label>
+                <input type="text" name="first_name" class="form-control" placeholder="Enter your first name" required>
+                <div class="invalid-feedback">Please enter your first name</div>
               </div>
-              <div class="mb-3">
+              <div class="form-group">
                 <label class="form-label">Last Name</label>
-                <input type="text" name="last_name" class="form-control">
+                <input type="text" name="last_name" class="form-control" placeholder="Enter your last name">
               </div>
-              <div class="mb-3">
-                <label class="form-label">Email *</label>
-                <input type="email" name="email" class="form-control" required>
+              <div class="form-group">
+                <label class="form-label">Email Address <span class="required">*</span></label>
+                <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+                <div class="invalid-feedback">Please enter a valid email address</div>
               </div>
-              <div class="mb-3">
-                <label class="form-label">Phone</label>
-                <input type="tel" name="phone" class="form-control">
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" placeholder="+254 700 000 000">
               </div>
             </div>
           </div>
@@ -52,22 +82,25 @@
 
         <!-- Delivery Address -->
         <div class="col-lg-6">
-          <div class="card mb-4">
-            <div class="card-header bg-light">
-              <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Delivery Address</h5>
+          <div class="info-card">
+            <div class="info-card-header">
+              <i class="fas fa-map-marker-alt"></i>
+              <h5>Delivery Address</h5>
             </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <label class="form-label">City *</label>
-                <input type="text" name="delivery_city" class="form-control" required>
+            <div class="info-card-body">
+              <div class="form-group">
+                <label class="form-label">City <span class="required">*</span></label>
+                <input type="text" name="delivery_city" class="form-control" placeholder="Enter your city" required>
+                <div class="invalid-feedback">Please enter your city</div>
               </div>
-              <div class="mb-3">
-                <label class="form-label">Street Address *</label>
-                <textarea name="delivery_address" rows="3" class="form-control" placeholder="Enter complete address..." required></textarea>
+              <div class="form-group">
+                <label class="form-label">Street Address <span class="required">*</span></label>
+                <textarea name="delivery_address" rows="3" class="form-control" placeholder="Enter complete address with building name, floor, etc." required></textarea>
+                <div class="invalid-feedback">Please enter your delivery address</div>
               </div>
-              <div class="mb-3">
-                <label class="form-label">Delivery Instructions (Optional)</label>
-                <textarea name="delivery_instructions" rows="2" class="form-control" placeholder="e.g., Leave at gate, call on arrival..."></textarea>
+              <div class="form-group">
+                <label class="form-label">Delivery Instructions</label>
+                <textarea name="delivery_instructions" rows="2" class="form-control" placeholder="e.g., Leave at gate, call on arrival, etc."></textarea>
               </div>
             </div>
           </div>
@@ -75,27 +108,40 @@
       </div>
 
       <!-- Order Summary -->
-      <div class="row">
+      <div class="row g-4 mt-2">
         <div class="col-lg-8">
-          <div class="card">
-            <div class="card-header bg-light">
-              <h5 class="mb-0"><i class="fas fa-list"></i> Order Summary</h5>
+          <div class="order-card">
+            <div class="order-card-header">
+              <i class="fas fa-list"></i>
+              <h5>Order Summary</h5>
+              <span class="order-items-badge">{{ cart|length }} items</span>
             </div>
             <div class="table-responsive">
-              <table class="table mb-0">
-                <thead class="table-light">
+              <table class="order-table">
+                <thead>
                   <tr>
                     <th>Product</th>
-                    <th class="text-end">Qty</th>
+                    <th class="text-center">Qty</th>
                     <th class="text-end">Price</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for item in cart %}
                     <tr>
-                      <td>{{ item.product_name }}</td>
-                      <td class="text-end">{{ item.quantity }}</td>
-                      <td class="text-end">Ksh {{ item.total_price|floatformat:0 }}</td>
+                      <td>
+                        <div class="order-product">
+                          <div class="order-product-icon">
+                            <i class="fas fa-crown"></i>
+                          </div>
+                          <span class="order-product-name">{{ item.product_name }}</span>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <span class="quantity-badge">{{ item.quantity }}</span>
+                      </td>
+                      <td class="text-end">
+                        <span class="price-tag">Ksh {{ item.total_price|floatformat:0 }}</span>
+                      </td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -106,34 +152,44 @@
 
         <!-- Payment Summary -->
         <div class="col-lg-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-3">Payment</h5>
-              
-              <div class="mb-3 d-flex justify-content-between">
-                <span>Subtotal:</span>
-                <strong>Ksh {{ subtotal|floatformat:0 }}</strong>
+          <div class="payment-card">
+            <div class="payment-card-header">
+              <i class="fas fa-credit-card"></i>
+              <h5>Payment Summary</h5>
+            </div>
+            <div class="payment-card-body">
+              <div class="payment-row">
+                <span>Subtotal</span>
+                <span class="payment-value">Ksh {{ subtotal|floatformat:0 }}</span>
               </div>
 
-              <div class="mb-3 d-flex justify-content-between">
-                <span>Tax (16%):</span>
-                <strong>Ksh {{ tax_amount|floatformat:0 }}</strong>
+              <div class="payment-row">
+                <span>Tax (16%)</span>
+                <span class="payment-value">Ksh {{ tax_amount|floatformat:0 }}</span>
               </div>
 
-              <hr>
+              <div class="gold-divider-light"></div>
 
-              <div class="mb-4 d-flex justify-content-between">
-                <h6>Total:</h6>
-                <h5 class="text-primary">Ksh {{ total|floatformat:0 }}</h5>
+              <div class="payment-row total-row">
+                <span class="total-label">Total</span>
+                <span class="total-value">Ksh {{ total|floatformat:0 }}</span>
               </div>
 
-              <button type="submit" class="btn btn-success btn-lg w-100" id="pay-btn">
-                <i class="fas fa-credit-card"></i> Pay with Paystack
+              <button type="submit" class="btn-pay" id="pay-btn">
+                <i class="fas fa-credit-card me-2"></i> Pay with Paystack
               </button>
 
-              <p class="text-muted text-center mt-3">
-                <small><i class="fas fa-shield-alt"></i> Your payment is secure and encrypted</small>
-              </p>
+              <div class="payment-security">
+                <i class="fas fa-shield-alt"></i>
+                <span>Your payment is secure and encrypted</span>
+              </div>
+
+              <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-paypal"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -142,19 +198,573 @@
   {% endif %}
 </div>
 
+<style>
+/* Luxury Checkout Styles */
+:root {
+    --gold: #D4AF37;
+    --rose-gold: #B76E79;
+    --champagne: #F7E7CE;
+    --charcoal: #2C2C2C;
+    --plum: #8B4C61;
+    --cream: #FFF5E6;
+    --ivory: #FFFFF0;
+}
+
+.checkout-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.6s ease;
+}
+
+/* Checkout Header */
+.checkout-header {
+    position: relative;
+}
+
+.checkout-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 2.8rem;
+    color: var(--charcoal);
+    margin-bottom: 0.25rem;
+}
+
+.gold-icon {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.checkout-subtitle {
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-left: 4rem;
+}
+
+.checkout-steps {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #ccc;
+}
+
+.step {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    color: var(--gold);
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.step-separator {
+    color: #ddd;
+}
+
+.gold-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--rose-gold) 100%);
+    margin-top: 1rem;
+    border-radius: 2px;
+}
+
+/* Alert */
+.alert-luxury {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    border: 1px solid rgba(183, 110, 121, 0.2);
+    border-radius: 15px;
+    padding: 1rem 1.5rem;
+    color: var(--plum);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.alert-luxury i {
+    font-size: 1.2rem;
+    color: var(--rose-gold);
+}
+
+/* Processing State */
+.processing-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.processing-card {
+    background: white;
+    padding: 3rem 4rem;
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.processing-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(183, 110, 121, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.processing-icon i {
+    font-size: 2.5rem;
+    color: var(--gold);
+}
+
+.processing-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.processing-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.processing-progress {
+    width: 100%;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--rose-gold) 100%);
+    border-radius: 2px;
+    animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+}
+
+/* Info Cards */
+.info-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.1);
+}
+
+.info-card-header {
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.info-card-header i {
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.info-card-header h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.info-card-body {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+}
+
+.required {
+    color: var(--rose-gold);
+    font-weight: 600;
+}
+
+.form-control {
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+.form-control:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+    background: white;
+}
+
+.form-control.is-invalid {
+    border-color: var(--rose-gold);
+}
+
+.invalid-feedback {
+    color: var(--rose-gold);
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+/* Order Card */
+.order-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    overflow: hidden;
+}
+
+.order-card-header {
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.order-card-header i {
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.order-card-header h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.2rem;
+    flex: 1;
+}
+
+.order-items-badge {
+    padding: 0.3rem 0.8rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--plum);
+}
+
+.order-table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.order-table thead {
+    background: #fafafa;
+}
+
+.order-table thead th {
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: var(--charcoal);
+    border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+}
+
+.order-table tbody td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.05);
+    vertical-align: middle;
+}
+
+.order-product {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.order-product-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(183, 110, 121, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.order-product-icon i {
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+.order-product-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.quantity-badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 20px;
+    font-weight: 600;
+    color: var(--plum);
+    font-size: 0.85rem;
+}
+
+.price-tag {
+    font-weight: 500;
+    color: var(--charcoal);
+}
+
+/* Payment Card */
+.payment-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    overflow: hidden;
+    position: sticky;
+    top: 120px;
+}
+
+.payment-card-header {
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(135deg, #fcf9f7 0%, #fff5e6 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.payment-card-header i {
+    color: var(--gold);
+    font-size: 1.2rem;
+}
+
+.payment-card-header h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.payment-card-body {
+    padding: 1.5rem;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    font-size: 0.95rem;
+    color: var(--charcoal);
+}
+
+.payment-value {
+    font-weight: 500;
+}
+
+.gold-divider-light {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0.8rem 0;
+}
+
+.total-row {
+    padding-top: 0.8rem;
+    border-top: 2px solid rgba(212, 175, 55, 0.15);
+}
+
+.total-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.total-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.btn-pay {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3);
+    margin-top: 1rem;
+}
+
+.btn-pay:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(40, 167, 69, 0.4);
+}
+
+.payment-security {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    color: #999;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+.payment-security i {
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    color: #ccc;
+}
+
+.payment-methods i {
+    transition: all 0.3s ease;
+}
+
+.payment-methods i:hover {
+    color: var(--charcoal);
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .checkout-container {
+        padding: 1rem;
+    }
+
+    .checkout-title {
+        font-size: 2rem;
+    }
+
+    .checkout-subtitle {
+        margin-left: 0;
+        font-size: 0.9rem;
+    }
+
+    .checkout-steps {
+        display: none;
+    }
+
+    .info-card-body {
+        padding: 1rem;
+    }
+
+    .order-table thead {
+        display: none;
+    }
+
+    .order-table tbody td {
+        display: block;
+        padding: 0.6rem 1rem;
+        border: none;
+    }
+
+    .order-table tbody tr {
+        display: block;
+        border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+        padding: 0.5rem 0;
+    }
+
+    .order-product {
+        justify-content: flex-start;
+    }
+
+    .payment-card {
+        margin-top: 2rem;
+        position: static;
+    }
+
+    .processing-card {
+        padding: 2rem 1.5rem;
+        margin: 0 1rem;
+    }
+
+    .btn-pay {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .checkout-title {
+        font-size: 1.6rem;
+    }
+
+    .payment-row {
+        font-size: 0.85rem;
+    }
+
+    .total-value {
+        font-size: 1.2rem;
+    }
+
+    .form-control {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+}
+</style>
+
 <script>
-  (function() {
+(function() {
     'use strict';
     const forms = document.querySelectorAll('.needs-validation');
     Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
     });
-  })();
+})();
 </script>
 {% endblock %}
