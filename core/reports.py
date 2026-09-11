@@ -71,7 +71,8 @@ def generate_receipt_pdf(sale):
     # Receipt header
     story.append(Paragraph(f"INVOICE: {sale.invoice_number}", bold_style))
     story.append(Paragraph(f"Date: {sale.created_at.strftime('%Y-%m-%d %H:%M')}", normal_style))
-    story.append(Paragraph(f"Cashier: {sale.cashier.get_full_name()}", normal_style))
+    cashier_name = sale.cashier.get_full_name() if sale.cashier else "Online order"
+    story.append(Paragraph(f"Cashier: {cashier_name}", normal_style))
     
     if sale.customer:
         story.append(Paragraph(f"Customer: {sale.customer.full_name}", normal_style))

@@ -25,6 +25,7 @@ from .mpesa_models import  MpesaTransaction, MpesaCallback
 from .models import Sale, Notification
 from .mpesa_service import MpesaService
 from .serializers import MpesaTransactionSerializer
+from .email_service import send_sale_completion_emails
 
 # Setup logger
 logger = logging.getLogger('mpesa')
@@ -311,6 +312,7 @@ class STKCallbackView(MpesaWebhookView):
                 sale.mpesa_receipt = receipt_number
                 sale.status = 'COMPLETED'
                 sale.save()
+                send_sale_completion_emails(sale)
                 
                 # Update customer loyalty points
                 if sale.customer:

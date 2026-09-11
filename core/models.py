@@ -248,6 +248,8 @@ class Sale(models.Model):
     delivery_address = models.TextField(blank=True)
     delivery_city = models.CharField(max_length=100, blank=True)
     delivery_instructions = models.TextField(blank=True)
+    receipt_email_sent = models.DateTimeField(null=True, blank=True)
+    admin_email_sent = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

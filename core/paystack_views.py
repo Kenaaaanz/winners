@@ -16,6 +16,7 @@ from django.conf import settings
 
 from .models import Sale, PaystackTransaction, Customer
 from .paystack_service import PaystackService
+from .email_service import send_sale_completion_emails
 
 logger = logging.getLogger('paystack')
 
@@ -161,6 +162,7 @@ def paystack_verify(request, sale_id):
                 sale.save()
             
             paystack_txn.save()
+            send_sale_completion_emails(sale)
             
             logger.info(f"Payment verified successfully for sale {sale.invoice_number}")
             
@@ -280,6 +282,7 @@ def paystack_webhook(request):
                                 item.product.save()
                     
                     sale.save()
+                    send_sale_completion_emails(sale)
                 
                 logger.info(f"Webhook processed successfully for {reference}")
                 
