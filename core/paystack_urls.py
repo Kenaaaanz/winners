@@ -13,6 +13,7 @@ urlpatterns = [
     
     # Webhook
     path('webhook/', paystack_views.paystack_webhook, name='webhook'),
+    path('callback/', paystack_views.paystack_callback, name='callback'),
     
     # History and details
     path('transactions/', paystack_views.paystack_transaction_history, name='transaction_history'),

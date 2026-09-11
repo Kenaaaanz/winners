@@ -8,6 +8,7 @@ from django.db.models import (
 )
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear, ExtractHour
 from django.core.paginator import Paginator
+from django.views.decorators.cache import never_cache
 from django.utils import timezone
 from datetime import datetime, timedelta, date
 import json
@@ -31,6 +32,7 @@ from core.permissions import require_role, require_permission
 
 @require_role('ADMIN', 'MANAGER', 'ANALYST')
 @login_required
+@never_cache
 def analytics_dashboard(request):
     """Main analytics dashboard with charts"""
     # Date ranges

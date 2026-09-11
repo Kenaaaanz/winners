@@ -25,6 +25,8 @@ ALLOWED_HOSTS = ['.onrender.com',
                  '127.0.0.1',
                  'www.winnerscosmetics.com',
                  'winnerscosmetics.com']
+
+BASE_URL = config('BASE_URL', default='https://winnerscosmetics.com')
                  
 
 # Application definition
@@ -187,6 +189,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=10, cast=int)
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER or 'winnerscosmeticske@gmail.com')
 ADMIN_EMAILS = [email.strip() for email in config('ADMIN_EMAILS', default='').split(',') if email.strip()]
 
@@ -258,6 +261,8 @@ MESSAGE_TAGS = {
 }
 
 SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True

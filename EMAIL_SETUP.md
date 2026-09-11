@@ -14,6 +14,8 @@ EMAIL_HOST_USER=your-sender@example.com
 EMAIL_HOST_PASSWORD=your-smtp-password
 DEFAULT_FROM_EMAIL=your-sender@example.com
 ADMIN_EMAILS=admin@example.com,manager@example.com
+BASE_URL=https://winnerscosmetics.com
+EMAIL_TIMEOUT=10
 ```
 
 `EMAIL_HOST_PASSWORD` should be an SMTP/app password, not a personal email account password. Keep it out of source control.
@@ -31,6 +33,20 @@ Run the migration before deploying:
 ```text
 python manage.py migrate
 ```
+
+For Paystack production, configure this webhook in the Paystack dashboard:
+
+```text
+https://winnerscosmetics.com/api/paystack/webhook/
+```
+
+The hosted checkout also returns through this verified callback:
+
+```text
+https://winnerscosmetics.com/api/paystack/callback/
+```
+
+Set `BASE_URL` to the actual public HTTPS domain used by Render. Do not use a localhost or Render preview URL in production.
 
 ## Promotional emails
 

@@ -10,6 +10,7 @@ from datetime import timedelta
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
+from django.urls import reverse
 
 from core.models import Category, Product, Sale, SaleItem, Customer, PaystackTransaction, StockReservation
 from core.paystack_service import PaystackService
@@ -280,6 +281,7 @@ def checkout(request):
                     email=email or settings.DEFAULT_FROM_EMAIL,
                     amount=float(total),
                     reference=reference,
+                    callback_url=f"{settings.BASE_URL.rstrip('/')}{reverse('paystack:callback')}",
                     metadata=metadata
                 )
 

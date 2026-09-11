@@ -13,10 +13,12 @@ from django.contrib import messages
 from django.db import transaction
 from django.utils import timezone
 from django.conf import settings
+from django.urls import reverse
 
 from .models import Sale, PaystackTransaction, Customer
 from .paystack_service import PaystackService
 from .email_service import send_sale_completion_emails
+from .payment_service import complete_paystack_sale
 
 logger = logging.getLogger('paystack')
 
@@ -130,39 +132,12 @@ def paystack_verify(request, sale_id):
             paystack_txn.payment_status = 'success'
             paystack_txn.paid_at = timezone.now()
             
-            # Get authorization details if available
             if verification_response.get('authorization'):
                 auth = verification_response['authorization']
                 paystack_txn.authorization_code = auth.get('authorization_code', '')
                 paystack_txn.customer_code = auth.get('customer_code', '')
-                sale.paystack_authorization_code = auth.get('authorization_code', '')
-                sale.card_last4 = auth.get('last4', '')
-            
-            # Update sale
-            with transaction.atomic():
-                sale.status = 'COMPLETED'
-                sale.amount_paid = sale.total
-                sale.payment_method = 'PAYSTACK'
-                
-                # Calculate change
-                if sale.amount_paid > sale.total:
-                    sale.change_given = sale.amount_paid - sale.total
-                
-                # Award loyalty points
-                if sale.customer:
-                    loyalty_points = int(sale.total / 1000)  # 1 point per 1000 currency units
-                    sale.loyalty_points_earned = loyalty_points
-                    sale.customer.loyalty_points += loyalty_points
-                    sale.customer.total_spent += sale.total
-                    sale.customer.last_purchase = timezone.now()
-                    sale.customer.save()
-                
-                # Stock is already deducted in process_sale, no need to deduct again
-                
-                sale.save()
-            
             paystack_txn.save()
-            send_sale_completion_emails(sale)
+            complete_paystack_sale(sale, verification_response)
             
             logger.info(f"Payment verified successfully for sale {sale.invoice_number}")
             
@@ -255,34 +230,8 @@ def paystack_webhook(request):
                 
                 # Update associated sale
                 if paystack_txn.sale:
-                    from .models import StockReservation
                     sale = paystack_txn.sale
-                    sale.status = 'COMPLETED'
-                    sale.amount_paid = sale.total
-                    sale.payment_method = 'PAYSTACK'
-                    
-                    # Award loyalty points
-                    if sale.customer:
-                        loyalty_points = int(sale.total / 1000)
-                        sale.loyalty_points_earned = loyalty_points
-                        sale.customer.loyalty_points += loyalty_points
-                        sale.customer.total_spent += sale.total
-                        sale.customer.last_purchase = timezone.now()
-                        sale.customer.save()
-                    
-                    # Confirm stock reservation (stock was already deducted at checkout)
-                    try:
-                        reservation = StockReservation.objects.get(sale=sale)
-                        reservation.confirm()
-                    except StockReservation.DoesNotExist:
-                        # For older sales without reservations, reduce stock manually
-                        for item in sale.items.all():
-                            if item.product:
-                                item.product.quantity -= item.quantity
-                                item.product.save()
-                    
-                    sale.save()
-                    send_sale_completion_emails(sale)
+                    complete_paystack_sale(sale, event_data.get('data', {}))
                 
                 logger.info(f"Webhook processed successfully for {reference}")
                 
@@ -313,6 +262,32 @@ def paystack_webhook(request):
     except Exception as e:
         logger.error(f"Error processing Paystack webhook: {str(e)}")
         return HttpResponse(status=500)
+
+
+def paystack_callback(request):
+    """Verify a hosted Paystack checkout after the customer returns to the site."""
+    reference = request.GET.get('reference') or request.GET.get('trxref')
+    if not reference:
+        return redirect('shop:index')
+
+    try:
+        paystack_txn = get_object_or_404(PaystackTransaction, reference=reference)
+        verification_response = PaystackService().verify_transaction(reference)
+        paystack_txn.gateway_response = verification_response
+        paystack_txn.verified_at = timezone.now()
+        if verification_response.get('status') == 'success':
+            paystack_txn.status = 'SUCCESS'
+            paystack_txn.payment_status = 'success'
+            paystack_txn.paid_at = timezone.now()
+            paystack_txn.save()
+            complete_paystack_sale(paystack_txn.sale, verification_response)
+        else:
+            paystack_txn.save()
+            logger.warning('Paystack callback verification was not successful: %s', reference)
+    except Exception:
+        logger.exception('Paystack callback failed for reference %s', reference)
+
+    return redirect('shop:checkout_success')
 
 
 @login_required

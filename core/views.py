@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.db.models import Sum, Count, Avg, F, Q
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator
 from django.utils import timezone
 from datetime import datetime, timedelta, date
@@ -69,6 +70,7 @@ from django.db.models import Sum, F, Q
 import json
 
 @login_required
+@never_cache
 def dashboard(request):
     # Get today's date
     today = timezone.now().date()
