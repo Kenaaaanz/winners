@@ -25,6 +25,12 @@
     border-radius: 30px;
     margin-bottom: 3rem;
     overflow: hidden;
+    display: none;
+  }
+
+  .hero-section.hero-section-lower {
+    display: block;
+    margin-top: 4rem;
   }
 
   .hero-section::before {
@@ -505,6 +511,7 @@
     margin-bottom: 12px;
     font-weight: 300;
     display: -webkit-box;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -898,9 +905,9 @@
   }
 </style>
 
-<!-- Hero Section -->
+<!-- Hero Section (moved below the product catalogue after initial render) -->
 <div class="container">
-  <div class="hero-section">
+  <div class="hero-section" id="shop-hero">
     <div class="row align-items-center">
       <div class="col-lg-6">
         <div class="hero-content">
@@ -941,7 +948,7 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container" id="shop-catalogue">
   <!-- Search Bar -->
   <div class="luxury-search-wrapper">
     <form method="get" class="luxury-search">
@@ -1155,6 +1162,15 @@
     {% endif %}
   </div>
 </div>
+
+<script>
+  const shopHero = document.getElementById('shop-hero');
+  const shopCatalogue = document.getElementById('shop-catalogue');
+  if (shopHero && shopCatalogue) {
+    shopCatalogue.appendChild(shopHero.parentElement);
+    shopHero.classList.add('hero-section-lower');
+  }
+</script>
 
 <script>
   // Quick View Function

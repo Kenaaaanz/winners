@@ -1,0 +1,26 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Your Winners Cosmetics receipt</title></head>
+<body style="margin:0;background:#fcf9f7;color:#2c2c2c;font-family:Montserrat,Arial,sans-serif;">
+  <div style="max-width:640px;margin:32px auto;background:#ffffff;border:1px solid rgba(212,175,55,.2);">
+    <div style="padding:28px 32px;background:linear-gradient(135deg,#fcf9f7,#fff5e6);border-bottom:3px solid #d4af37;text-align:center;">
+      <div style="font-family:Georgia,serif;font-size:30px;font-weight:700;color:#8b4c61;letter-spacing:1px;">Winners Cosmetics</div>
+      <div style="margin-top:8px;color:#b76e79;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Your beauty, beautifully chosen</div>
+    </div>
+    <div style="padding:36px 32px;">
+      <p style="font-size:16px;">Hello {{ customer.first_name }},</p>
+      <h1 style="font-family:Georgia,serif;font-size:30px;font-weight:600;color:#2c2c2c;margin:20px 0 10px;">Thank you for your purchase</h1>
+      <p style="color:#666;line-height:1.7;">Your payment was received successfully. Your receipt is attached for your records.</p>
+      <div style="margin:28px 0;padding:20px;background:#fff5e6;border-left:4px solid #d4af37;">
+        <div style="font-size:12px;color:#8b4c61;letter-spacing:1px;text-transform:uppercase;">Invoice</div>
+        <div style="font-family:Georgia,serif;font-size:24px;color:#2c2c2c;margin:6px 0 14px;">{{ sale.invoice_number }}</div>
+        <div style="color:#666;">Amount paid: <strong style="color:#8b4c61;">KES {{ sale.amount_paid|floatformat:2 }}</strong></div>
+        <div style="color:#666;margin-top:5px;">Payment: {{ sale.get_payment_method_display }}</div>
+      </div>
+      <p style="color:#666;line-height:1.7;">We appreciate your business and look forward to serving you again.</p>
+    </div>
+    <div style="padding:22px 32px;background:#2c2c2c;color:#f7e7ce;text-align:center;font-size:12px;line-height:1.7;">Winners Cosmetics<br>Quality beauty essentials, selected for you.</div>
+  </div>
+</body>
+</html>

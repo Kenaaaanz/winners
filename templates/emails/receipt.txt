@@ -1,0 +1,11 @@
+Hello {{ customer.first_name }},
+
+Thank you for your purchase from Winners Cosmetics.
+
+Invoice: {{ sale.invoice_number }}
+Amount paid: KES {{ sale.amount_paid|floatformat:2 }}
+Payment: {{ sale.get_payment_method_display }}
+
+Your PDF receipt is attached.
+
+Winners Cosmetics

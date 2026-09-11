@@ -1,0 +1,6 @@
+Payment completed for invoice {{ sale.invoice_number }}.
+Amount: KES {{ sale.amount_paid|floatformat:2 }}
+Payment method: {{ sale.get_payment_method_display }}
+Customer: {% if customer %}{{ customer.full_name }}{% else %}Walk-in customer{% endif %}
+
+The PDF receipt is attached.
